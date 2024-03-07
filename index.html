@@ -7,49 +7,50 @@
     <h1> QR Code Generator</h1>
 </head>
 <body>
-    <form action="results.html" method="GET">
+    <form action="insert.php" method="POST">
         <div> 
-            <label> Project Name</label><br>
-            <input name = 'project name' required>
+            <label for="projectName">Project Name:</label>
+            <input type="text" name="project_name" id="projectName">
         </div>
         <div> 
-            <label> Boring ID</label><br>
-            <input name = 'boring id' required>
+            <label for="boringId">Boring ID:</label>
+            <input type="text" name="boring_id" id="boringId">
         </div>
         <div> 
-            <label> Sample Number</label><br>
-            <input name = 'sample number' required>
+            <label for="sampleNumber">Sample Number:</label>
+            <input type="text" name="sample_number" id="sampleNumber">
         </div>
         <div> 
-            <label> Depth </label><br>
-            <input name = 'depth' required>
+            <label for="LDepth">Depth:</label>
+            <input type="text" name="depth" id="LDepth">
         </div>
         <div> 
-            <label> Bag/Tube Number</label><br>
-            <input name= 'bagtube number' required>
+            <label for="bag/tubeNumber">Bag/Tube Number:</label>
+            <input type="text" name="bag_tube_number" id="bag/tubeNumber">
         </div>
         <div> 
-            <label> Test Name</label><br>
-            <input name = 'test name' required>
+            <label for="testName">Test Name:</label>
+            <input type="text" name="test_name" id="testName">
         </div>
         <div> 
-            <label> Notes</label><br>
-            <input name = 'notes' required>
+           
+            <label for="LNotes">Notes:</label>
+            <input type="text" name="notes" id="LNotes">
         </div>
         <div> 
             <b>Progress</b>     
             <body>
             <div>
                 <label for="notstarted"> Not Started</label><br>
-                <input name = 'Progress' type = "radio" id = 'notstarted' value = 'notstarted'required>
+                        <input name = 'progress' type = "radio" id = 'notstarted' value = 'notstarted'required>
             </div>
             <div>
                 <label for="inprogress"> In Progress</label><br>
-                <input name = 'Progress' type = "radio" id = 'inprogress' value = 'inprogress'required> 
+                <input name = 'progress' type = "radio" id = 'inprogress' value = 'inprogress'required> 
             </div>
             <div>
                 <label for="completed"> Completed</label><br>
-                <input name = 'Progress' type = "radio" id = 'completed' value = 'completed'required> 
+                <input name = 'progress' type = "radio" id = 'completed' value = 'completed'required> 
             </div>
             </body>
         </div>

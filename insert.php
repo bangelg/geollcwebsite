@@ -9,11 +9,12 @@
 	<center>
 		<?php
 
-		// servername => localhost
-		// username => root
-		// password => empty
-		// database name => staff
-		$conn = mysqli_connect("wesbitedb.cv2im0m26jl5.us-west-1.rds.amazonaws.com", "admin", "Lester1809nine", "Main");
+        $server = 'wesbitedb.cv2im0m26jl5.us-west-1.rds.amazonaws.com';
+        $database = 'Main';
+        $username = 'admin';
+        $password = 'Lester1809nine';
+
+		$conn = new PDO("sqlsrv:server=$server;Database=$database", $username, $password);
 		
 		// Check connection
 		if($conn === false){
@@ -23,7 +24,7 @@
 		
 		// Taking all 5 values from the form data(input)
 		$project_name = $_REQUEST['project_name'];
-		$boring_id = $_REQUEST['boring_id$boring_id'];
+		$boring_id = $_REQUEST['boring_id'];
 		$sample_number = $_REQUEST['sample_number'];
 		$depth = $_REQUEST['depth'];
 		$bag_tube_number = $_REQUEST['bag_tube_number'];
@@ -33,24 +34,24 @@
 		
 		// Performing insert query execution
 		// here our table name is college
-		$sql = "INSERT INTO Samples VALUES ('$project_name', 
-			'$boring_id','$sample_number','$depth','$bag_tube_number','$test_name','$notes','$progress')";
+        try{
+		$query = "INSERT INTO Samples (project_name, boring_id, sample_number, depth, bag_tube_number, test_name, notes, progress)
+        VALUES (:project_name,:boring_id,:sample_number,:depth,:bag_tube_number,:test_name,:notes,:progress)";
+		$statement = $connection->prepare($query);
+        $statement->bindValue(':project_name',	$project_name );
+        $statement->bindValue(':boring_id', $boring_id);
+        $statement->bindValue(':sample_number', $sample_number);
+        $statement->bindValue(':depth', $depth);
+        $statement->bindValue(':bag_tube_number', $bag_tube_number);
+        $statement->bindValue(':test_name', $test_name);
+        $statement->bindValue(':notes', $notes);
+        $statement->bindValue(':progress', $progress);
+        $statement->execute();
+        }catch(PDOException $e) {
+            echo 'Insert Failed! Code: ' . $e->getMessage();
+        }
 		
-		if(mysqli_query($conn, $sql)){
-			echo "<h3>data stored in a database successfully."
-				. " Please browse your localhost php my admin"
-				. " to view the updated data</h3>"; 
 
-			echo nl2br("\n$project_name\n $boring_id\n "
-				. "$sample_number\n $depth\n $bag_tube_number\n$test_name\n"
-                . "$notes\n $progress");
-		} else{
-			echo "ERROR: Hush! Sorry $sql. "
-				. mysqli_error($conn);
-		}
-		
-		// Close connection
-		mysqli_close($conn);
 		?>
 	</center>
 </body>

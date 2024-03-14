@@ -28,7 +28,7 @@
     }
     
     // Select Query
-    $tsql = "SELECT @@Version AS SQL_VERSION";
+    $tsql = "SELECT * FROM Samples";
 
     // Executes the query
     $stmt = sqlsrv_query($conn, $tsql);

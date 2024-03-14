@@ -26,17 +26,12 @@
     if ($conn === false) {
         die(formatErrors(sqlsrv_errors()));
     }
-    
-    // Select Query
-    $tsql = "SELECT * FROM Samples";
+        
 
-    // Executes the query
-    $stmt = sqlsrv_query($conn, $tsql);
+    // Performing insert query execution
+    // here our table name is Samples
+    try{
 
-    // Error handling
-    if ($stmt === false) {
-        die(formatErrors(sqlsrv_errors()));
-    }
     // Taking all 8 values from the form data(input)
     $project_name = $_REQUEST['project_name'];
     $boring_id = $_REQUEST['boring_id'];
@@ -46,27 +41,22 @@
     $test_name = $_REQUEST['test_name'];
     $notes = $_REQUEST['notes'];
     $progress = $_REQUEST['progress'];
-
-    // Performing insert query execution
-    // here our table name is college
-    try{
+    
     $query = "INSERT INTO Samples (project_name, boring_id, sample_number, depth, bag_tube_number, test_name, notes, progress)
-    VALUES (:project_name,:boring_id,:sample_number,:depth,:bag_tube_number,:test_name,:notes,:progress)";
-    $statement = $connection->prepare($query);
-    $statement->bindValue(':project_name',	$project_name );
-    $statement->bindValue(':boring_id', $boring_id);
-    $statement->bindValue(':sample_number', $sample_number);
-    $statement->bindValue(':depth', $depth);
-    $statement->bindValue(':bag_tube_number', $bag_tube_number);
-    $statement->bindValue(':test_name', $test_name);
-    $statement->bindValue(':notes', $notes);
-    $statement->bindValue(':progress', $progress);
-    $statement->execute();
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $params = array($project_name, $boring_id, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress);
+
+    $stmt = sqlsrv_query($conn, $query, $params);
+
     }catch(PDOException $e) {
         echo 'Insert Failed! Code: ' . $e->getMessage();
     }
+    if ($stmt == false) {
+        die(print_r(sqlsrv_errors(), true)); 
+    } else {
+        echo 'Inserted Data!'
+    }
 
-    echo 'Inserted Data!'
     sqlsrv_close($conn);
     
 

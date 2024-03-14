@@ -38,21 +38,10 @@
             <input type="text" name="notes" id="LNotes">
         </div>
         <div> 
-            <b>Progress</b>     
-            <body>
-            <div>
-                <label for="notStarted"> Not Started</label><br>
-                <input name = 'progress' type = "radio" id = 'notStarted'required>
-            </div>
-            <div>
-                <label for="inProgress"> In Progress</label><br>
-                <input name = 'progress' type = "radio" id = 'inProgress'required> 
-            </div>
-            <div>
-                <label for="Completed"> Completed</label><br>
-                <input name = 'progress' type = "radio" id = 'Completed'required> 
-            </div>
-            </body>
+            <label for="prog">Progress</label>
+            <input type="radio" name="progress" value="not_started"required />Not Started
+            <input type="radio" name="progress" value="in_progress" required/>In Progress
+            <input type="radio" name="progress" value="completed" required/>Completed
         </div>
         <div>
             <button> Submit</button>
@@ -72,10 +61,19 @@
 </head>
 <body>
     <form action="insert.php" method="POST">
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="name"><br>
-        <label for="Lage">Age:</label><br>
-        <input type="text" id="Lage" name="age">
+        <div>
+            <label for="fname">First name:</label><br>
+            <input type="text" id="fname" name="name"><br>
+            <label for="Lage">Age:</label><br>
+            <input type="text" id="Lage" name="age">
+        </div>
+        <div>
+            <label for="prog">Progress</label>
+            <input type="radio" name="progress" value="not_started"/>Not Started
+            <input type="radio" name="progress" value="in_progress"/>In Progress
+            <input type="radio" name="progress" value="completed"/>Completed
+        </div>
+
         <div>
             <button> Submit</button>
         </div>

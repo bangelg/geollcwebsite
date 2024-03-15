@@ -1,10 +1,4 @@
 <?php
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-
-    ini_set('log_errors', 'On');
-    ini_set('error_log', '/path/to/php_errors.log');
-
     $serverName = "wesbitedb.cv2im0m26jl5.us-west-1.rds.amazonaws.com";
     $connectionOptions = array(
         "database" => "Main",
@@ -48,13 +42,13 @@
 
     $stmt = sqlsrv_query($conn, $query, $params);
 
-    }catch(PDOException $e) {
+    } catch(PDOException $e) {
         echo 'Insert Failed! Code: ' . $e->getMessage();
     }
     if ($stmt == false) {
         die(print_r(sqlsrv_errors(), true)); 
     } else {
-        echo 'Inserted Data!'
+        echo 'Inserted Data!';
     }
 
     sqlsrv_close($conn);

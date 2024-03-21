@@ -15,22 +15,20 @@
     $pass = 'Lester1809nine';
     $dbName = 'Main';
     $conn = mysqli_connect($host, $user, $pass, $dbName);
-    if (mysqli_connect_error()) {
-        die('Connect Error');
-    } else{
+    if ($conn->connect_error) {
+        die('Connect Error: ' . $conn->connect_error);
+    } else {
         // Performing insert query execution
         // here our table name is Samples
 
             // Taking all 8 values from the form data(input)
-            $query = "INSERT INTO Samples (Project_Name, Boring_ID, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress)
+            $sql = "INSERT INTO Samples (Project_Name, Boring_ID, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-            if ($stmt = $conn->prepare($query)){
-                $stmt->bind_param("siisisss",$Project_Name, $Boring_ID, $Sample_Number,$Depth, $Bag_Tube_Number, $Test_Name, $Notes, $Progress);
-                $stmt->execute();
+            if ($conn->query($sql) == TRUE)){
                 echo "New record inserted sucessfully";
             } else {
-                echo "Failed to insert";
+                echo "Error: " . $sql . "<br>" . $conn->error;
             }
             $stmt->close();
             $conn->close();

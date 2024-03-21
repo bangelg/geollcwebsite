@@ -29,8 +29,6 @@
                 $stmt->bind_param("siisisss",$Project_Name, $Boring_ID, $Sample_Number,$Depth, $Bag_Tube_Number, $Test_Name, $Notes, $Progress);
                 $stmt->execute();
                 echo "New record inserted sucessfully";
-            }
-                
             } else {
                 echo "Failed to insert";
             }

@@ -10,7 +10,7 @@
         set_exception_handler('exception_handler');
 
     // Establishes the connection
-    $host = "wesbitedb.cv2im0m26jl5.us-west-1.rds.amazonaws.com";
+    $host = "igtdb.cv2im0m26jl5.us-west-1.rds.amazonaws.com";
     $user = 'admin';
     $pass = 'Lester1809nine';
     $dbName = 'Main';

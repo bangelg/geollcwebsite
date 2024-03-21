@@ -16,7 +16,7 @@
     $dbName = 'Main';
     $conn = mysqli($host, $user, $pass, $dbName);
     if (mysqli_connect_errer()) {
-        die('Connect Error(' . mysqli_connect_error(). ')'. mysqli_connect_error());
+        die('Connect Error');
     } else{
         // Performing insert query execution
         // here our table name is Samples
@@ -47,9 +47,5 @@
             }
             $stmt->close();
             $conn->close();
-    } else {
-        echo("All field are required.");
-        die();
-    }
-
+    } 
 ?>

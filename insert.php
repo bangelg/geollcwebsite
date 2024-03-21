@@ -1,11 +1,5 @@
-<?php
-    $serverName = "wesbitedb.cv2im0m26jl5.us-west-1.rds.amazonaws.com";
-    $connectionOptions = array(
-        "database" => "Main",
-        "uid" => "Admin",
-        "pwd" => "Lester1809nine"
-    );
 
+<?php
     function exception_handler($exception) {
         echo "<h1>Failure</h1>";
         echo "Uncaught exception: " , $exception->getMessage();
@@ -16,42 +10,46 @@
         set_exception_handler('exception_handler');
 
     // Establishes the connection
-    $conn = sqlsrv_connect($serverName, $connectionOptions);
-    if ($conn === false) {
-        die(formatErrors(sqlsrv_errors()));
-    }
+    $host = "wesbitedb.cv2im0m26jl5.us-west-1.rds.amazonaws.com";
+    $user = 'admin';
+    $pass = 'Lester1809nine';
+    $dbName = 'Main';
+    $conn = mysqli($host, $user, $pass, $dbName);
+    if (mysqli_connect_errer()) {
+        die('Connect Error(' . mysqli_connect_error(). ')'. mysqli_connect_error());
+    } else{
+        // Performing insert query execution
+        // here our table name is Samples
+
+            // Taking all 8 values from the form data(input)
+            $select = "SELECT Boring_ID From Samples Where Boring_ID = ? Limit 1";
+            $query = "INSERT INTO Samples (Project_Name, Boring_ID, Sample_Number, Depth, Bag/Tube_Number, Test_Name, Notes, Progress)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
         
+            $stmt = $conn->prepare($SELECT);
+            $stmt->bind_param('i', $Boring_ID);
+            $stmt-> execute();
+            $stmt->bind_result($Boring_ID);
+            $stmt->store_result();
+            $rnum = $stmt->num_rows;
 
-    // Performing insert query execution
-    // here our table name is Samples
-    try{
+            if($rnum ==0) {
+                $stmt->close();
 
-    // Taking all 8 values from the form data(input)
-    $project_name = $_REQUEST['project_name'];
-    $boring_id = $_REQUEST['boring_id'];
-    $sample_number = $_REQUEST['sample_number'];
-    $depth = $_REQUEST['depth'];
-    $bag_tube_number = $_REQUEST['bag_tube_number'];
-    $test_name = $_REQUEST['test_name'];
-    $notes = $_REQUEST['notes'];
-    $progress = $_REQUEST['progress'];
-    
-    $query = "INSERT INTO Samples (project_name, boring_id, sample_number, depth, bag_tube_number, test_name, notes, progress)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    $params = array($project_name, $boring_id, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress);
-
-    $stmt = sqlsrv_query($conn, $query, $params);
-
-    } catch(PDOException $e) {
-        echo 'Insert Failed! Code: ' . $e->getMessage();
-    }
-    if ($stmt == false) {
-        die(print_r(sqlsrv_errors(), true)); 
+                $stmt = $conn->prepare($INSERT);
+                $stmt->bind_param('siisisss',$Project_Name, $Boring_ID, $Sample_Number,
+                $Depth, $Bag_Tube_Number, $Test_Name, $Notes, $Progress);
+                $stmt->execute();
+                echo "New record inserted sucessfully";
+            } else {
+                echo "This Boring ID is already in the Database./n Please edit the exisitng query.";
+            }
+            $stmt->close();
+            $conn->close();
     } else {
-        echo 'Inserted Data!';
+        echo("All field are required.");
+        die();
     }
-
-    sqlsrv_close($conn);
-    
 
 ?>

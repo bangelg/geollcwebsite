@@ -14,7 +14,7 @@
     $user = 'admin';
     $pass = 'Lester1809nine';
     $dbName = 'Main';
-    $conn = mysqli($host, $user, $pass, $dbName);
+    $conn = mysqli_connect($host, $user, $pass, $dbName);
     if (mysqli_connect_errer()) {
         die('Connect Error');
     } else{

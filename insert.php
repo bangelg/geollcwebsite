@@ -1,4 +1,3 @@
-
 <?php
     function exception_handler($exception) {
         echo "<h1>Failure</h1>";
@@ -21,16 +20,31 @@
         // Performing insert query execution
         // here our table name is Samples
 
-            // Taking all 8 values from the form data(input)
-            $sql = "INSERT INTO Samples (Project_Name, Boring_ID, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        // Taking all 8 values from the form data(input)
+       
+        $stmt = $conn->prepare("INSERT INTO Samples (Project_Name, Boring_ID, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("siisisss",$project_name, $boring_id, $sample_number,
+        $depth, $bag_tube_number, $test_name, $notes, $progress);
 
-            if ($conn->query($sql) == TRUE)){
-                echo "New record inserted sucessfully";
-            } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
-            $stmt->close();
-            $conn->close();
+        $project_name = $_REQUEST['project_name'];
+		$boring_id = $_REQUEST['boring_id'];
+		$sample_number = $_REQUEST['sample_number'];
+		$depth = $_REQUEST['depth'];
+		$bag_tube_number = $_REQUEST['bag_tube_number'];
+        $test_name = $_REQUEST['test_name'];
+		$notes = $_REQUEST['notes'];
+		$progress = $_REQUEST['progress'];
+        $stmt->execute();
+
+
+        if ($conn->query($insert) == TRUE){
+            echo "New record inserted sucessfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        } 
+    
+        $stmt->close();
+        $conn->close();
     } 
 ?>

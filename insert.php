@@ -23,11 +23,11 @@
 
             // Taking all 8 values from the form data(input)
             $select = "SELECT Boring_ID From Samples Where Boring_ID = ? Limit 1";
-            $query = "INSERT INTO Samples (Project_Name, Boring_ID, Sample_Number, Depth, Bag/Tube_Number, Test_Name, Notes, Progress)
+            $query = "INSERT INTO Samples (Project_Name, Boring_ID, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         
-            $stmt = $conn->prepare($SELECT);
+            $stmt = $conn->prepare($select);
             $stmt->bind_param('i', $Boring_ID);
             $stmt-> execute();
             $stmt->bind_result($Boring_ID);
@@ -35,12 +35,12 @@
             $rnum = $stmt->num_rows;
 
             if($rnum ==0) {
-                $stmt->close();
-
-                $stmt = $conn->prepare($INSERT);
-                $stmt->bind_param('siisisss',$Project_Name, $Boring_ID, $Sample_Number,
-                $Depth, $Bag_Tube_Number, $Test_Name, $Notes, $Progress);
-                $stmt->execute();
+                if ($stmt = $conn->prepare($query)){
+                    $stmt->bind_param("siisisss",$Project_Name, $Boring_ID, $Sample_Number,
+                    $Depth, $Bag_Tube_Number, $Test_Name, $Notes, $Progress);
+                    $stmt->execute();
+                    $stmt->close();
+                }
                 echo "New record inserted sucessfully";
             } else {
                 echo "This Boring ID is already in the Database./n Please edit the exisitng query.";

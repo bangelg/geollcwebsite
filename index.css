@@ -3,6 +3,10 @@
   position: relative;
   max-width: 100%;
 }
+.a {
+    color: inherit;
+    text-decoration: none !important;
+}
 .frame-child {
   height: 270px;
   width: 1003px;
@@ -35,8 +39,7 @@
   display: none;
   max-width: 100%;
 }
-.qr-code-generator,
-.qr-code-generator1 {
+.qr-code-generator{
   height: 137px;
   flex: 1;
   position: relative;
@@ -64,6 +67,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  text-decoration: underline;
+  text-decoration-color:white;
 }
 .create-qr-wrapper {
   border-radius: var(--br-21xl);

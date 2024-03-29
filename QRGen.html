@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <h1> QR Code Generator</h1>
+</head>
+<body>
+    <form action="insert.php" method="POST">
+        <div> 
+            <label for="projectName">Project Name:</label><br>
+            <input type="text" name="project_name" id="projectName">
+        </div>
+        <div> 
+            <label for="boringId">Boring ID:</label><br>
+            <input type="text" name="boring_id" id="boringId">
+        </div>
+        <div> 
+            <label for="sampleNumber">Sample Number:</label><br>
+            <input type="text" name="sample_number" id="sampleNumber">
+        </div>
+        <div> 
+            <label for="LDepth">Depth:</label><br>
+            <input type="text" name="depth" id="LDepth">
+        </div>
+        <div> 
+            <label for="bag/tubeNumber">Bag/Tube Number:</label><br>
+            <input type="text" name="bag_tube_number" id="bag/tubeNumber">
+        </div>
+        <div> 
+            <label for="testName">Test Name:</label><br>
+            <input type="text" name="test_name" id="testName">
+        </div>
+        <div> 
+           
+            <label for="LNotes">Notes:</label><br>
+            <input type="text" name="notes" id="LNotes">
+        </div>
+        <div> 
+            <label for="prog"><b>Progress:</b></label><br>
+            <input type="radio" name="progress" value="Not Started"required />Not Started<br>
+            <input type="radio" name="progress" value="In Progress" required/>In Progress<br>
+            <input type="radio" name="progress" value="Completed" required/>Completed
+        </div>
+        <div>
+            <button> Submit</button>
+        </div>
+    </form>
+</body>
+</html>

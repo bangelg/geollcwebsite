@@ -1,51 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form</title>
-    <h1> QR Code Generator</h1>
-</head>
-<body>
-    <form action="insert.php" method="POST">
-        <div> 
-            <label for="projectName">Project Name:</label><br>
-            <input type="text" name="project_name" id="projectName">
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./index.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap"
+    />
+  </head>
+  <body>
+    <div class="android-large-1">
+      <header class="rectangle-parent">
+        <div class="frame-child"></div>
+        <img
+          class="frame-item"
+          loading="lazy"
+          alt="Logo"
+          src="~/Downloads/igtech-logo-transparent.png"
+        />
+      </header>
+      <main class="rectangle-group">
+        <div class="frame-inner"></div>
+        <div class="frame-parent">
+          <div class="qr-code-generator-parent">
+            <b class="qr-code-generator">QR Code Generator </b>
+            <b class="qr-code-generator1">QR Code Generator </b>
+          </div>
+          <div class="instance-wrapper">
+            <div class="create-qr-wrapper">
+              <b class="create-qr">Create QR</b>
+            </div>
+          </div>
         </div>
-        <div> 
-            <label for="boringId">Boring ID:</label><br>
-            <input type="text" name="boring_id" id="boringId">
+        <div class="qr-code-lookup-parent">
+          <b class="qr-code-lookup">QR Code Lookup </b>
+          <button class="scan-qr-wrapper">
+            <b class="scan-qr">Scan QR</b>
+          </button>
         </div>
-        <div> 
-            <label for="sampleNumber">Sample Number:</label><br>
-            <input type="text" name="sample_number" id="sampleNumber">
-        </div>
-        <div> 
-            <label for="LDepth">Depth:</label><br>
-            <input type="text" name="depth" id="LDepth">
-        </div>
-        <div> 
-            <label for="bag/tubeNumber">Bag/Tube Number:</label><br>
-            <input type="text" name="bag_tube_number" id="bag/tubeNumber">
-        </div>
-        <div> 
-            <label for="testName">Test Name:</label><br>
-            <input type="text" name="test_name" id="testName">
-        </div>
-        <div> 
-           
-            <label for="LNotes">Notes:</label><br>
-            <input type="text" name="notes" id="LNotes">
-        </div>
-        <div> 
-            <label for="prog"><b>Progress:</b></label><br>
-            <input type="radio" name="progress" value="Not Started"required />Not Started<br>
-            <input type="radio" name="progress" value="In Progress" required/>In Progress<br>
-            <input type="radio" name="progress" value="Completed" required/>Completed
-        </div>
-        <div>
-            <button> Submit</button>
-        </div>
-    </form>
-</body>
+      </main>
+    </div>
+  </body>
 </html>

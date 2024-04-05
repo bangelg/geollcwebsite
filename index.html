@@ -5,44 +5,31 @@
     <meta name="viewport" content="initial-scale=1, width=device-width" />
 
     <link rel="stylesheet" href="./global.css" />
-    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./landing-page.css" />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
     />
   </head>
   <body>
-    <div class="android-large-1">
-      <header class="rectangle-parent">
-        <div class="frame-child"></div>
+    <div class="landing-page">
+      <header class="rectangle-group">
+        <div class="frame-item"></div>
         <img
-          class="frame-item"
+          class="frame-inner"
           loading="lazy"
-          alt="Logo"
-          src="igtech-logo-transparent.png"
+          alt=""
+          src="./public/group-1@2x.png"
         />
       </header>
-      <main class="rectangle-group">
-        <div class="frame-inner"></div>
-        <div class="frame-parent">
-          <div class="qr-code-generator-parent">
-            <b class="qr-code-generator">QR Code Generator </b>
-          </div>
-          <div class="instance-wrapper">
-            <div class="create-qr-wrapper">
-              <a href="QRGen.html">
-                <b style="color:white"class="create-qr">Create QR</b>
-              </a>
-            
-            </div>
-          </div>
-        </div>
-        <div class="qr-code-lookup-parent">
-          <b class="qr-code-lookup">QR Code Lookup </b>
-          <button class="scan-qr-wrapper">
-            <b class="scan-qr">Scan QR</b>
-          </button>
-        </div>
+      <main class="rectangle-container">
+        <div class="rectangle-div"></div>
+        <section class="frame-3default">
+          <b class="create-qr">Create QR</b>
+        </section>
+        <section class="frame-4default">
+          <b class="scan-qr">Scan QR</b>
+        </section>
       </main>
     </div>
   </body>

@@ -1,38 +1,6 @@
 <html>
     <title> QR Code </title>
     <body>
-    <div id = "results"></div>
-    <a href="/var/www/html/QRGen.html">Back to Form</a>
-    <button onclick="generateQRCode()">Generate Code </button>
-    <div id = "qrcode"></div>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/qrcode.min.js"></script>
-    <script>
-        function generateQRCode() {
-            // Get form data
-            var formData = new FormData(document.getElementById("results"));
-            var data = {};
-            formData.forEach(function(value, key){
-                data[key] = value;
-            });
-
-            // Construct HTML content
-            var htmlContent = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n";
-            htmlContent += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n";
-            htmlContent += "<title>Form Submission</title>\n</head>\n<body>\n";
-            htmlContent += "<h1>Form Submission</h1>\n";
-            Object.keys(data).forEach(function(key) {
-                htmlContent += "<p><strong>" + key.replace(/_/g, ' ') + ":</strong> " + data[key] + "</p>\n";
-            });
-            htmlContent += "</body>\n</html>";
-
-            // Generate QR code
-            var qr = new QRCode(document.getElementById("qrcode"), {
-                text: htmlContent,
-                width: 256,
-                height: 256,
-            });
-        }
-    </script>
     <?php
         function exception_handler($exception) {
             echo "<h1>Failure</h1>";
@@ -78,10 +46,10 @@
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
         
-            $directoryPath = "/var/www/html/samples/{$boring_id}"
+            $directoryPath = "/var/www/html/samples/{$boring_id}";
 
             if (file_exists($directoryPath)) {
-                continue;
+                echo "file exists";
             } else {
                 mkdir($directoryPath, 0755, false);
             }
@@ -93,5 +61,37 @@
             
         } 
     ?>
+    <div id = "results"></div>
+    <a href="/var/www/html/QRGen.html">Back to Form</a><br>
+    <button onclick="generateQRCode()">Generate Code </button>
+    <div id = "qrcode"></div>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/qrcode.min.js"></script>
+    <script>
+        function generateQRCode() {
+            // Get form data
+            var formData = new FormData(document.getElementById("results"));
+            var data = {};
+            formData.forEach(function(value, key){
+                data[key] = value;
+            });
+
+            // Construct HTML content
+            var htmlContent = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n";
+            htmlContent += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n";
+            htmlContent += "<title>Form Submission</title>\n</head>\n<body>\n";
+            htmlContent += "<h1>Form Submission</h1>\n";
+            Object.keys(data).forEach(function(key) {
+                htmlContent += "<p><strong>" + key.replace(/_/g, ' ') + ":</strong> " + data[key] + "</p>\n";
+            });
+            htmlContent += "</body>\n</html>";
+
+            // Generate QR code
+            var qr = new QRCode(document.getElementById("qrcode"), {
+                text: htmlContent,
+                width: 256,
+                height: 256,
+            });
+        }
+    </script>
 </body>
 </html>

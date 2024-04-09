@@ -1,4 +1,8 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 $serverName = "wesbitedb.cv2im0m26jl5.us-west-1.rds.amazonaws.com";
 $connectionOptions = array(
     "database" => "Test",

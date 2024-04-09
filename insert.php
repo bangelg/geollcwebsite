@@ -39,12 +39,9 @@
             $notes = $_REQUEST['notes'];
             $progress = $_REQUEST['progress'];
             $stmt->execute();
-
-            if ($conn->query($insert) == TRUE){
-                echo "New record inserted sucessfully";
-            } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
+            
+            echo "New records created successfully";
+            
         
             $directoryPath = "/var/www/html/samples/{$boring_id}";
 

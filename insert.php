@@ -64,6 +64,7 @@
     <a href="/QRGen.html">Back to Form</a><br>
     <div id = "qrcode"></div>
     <img id='qrcodeImg' src='' style='display: none;'>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/qrcode.min.js"></script>
     <script>
             // Get form data         
             $templatePath = "template.html"; // Path to your existing HTML template
@@ -74,7 +75,7 @@
             $htmlContent = str_replace("{Boring_ID}", $boring_id, $htmlContent);
 
             // Write the HTML content to a new file
-            $file = fopen("/samples/$boring_id.html", "w");
+            $file = fopen("samples/$boring_id/$boring_id.html", "w");
             fwrite($file, $htmlContent);
             fclose($file);
 

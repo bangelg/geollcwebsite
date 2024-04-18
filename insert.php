@@ -64,7 +64,24 @@
             $file = fopen("samples/{$boring_id}/{$boring_id}.html", "w");
             fwrite($file, $htmlContent);
             fclose($file);
-        
+
+            include 'phpqrcode/qrlib.php';
+            // URL to encode in QR code
+            $url = 'http://inngeotech.com/samples/{$boring_id}/{$boring_id}.html';
+
+            // Directory to save the generated QR code image
+            $qrCodeDir = 'samples/{$boring_id}/';
+
+            // File name for the QR code image
+            $qrCodeFile = '{$boring_id}_QR.png';
+
+            // Generate QR code
+            QRcode::png($url, $qrCodeFile);
+
+            // Display the QR code image
+            echo '<img src="' . $qrCodeFile . '" alt="QR Code">';
+
+
             $stmt->close();
             $conn->close();
 
@@ -73,16 +90,7 @@
     ?>
     <div id = "results"></div>
     <a href="/QRGen.html">Back to Form</a><br>
-    <div id = "qrcode"></div>
-    <img id='qrcodeImg' src='' style='display: none;'>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/qrcode.min.js"></script>
-    <script>
-            // Generate QR code
-            var qr = new QRCode(document.getElementById("qrcode"), {
-                text: samples/$boring_id/$boring_id.html,
-                width: 256,
-                height: 256,
-            });
-    </script>
+
+    
 </body>
 </html>

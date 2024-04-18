@@ -52,7 +52,18 @@
             } else {
                 mkdir($directoryPath, 0755, false);
             }
-            
+            // Get form data         
+            $templatePath = "template.html"; // Path to your existing HTML template
+            $htmlContent = file_get_contents($templatePath); // Read the content of the template file
+
+            // Replace placeholders in the template with dynamic data
+            $htmlContent = str_replace("{Project_Name}", $project_name, $htmlContent);
+            $htmlContent = str_replace("{Boring_ID}", $boring_id, $htmlContent);
+
+            // Write the HTML content to a new file
+            $file = fopen("samples/{$boring_id}/{$boring_id}.html", "w");
+            fwrite($file, $htmlContent);
+            fclose($file);
         
             $stmt->close();
             $conn->close();
@@ -66,23 +77,9 @@
     <img id='qrcodeImg' src='' style='display: none;'>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/qrcode.min.js"></script>
     <script>
-            // Get form data         
-            $templatePath = "template.html"; // Path to your existing HTML template
-            $htmlContent = file_get_contents($templatePath); // Read the content of the template file
-
-            // Replace placeholders in the template with dynamic data
-            $htmlContent = str_replace("{Project_Name}", $project_name, $htmlContent);
-            $htmlContent = str_replace("{Boring_ID}", $boring_id, $htmlContent);
-
-            // Write the HTML content to a new file
-            $file = fopen("samples/{$boring_id}/{$boring_id}.html", "w");
-            fwrite($file, $htmlContent);
-            fclose($file);
-
-            
             // Generate QR code
             var qr = new QRCode(document.getElementById("qrcode"), {
-                text: htmlContent,
+                text: samples/$boring_id/$boring_id.html,
                 width: 256,
                 height: 256,
             });

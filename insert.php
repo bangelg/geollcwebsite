@@ -1,5 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <title> QR Code </title>
+    <head>Product Information:</head>
     <body>
     <?php
         function exception_handler($exception) {
@@ -59,29 +61,27 @@
         } 
     ?>
     <div id = "results"></div>
-    <a href="/var/www/html/QRGen.html">Back to Form</a><br>
-    <button onclick="generateQRCode()">Generate Code </button>
+    <a href="/QRGen.html">Back to Form</a><br>
+    <button onclick="generateQRCode()">Generate Code</button>
     <div id = "qrcode"></div>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/qrcode.min.js"></script>
     <script>
         function generateQRCode() {
             // Get form data
-            var formData = new FormData(document.getElementById("results"));
-            var data = {};
-            formData.forEach(function(value, key){
-                data[key] = value;
-            });
+            
+            $templatePath = "templates/template.html"; // Path to your existing HTML template
+            $htmlContent = file_get_contents($templatePath); // Read the content of the template file
 
-            // Construct HTML content
-            var htmlContent = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n";
-            htmlContent += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n";
-            htmlContent += "<title>Form Submission</title>\n</head>\n<body>\n";
-            htmlContent += "<h1>Form Submission</h1>\n";
-            Object.keys(data).forEach(function(key) {
-                htmlContent += "<p><strong>" + key.replace(/_/g, ' ') + ":</strong> " + data[key] + "</p>\n";
-            });
-            htmlContent += "</body>\n</html>";
+            // Replace placeholders in the template with dynamic data
+            $htmlContent = str_replace("{projectName}", $projectName, $htmlContent);
+            $htmlContent = str_replace("{boringId}", $boringId, $htmlContent);
 
+            // Write the HTML content to a new file
+            $file = fopen("samples/$boringId.html", "w");
+            fwrite($file, $htmlContent);
+            fclose($file);
+
+            
             // Generate QR code
             var qr = new QRCode(document.getElementById("qrcode"), {
                 text: htmlContent,

@@ -75,7 +75,7 @@
             $htmlContent = str_replace("{Boring_ID}", $boring_id, $htmlContent);
 
             // Write the HTML content to a new file
-            $file = fopen("samples/$boring_id/$boring_id.html", "w");
+            $file = fopen("samples/{$boring_id}/{$boring_id}.html", "w");
             fwrite($file, $htmlContent);
             fclose($file);
 

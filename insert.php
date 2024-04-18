@@ -69,7 +69,7 @@
         function generateQRCode() {
             // Get form data
             
-            $templatePath = "templates/template.html"; // Path to your existing HTML template
+            $templatePath = "template.html"; // Path to your existing HTML template
             $htmlContent = file_get_contents($templatePath); // Read the content of the template file
 
             // Replace placeholders in the template with dynamic data

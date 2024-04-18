@@ -73,7 +73,7 @@
             $qrCodeDir = "/var/www/html/samples/{$boring_id}/";
 
             // File name for the QR code image
-            $qrCodeFile =  $qrCodeDir . "_QR.png";
+            $qrCodeFile =  $qrCodeDir . $boring_id.".png";
 
             // Generate QR code
             QRcode::png($url, $qrCodeFile);

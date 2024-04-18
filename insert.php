@@ -79,7 +79,7 @@
             QRcode::png($url, $qrCodeFile);
 
             // Display the QR code image
-            echo "<img src='".$qrCodeFile."'>";
+            echo "<img src='/var/www/html/samples/{$boring_id}/{$boring_id}.png'>";
 
 
             $stmt->close();

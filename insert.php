@@ -67,13 +67,13 @@
 
             include '/var/www/lib/php-qrcode/lib/full/qrlib.php';
             // URL to encode in QR code
-            $url = 'http://inngeotech.com/samples/{$boring_id}/{$boring_id}.html';
+            $url = "http://inngeotech.com/samples/{$boring_id}/{$boring_id}.html";
 
             // Directory to save the generated QR code image
-            $qrCodeDir = 'samples/'.$boring_id;
+            $qrCodeDir = "samples/{$boring_id}";
 
             // File name for the QR code image
-            $qrCodeFile = $boring_id .'_QR.png';
+            $qrCodeFile = "{$boring_id}_QR.png";
 
             // Generate QR code
             QRcode::png($url, $qrCodeFile);

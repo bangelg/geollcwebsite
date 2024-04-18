@@ -59,6 +59,12 @@
             // Replace placeholders in the template with dynamic data
             $htmlContent = str_replace("{Project_Name}", $project_name, $htmlContent);
             $htmlContent = str_replace("{Boring_ID}", $boring_id, $htmlContent);
+            $htmlContent = str_replace("{Sample_Number}", $sample_number, $htmlContent);
+            $htmlContent = str_replace("{Depth}", $depth, $htmlContent);
+            $htmlContent = str_replace("{Bag_Tube_Number}", $bag_tube_number, $htmlContent);
+            $htmlContent = str_replace("{Test_Name}", $test_name, $htmlContent);
+            $htmlContent = str_replace("{Notes}", $notes, $htmlContent);
+            $htmlContent = str_replace("{Progress}", $progress, $htmlContent);
 
             // Write the HTML content to a new file
             $file = fopen("samples/{$boring_id}/{$boring_id}.html", "w");
@@ -90,7 +96,6 @@
     ?>
     <div id = "results"></div>
     <a href="/QRGen.html">Back to Form</a><br>
-    <img src='/var/www/html/samples/{$boring_id}/{$boring_id}.png'>
 
     
 </body>

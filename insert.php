@@ -70,7 +70,7 @@
             $url = "http://inngeotech.com/samples/{$boring_id}/{$boring_id}.html";
 
             // Directory to save the generated QR code image
-            $qrCodeDir = "/var/www/html/samples/{$boring_id}/";
+            $qrCodeDir = "samples/{$boring_id}/";
 
             // File name for the QR code image
             $qrCodeFile =  $qrCodeDir.$boring_id.".png";
@@ -79,8 +79,8 @@
             QRcode::png($url, $qrCodeFile);
 
             // Display the QR code image
-            echo "<img src='/var/www/html/samples/{$boring_id}/{$boring_id}.png'>";
-
+            echo '<img src="'.$qrCodeFile.'" />';
+            
 
             $stmt->close();
             $conn->close();
@@ -90,6 +90,7 @@
     ?>
     <div id = "results"></div>
     <a href="/QRGen.html">Back to Form</a><br>
+    <img src='/var/www/html/samples/{$boring_id}/{$boring_id}.png'>
 
     
 </body>

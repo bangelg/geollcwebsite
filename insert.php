@@ -53,7 +53,7 @@
                 mkdir($directoryPath, 0755, false);
             }
             // Get form data         
-            $templatePath = "template.html"; // Path to your existing HTML template
+            $templatePath = "/var/www/html/template.html"; // Path to your existing HTML template
             $htmlContent = file_get_contents($templatePath); // Read the content of the template file
 
             // Replace placeholders in the template with dynamic data

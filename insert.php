@@ -65,7 +65,7 @@
             fwrite($file, $htmlContent);
             fclose($file);
 
-            include 'phpqrcode/qrlib.php';
+            include '/var/www/lib/php-qrcode/qrlib.php';
             // URL to encode in QR code
             $url = 'http://inngeotech.com/samples/{$boring_id}/{$boring_id}.html';
 
@@ -79,7 +79,7 @@
             QRcode::png($url, $qrCodeFile);
 
             // Display the QR code image
-            echo '<img src="' . $qrCodeFile . '" alt="QR Code">';
+            echo '<img src= "' . $qrCodeFile . '" alt="QR Code">';
 
 
             $stmt->close();

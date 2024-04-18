@@ -62,13 +62,11 @@
     ?>
     <div id = "results"></div>
     <a href="/QRGen.html">Back to Form</a><br>
-    <button onclick="generateQRCode()">Generate Code</button>
     <div id = "qrcode"></div>
+    <img id='qrcodeImg' src='' style='display: none;'>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/qrcode.min.js"></script>
     <script>
-        function generateQRCode() {
-            // Get form data
-            
+            // Get form data         
             $templatePath = "template.html"; // Path to your existing HTML template
             $htmlContent = file_get_contents($templatePath); // Read the content of the template file
 
@@ -88,7 +86,7 @@
                 width: 256,
                 height: 256,
             });
-        }
+            <img >
     </script>
 </body>
 </html>

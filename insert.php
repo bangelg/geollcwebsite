@@ -70,7 +70,7 @@
             $url = "http://inngeotech.com/samples/{$boring_id}/{$boring_id}.html";
 
             // Directory to save the generated QR code image
-            $qrCodeDir = "samples/{$boring_id}";
+            $qrCodeDir = "/var/www/html/samples/{$boring_id}";
 
             // File name for the QR code image
             $qrCodeFile = "{$boring_id}_QR.png";

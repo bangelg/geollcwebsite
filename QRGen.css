@@ -80,6 +80,10 @@ hr {
   width: 50%;
   margin-left: 10px;
 }
+.radio-button {
+  height: 30px;
+  width: 30px;
+}
 
 .input-field {
   display: inline-block;

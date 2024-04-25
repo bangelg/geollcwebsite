@@ -1,0 +1,92 @@
+.sample-saved-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-tan);
+    width: 100%;
+    height: 5%;
+  }
+  .your-new-sample {
+    position: absolute;
+    vertical-align: top;
+    white-space: pre-wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    height: 30%;
+    font-size: 30px;
+  }
+  .print-qr-sticker {
+    position: relative;
+    font-size: 2vh;
+    font-family: var(--font-lohit-devanagari);
+    color: var(--white);
+    text-align: center;
+  }
+  .print-qr-sticker-wrapper {
+    cursor: pointer;
+    border: 0;
+    padding: var(--padding-3xs);
+    background-color: var(--color-gray-200);
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 35%;
+    height: 3%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+  
+  .return-to-home {
+    position: relative;
+    font-size: 2vh;
+    font-family: var(--font-lohit-devanagari);
+    color: var(--white);
+    text-align: center;
+  }
+  .return-to-home-wrapper {
+    cursor: pointer;
+    border: 0;
+    padding: var(--padding-3xs);
+    background-color: var(--color-gray-200);
+    position: absolute;
+    top: 20%;
+    left: 55%;
+    width: 35%;
+    height: 3%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+  .sample-saved {
+    width: 100%;
+    height: 2166px;
+    position: relative;
+    background-color: var(--color-blanchedalmond);
+    overflow: hidden;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    font-size: var(--font-size-13xl);
+    color: var(--color-gray-100);
+    font-family: var(--font-lohit-devanagari);
+  }
+  @media screen and (max-width: 750px) {
+    .your-new-sample {
+      font-size: var(--font-size-19xl);
+    }
+  }
+  @media screen and (max-width: 450px) {
+    .your-new-sample {
+      font-size: var(--font-size-10xl);
+    }
+  }
+  

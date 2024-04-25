@@ -81,8 +81,14 @@
             // File name for the QR code image
             $qrCodeFile =  $qrCodeDir.$boring_id.".png";
 
+            // File location for recent to refer to when printing
+            $recent = "samples/recent/" . "recent.png";
+
             // Generate QR code
             QRcode::png($url, $qrCodeFile);
+
+            copy($qrCodeFile, $recent);
+            
 
             // Display the QR code image
             echo '<img src="'.$qrCodeFile.'" />';

@@ -1,19 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results</title>
-</head>
-<body>
-    <div id = "results"></div>
-    <a href="/">Back to Form</a>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./results.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lohit Devanagari:wght@400&display=swap"
+    />
+  </head>
+  <body>
+    <div class="sample-saved">
+      <section class="sample-saved-child"></section>
+      <div class="your-new-sample">
+        Your new sample has been<br> saved successfully.
+      </div>
+      <button class="print-qr-sticker-wrapper" id="frameButton">
+        <div class="print-qr-sticker">Print QR Sticker</div>
+      </button>
+      <button class="return-to-home-wrapper" id="frameButton1">
+        <div class="return-to-home">Return to Home</div>
+      </button>
+    </div>
+
     <script>
-        const resultsList = document.getElementById("results")
-        new URLSearchParams(window.location.search).forEach((value,name) => {
-            resultsList.append(`${name}: ${value}`)
-            resultsList.append(document.createElement('br'))
-        })
-    </script>
-</body>
-</html> 
+      var frameButton = document.getElementById("frameButton");
+      if (frameButton) {
+        frameButton.addEventListener("click", function (e) {
+            window.print("/samples/recent/recent.png");
+        });
+      }
+      
+      var frameButton1 = document.getElementById("frameButton1");
+      if (frameButton1) {
+        frameButton1.addEventListener("click", function (e) {
+          window.location.href = "./index.html";
+        });
+      }
+      </script>
+  </body>
+</html>

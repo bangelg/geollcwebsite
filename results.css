@@ -17,13 +17,13 @@
     height: 30%;
     font-size: 30px;
   }
-  .qr {
+  
+  .sample-saved img {
     position: absolute;
-    width: 15%;
-    height: 10%;
-    top: 25%;
-    left: 42.5%;
-    
+    width: 20%;
+    height: 15%;
+    top: 30%;
+    left: 45%;
   }
   .print-qr-sticker {
     position: relative;
@@ -100,12 +100,14 @@
     body * {
         display: none !important;
     }
-    .qr {
+    
+    .sample-saved img {
         display: block !important;
-    }
-    .qr {
-        width: 100%; /* Ensure the image fills the width of the printed page */
-        height: auto; /* Maintain the aspect ratio of the image */
+        width: 100%; /* Set the width of the QR code to fill the page */
+        height: auto; /* Auto-adjust the height to maintain aspect ratio */
+        position: static; /* Reset the position to static */
+        margin: 0; /* Remove any margin */
+        padding: 0; /* Remove any padding */
     }
 }
 

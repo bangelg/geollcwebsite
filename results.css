@@ -100,7 +100,7 @@
     body * {
         display: none !important;
     }
-    #qrCode {
+    .qr {
         display: block !important;
     }
     .qr {

@@ -17,14 +17,21 @@
     height: 30%;
     font-size: 30px;
   }
-  
-  .sample-saved img {
+  .qrCode {
     position: absolute;
+    width: 20%;
+    height: 15%;
+    top: 80%;
+    left: 45%;
+  }
+  .qrCode img{
+    position: relative;
     width: 20%;
     height: 15%;
     top: 30%;
     left: 45%;
   }
+  
   .print-qr-sticker {
     position: relative;
     font-size: 2vh;
@@ -100,8 +107,10 @@
     body * {
         display: none !important;
     }
-    
-    .sample-saved img {
+    .qrCode{
+        display: block !important;
+    }
+    .qrCode img {
         display: block !important;
         width: 100%; /* Set the width of the QR code to fill the page */
         height: auto; /* Auto-adjust the height to maintain aspect ratio */

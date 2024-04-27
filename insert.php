@@ -96,7 +96,7 @@
 
             $stmt->close();
             $conn->close();
-
+            header("Location: results.html");
             
         } 
     ?>

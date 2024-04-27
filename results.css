@@ -17,6 +17,11 @@
     height: 30%;
     font-size: 30px;
   }
+  .qr{
+    width: 50%;
+    height: 80;
+    
+  }
   .print-qr-sticker {
     position: relative;
     font-size: 2vh;

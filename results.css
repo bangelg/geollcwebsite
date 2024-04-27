@@ -17,9 +17,12 @@
     height: 30%;
     font-size: 30px;
   }
-  .qr{
-    width: 50%;
-    height: 80;
+  .qr {
+    position: absolute;
+    width: 25%;
+    height: 25%;
+    top: 30%;
+    left: 50%;
     
   }
   .print-qr-sticker {

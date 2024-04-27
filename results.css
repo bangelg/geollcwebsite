@@ -19,10 +19,10 @@
   }
   .qr {
     position: absolute;
-    width: 25%;
-    height: 25%;
-    top: 30%;
-    left: 50%;
+    width: 15%;
+    height: 10%;
+    top: 25%;
+    left: 42.5%;
     
   }
   .print-qr-sticker {
@@ -96,5 +96,11 @@
     .your-new-sample {
       font-size: var(--font-size-10xl);
     }
-  }
+  }@media print {
+    .qr {
+        width: 100%; /* Ensure the image fills the width of the printed page */
+        height: auto; /* Maintain the aspect ratio of the image */
+    }
+}
+
   

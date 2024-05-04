@@ -16,7 +16,7 @@
 
          $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
          $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
-         $pass = hash($_POST['passwordInp']);
+         $pass = hash('sha256', $_POST['passwordInp']);
       
          $select = " SELECT * FROM users WHERE email = '$email' && passwrd = '$pass' ";
       
@@ -51,7 +51,7 @@
     <div class="wrapper">
         <div class="form-wrapper">
             <h1>Register Page</h1>
-            <form action="php/register.php">
+            <form action="" method="post">
                   <?php
                   if(isset($error)){
                      foreach($error as $error){
@@ -59,7 +59,7 @@
                      };
                   };
                   ?>
-                <div class="input"method="POST">
+                <div class="input">
                     <span class="icon">
                         <ion-icon name="mail"></ion-icon>
                     </span>

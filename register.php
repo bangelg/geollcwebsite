@@ -14,9 +14,9 @@
     } else {
         if(isset($_POST['submit'])){
 
-         $username = mysqli_real_escape_string($conn, $_REQUEST['usernameInp']);
-         $email = mysqli_real_escape_string($conn, $_REQUEST['emailInp']);
-         $pass = hash($_REQUEST['passwordInp']);
+         $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
+         $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
+         $pass = hash($_POST['passwordInp']);
       
          $select = " SELECT * FROM users WHERE email = '$email' && passwrd = '$pass' ";
       
@@ -39,3 +39,57 @@
       }
     }
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/login.css" />
+    <title>Register Page</title>
+</head>
+    <body>
+    <div class="wrapper">
+        <div class="form-wrapper">
+            <h1>Register Page</h1>
+            <form action="php/register.php">
+                  <?php
+                  if(isset($error)){
+                     foreach($error as $error){
+                        echo '<span class="error-msg">'.$error.'</span>';
+                     };
+                  };
+                  ?>
+                <div class="input"method="POST">
+                    <span class="icon">
+                        <ion-icon name="mail"></ion-icon>
+                    </span>
+                    <label for="email">Email: </label>
+                    <input type="email" name="emailInp" required><br><br>
+                </div>
+                <div class="input">
+                    <span class="icon">
+                        <ion-icon name="mail"></ion-icon>
+                    </span>
+                    <label for="username">Username: </label>
+                    <input type="string" name="usernameInp" required><br><br>
+                </div>
+                <div class="password">
+                    <span class="icon">
+                        <ion-icon name="lock-closed"></ion-icon>
+                    </span>
+                    <label for="password">Password: </label>
+                    <input type="password" name="passwordInp" required><br><br>
+                </div>
+
+                <div class="login-register">
+                    <p>
+                        Already Have An Account?
+                        <a href="login.html"> Login</a>
+                    </p>
+                </div>
+                <input type="submit" name="submit" value="Register">
+            </form>
+        </div>
+    </div>
+    </body>
+</html>

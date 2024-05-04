@@ -37,10 +37,12 @@
                   $error[] = 'password not matched!';
                }else{
                   $stmt->execute();
-                  header('location:login.html');
                }
             }
          
-         };
+         }
+         $stmt->close();
+         $conn->close();
+         header("Location: results.html");
     }
 ?>

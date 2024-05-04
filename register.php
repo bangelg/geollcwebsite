@@ -13,9 +13,9 @@
     } else {
         if(isset($_POST['submit'])){
 
-            $name = mysqli_real_escape_string($conn, $_POST['username']);
-            $email = mysqli_real_escape_string($conn, $_POST['email']);
-            $pass = hash($_POST['password']);
+            $user = mysqli_real_escape_string($conn, $_POST['usernameInp']);
+            $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
+            $pass = hash($_POST['passwordInp']);
            
             $select = " SELECT * FROM users WHERE email = '$email' && password = '$pass' ";
          
@@ -30,9 +30,9 @@
                if($pass != $cpass){
                   $error[] = 'password not matched!';
                }else{
-                  $insert = "INSERT INTO user_form(name, email, password, user_type) VALUES('$name','$email','$pass','$user_type')";
+                  $insert = "INSERT INTO users(username, email, password) VALUES('$user','$email','$pass')";
                   mysqli_query($conn, $insert);
-                  header('location:login_form.php');
+                  header('location:login.html');
                }
             }
          

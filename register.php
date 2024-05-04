@@ -17,6 +17,7 @@
          $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
          $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
          $pass = hash('sha256', $_POST['passwordInp']);
+         $cpass = hash('sha256', $_POST['cpasswordInp']);
       
          $select = " SELECT * FROM users WHERE email = '$email' && passwrd = '$pass' ";
       
@@ -78,7 +79,9 @@
                         <ion-icon name="lock-closed"></ion-icon>
                     </span>
                     <label for="password">Password: </label>
-                    <input type="password" name="passwordInp" required><br><br>
+                    <input type="password" name="passwordInp" required placeholder="Enter your password">
+                    <label for="password">Confirm Password: </label>
+                    <input type="password" name="cpasswordInp" required placeholder="Confirm your password">
                 </div>
 
                 <div class="login-register">

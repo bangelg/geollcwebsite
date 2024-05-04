@@ -14,9 +14,9 @@
     } else {
         if(isset($_POST['submit'])){
 
-         $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
-         $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
-         $pass = hash($_POST['passwordInp']);
+         $username = mysqli_real_escape_string($conn, $_REQUEST['usernameInp']);
+         $email = mysqli_real_escape_string($conn, $_REQUEST['emailInp']);
+         $pass = hash($_REQUEST['passwordInp']);
       
          $select = " SELECT * FROM users WHERE email = '$email' && passwrd = '$pass' ";
       
@@ -34,9 +34,8 @@
                $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$email','$pass')";
                mysqli_query($conn, $insert);
                header('location:login.html');
-            }
+            } 
          }
-      
       }
     }
 ?>

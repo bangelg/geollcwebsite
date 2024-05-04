@@ -34,7 +34,7 @@
             }else{
                $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$email','$pass')";
                mysqli_query($conn, $insert);
-               header('location:login.html');
+               header('location:../login.html');
             } 
          }
       }
@@ -44,8 +44,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/var/www/html/css/global.css" />
-    <link rel="stylesheet" href="/var/www/html/css/login.css" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/login.css" />
     <title>Register Page</title>
 </head>
     <body>
@@ -74,13 +74,13 @@
                     <label for="username">Username: </label>
                     <input type="string" name="usernameInp" required><br><br>
                 </div>
-                <div class="password">
+                <div class="input">
                     <span class="icon">
                         <ion-icon name="lock-closed"></ion-icon>
                     </span>
                     <label for="password">Password: </label>
                     <input type="password" name="passwordInp" required placeholder="Enter your password">
-                    <label for="password">Confirm Password: </label>
+                    <label for="cpassword">Confirm Password: </label>
                     <input type="password" name="cpasswordInp" required placeholder="Confirm your password">
                 </div>
 

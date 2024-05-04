@@ -1,0 +1,39 @@
+head, body{
+    background-color: var(--color-blanchedalmond);
+}
+.h1 {
+    position: relative;
+}
+.wrapper {
+    position: relative;
+    height: 50%;
+    width: 50%;
+    top: 20vh;
+    left: 10vh;
+    border: 2px solid var(--color-gray-200);
+    border-radius: 20px;
+    background-color: var(--color-tan);
+    
+    justify-content: center;
+    align-items: center;
+}
+.form-wrapper {
+    width: 100%;
+    padding: 40px;
+}
+.input {
+    position:relative;
+    width: 100%;
+    height: 50px;
+    
+    margin: 10px 0;
+}
+.input-box label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 1em;
+    color: white;
+    font-weight: 500;
+    pointer-events: none;
+}

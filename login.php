@@ -6,11 +6,11 @@ session_start();
 
 if(isset($_POST['submit'])){
 
-   $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
+   $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
    $pass = md5($_POST['passwordInp']);
    $cpass = md5($_POST['cpasswordInp']);
 
-   $select = " SELECT * FROM user_form WHERE email = '$email' && passwrd = '$pass' ";
+   $select = " SELECT * FROM user_form WHERE username = '$username' && passwrd = '$pass' ";
 
    $result = mysqli_query($conn, $select);
 
@@ -51,8 +51,8 @@ if(isset($_POST['submit'])){
                     <span class="icon">
                         <ion-icon name="mail"></ion-icon>
                     </span>
-                    <label for="email">Username: </label>
-                    <input type="email" name="emailInp" required placeholder="Enter your email"><br><br>
+                    <label for="username">Username: </label>
+                    <input type="string" name="usernameInp" required placeholder="Enter your username"><br><br>
                 </div>
                 <div class="password">
                     <span class="icon">

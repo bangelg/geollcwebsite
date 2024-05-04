@@ -10,7 +10,7 @@ if(isset($_POST['submit'])){
    $pass = md5($_POST['passwordInp']);
    $cpass = md5($_POST['cpasswordInp']);
 
-   $select = " SELECT * FROM user_form WHERE username = '$username' && passwrd = '$pass' ";
+   $select = " SELECT * FROM users WHERE username = '$username' && passwrd = '$pass' ";
 
    $result = mysqli_query($conn, $select);
 

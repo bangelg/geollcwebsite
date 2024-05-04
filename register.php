@@ -28,13 +28,12 @@
             $error[] = 'user already exist!';
       
          }else{
-      
             if($pass != $cpass){
                $error[] = 'password not matched!';
             }else{
                $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$email','$pass')";
                mysqli_query($conn, $insert);
-               header('location:../login.html');
+               header('location:login.php');
             } 
          }
       }

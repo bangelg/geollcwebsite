@@ -7,8 +7,8 @@ session_start();
 if(isset($_POST['submit'])){
 
    $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
-   $pass = md5($_POST['passwordInp']);
-   $cpass = md5($_POST['cpasswordInp']);
+   $pass = hash('sha256',$_POST['passwordInp']);
+   $cpass = hash('sha256',$_POST['cpasswordInp']);
 
    $select = " SELECT * FROM users WHERE username = '$username' && passwrd = '$pass' ";
 
@@ -20,7 +20,10 @@ if(isset($_POST['submit'])){
 
       header('location:../index.html');
      
-   }else{
+   } elseif($pass != $cpass) {
+        $error[] = 'password not matched!';
+   }
+    else{
       $error[] = 'incorrect email or password!';
    }
 

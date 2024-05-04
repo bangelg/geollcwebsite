@@ -14,35 +14,29 @@
     } else {
         if(isset($_POST['submit'])){
 
-            $stmt = $conn->prepare("INSERT INTO users (username, email, passwrd)
-            VALUES (?, ?, ?)");
-            $stmt->bind_param("sss",$username, $email, $pass);
-   
-
-            $user = mysqli_real_escape_string($conn, $_POST['usernameInp']);
-            $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
-            $pass = hash($_POST['passwordInp']);
-           
-            $select = " SELECT * FROM users WHERE email = '$email' && passwrd = '$pass' ";
-         
-            $result = mysqli_query($conn, $select);
-         
-            if(mysqli_num_rows($result) > 0){
-         
-               $error[] = 'user already exist!';
-         
+         $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
+         $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
+         $pass = hash($_POST['passwordInp']);
+      
+         $select = " SELECT * FROM users WHERE email = '$email' && passwrd = '$pass' ";
+      
+         $result = mysqli_query($conn, $select);
+      
+         if(mysqli_num_rows($result) > 0){
+      
+            $error[] = 'user already exist!';
+      
+         }else{
+      
+            if($pass != $cpass){
+               $error[] = 'password not matched!';
             }else{
-         
-               if($pass != $cpass){
-                  $error[] = 'password not matched!';
-               }else{
-                  $stmt->execute();
-               }
+               $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$email','$pass')";
+               mysqli_query($conn, $insert);
+               header('location:login.html');
             }
-         
          }
-         $stmt->close();
-         $conn->close();
-         header("Location: results.html");
+      
+      }
     }
 ?>

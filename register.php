@@ -43,8 +43,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="/var/www/html/css/global.css" />
+    <link rel="stylesheet" href="/var/www/html/css/login.css" />
     <title>Register Page</title>
 </head>
     <body>

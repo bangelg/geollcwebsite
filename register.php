@@ -79,9 +79,16 @@
                         <ion-icon name="lock-closed"></ion-icon>
                     </span>
                     <label for="password">Password: </label>
-                    <input type="password" name="passwordInp" required placeholder="Enter your password">
+                    <input type="password" name="passwordInp" required placeholder="Enter your password"><br><br>
+                    
+                </div>
+                <div class="input">
+                    <span class="icon">
+                        <ion-icon name="lock-closed"></ion-icon>
+                    </span>
+                  
                     <label for="cpassword">Confirm Password: </label>
-                    <input type="password" name="cpasswordInp" required placeholder="Confirm your password">
+                    <input type="password" name="cpasswordInp" required placeholder="Confirm your password"><br><br>
                 </div>
 
                 <div class="login-register">

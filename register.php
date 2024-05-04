@@ -65,14 +65,14 @@
                         <ion-icon name="mail"></ion-icon>
                     </span>
                     <label for="email">Email: </label>
-                    <input type="email" name="emailInp" required><br><br>
+                    <input type="email" name="emailInp" required placeholder="Enter a valid email"><br><br>
                 </div>
                 <div class="input">
                     <span class="icon">
                         <ion-icon name="mail"></ion-icon>
                     </span>
                     <label for="username">Username: </label>
-                    <input type="string" name="usernameInp" required><br><br>
+                    <input type="string" name="usernameInp" required placeholder="Enter your desired username"><br><br>
                 </div>
                 <div class="input">
                     <span class="icon">

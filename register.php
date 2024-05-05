@@ -93,7 +93,7 @@
                 <div class="login-register">
                     <p>
                         Already Have An Account?
-                        <a href="login.html"> Login</a>
+                        <a href="login.php"> Login</a>
                     </p>
                 </div>
                 <input type="submit" name="submit" value="Register">

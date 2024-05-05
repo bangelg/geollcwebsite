@@ -51,7 +51,7 @@ session_start();
           </a>
         </section>
         <section class="register">
-          <a href="register.html">
+          <a href="register.php">
             <b style = "color:white"class="scan-qr">Register</b>
           </a>
         </section>

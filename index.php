@@ -3,6 +3,7 @@
 @include 'config.php';
 
 session_start();
+$user_id = $_SESSION['username'];
 
 ?>
 
@@ -25,7 +26,17 @@ session_start();
   <body >
     <div class="user">
       <?php 
-        echo $_SESSION['username']
+      
+         $select = mysqli_query($conn, "SELECT * FROM `user_form` WHERE id = '$user_id'") or die('query failed');
+         if(mysqli_num_rows($select) > 0){
+            $fetch = mysqli_fetch_assoc($select);
+         }
+         if($fetch['username'] == ''){
+            echo 'Not Logged in.';
+         }else{
+            echo $user_id;
+         }
+    
       ?>
     </div>
     <div class="landing-page">

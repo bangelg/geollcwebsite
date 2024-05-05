@@ -3,7 +3,7 @@
 @include 'config.php';
 
 session_start();
-$user_id = $_SESSION['username'];
+$user_id = $_SESSION['user_id'];
 
 ?>
 
@@ -27,7 +27,7 @@ $user_id = $_SESSION['username'];
     <div class="user">
       <?php 
       
-         $select = mysqli_query($conn, "SELECT * FROM `user_form` WHERE id = '$user_id'") or die('query failed');
+         $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$user_id'") or die('query failed');
          if(mysqli_num_rows($select) > 0){
             $fetch = mysqli_fetch_assoc($select);
          }
@@ -36,6 +36,7 @@ $user_id = $_SESSION['username'];
          }else{
             echo $user_id;
          }
+         
     
       ?>
     </div>

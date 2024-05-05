@@ -10,15 +10,15 @@ if(isset($_POST['submit'])){
    $pass = hash('sha256',$_POST['passwordInp']);
    $cpass = hash('sha256',$_POST['cpasswordInp']);
 
-   $select = " SELECT * FROM users WHERE username = '$username' && passwrd = '$pass' ";
-
-   $result = mysqli_query($conn, $select);
+   $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$username' AND passwrd = '$pass'") or die('query failed');
 
    if(mysqli_num_rows($result) > 0){
-
+        $row = mysqli_fetch_assoc($select);
+      $_SESSION['user_id'] = $row['id'];
+      
       $row = mysqli_fetch_array($result);
 
-      header('location:../index.html');
+      header('location:../index.php');
      
    } elseif($pass != $cpass) {
         $error[] = 'password not matched!';
@@ -81,7 +81,7 @@ if(isset($_POST['submit'])){
 
                 <div class="login-register">
                     <p>Don't have an account?
-                        <a href="register.html"> Register</a>
+                        <a href="register.php"> Register</a>
                     </p>
                 </div>
                 <input type="submit" name="submit" value="Log In">

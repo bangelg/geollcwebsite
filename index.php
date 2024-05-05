@@ -36,10 +36,10 @@ $user_id = $_SESSION['user_id'];
         <?php 
          $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$user_id'") or die('query failed');
          
-         if($fetch['username'] == ''){
-            echo'<h3> Not Logged in. </h3>';
-          } else{
-            echo'<h3> $user_id </h3>';
+         if(mysqli_num_rows($select) > 0){
+            echo '<h3> Not Logged in. </h3>';
+          }else{
+            echo'<h3> {$user_id} </h3>';
          }
         ?>
       </header>

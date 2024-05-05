@@ -159,12 +159,14 @@
   color: var(--white);
   font-family: var(--font-inter);
 }
-.user {
+.rectangle-group h3{
   top: 10%;
-  left: 90%;
+  left: 75;
   position: relative;
   font-size: var(--font-size-45xl);
   color: var(--white);
   font-family: var(--font-inter);
+  background-color: var(--color-tan);
 }
+
 }

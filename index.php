@@ -13,8 +13,8 @@ $user_id = $_SESSION['user_id'];
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-    <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./index.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
@@ -24,22 +24,6 @@ $user_id = $_SESSION['user_id'];
   <body>
   </head>
   <body >
-    <div class="user">
-      <?php 
-      
-         $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$user_id'") or die('query failed');
-         if(mysqli_num_rows($select) > 0){
-            $fetch = mysqli_fetch_assoc($select);
-         }
-         if($fetch['username'] == ''){
-            echo 'Not Logged in.';
-         }else{
-            echo $user_id;
-         }
-         
-    
-      ?>
-    </div>
     <div class="landing-page">
       <header class="rectangle-group">
         <div class="frame-item"></div>
@@ -49,6 +33,19 @@ $user_id = $_SESSION['user_id'];
           alt=""
           src="./igtech-logo-transparent.png"
         />
+        <?php 
+         $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$user_id'") or die('query failed');
+         if(mysqli_num_rows($select) > 0){
+            echo "<h1>Welcome, " . $_SESSION['user'] . "!</h1>";
+         }
+         if($fetch['username'] == ''){
+        ?>   
+            <h3> Not Logged in. </h3>
+        <?php 
+          }else{
+            echo $user_id;
+         }
+        ?>
       </header>
       <main class="rectangle-container">
         <div class="rectangle-div"></div>

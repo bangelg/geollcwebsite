@@ -13,8 +13,8 @@ $user_id = $_SESSION['user_id'];
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-    <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./index.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
@@ -37,9 +37,9 @@ $user_id = $_SESSION['user_id'];
          $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$user_id'") or die('query failed');
          
          if(mysqli_num_rows($select) > 0){
-            echo '<h3> Not Logged in. </h3>';
-          }else{
             echo'<h3> {$user_id} </h3>';
+          }else{
+            echo '<h3> Not Logged in. </h3>';
          }
         ?>
       </header>

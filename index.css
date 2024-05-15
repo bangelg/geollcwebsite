@@ -1,14 +1,14 @@
 .frame-item {
-  height: 270px;
-  width: 1003px;
+  height: 10%;
+  width: 20%;
   position: relative;
   background-color: var(--color-tan);
   display: none;
   max-width: 100%;
 }
 .frame-inner {
-  height: 119.1px;
-  width: 285px;
+  height: 10%;
+  width: 15%;
   position: relative;
   object-fit: cover;
   z-index: 1;
@@ -16,19 +16,19 @@
 
 .rectangle-group {
   align-self: stretch;
-  height: 270px;
+  height: 10%;
   background-color: var(--color-tan);
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 75px 79px 75.9px;
+  padding: 25px 25px 25px;
   box-sizing: border-box;
-  max-width: 100%;
+  max-width: 100%;  
 }
 .rectangle-group h3 {
-  top: 10%;
-  left: 50%;
+  top: 50%;
+  left: 70%;
   position: relative;
   font-size: var(--font-size-5xl);
   color: var(--color-gray-200);
@@ -52,13 +52,13 @@
   text-decoration-color: #422412;
 }
 .frame-3default {
-  width: 700px;
+  width: 500px;
   border-radius: var(--br-21xl);
   background-color: var(--color-gray-200);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   flex-direction: row;
   align-items: flex-start;
-  padding: var(--padding-117xl-5) var(--padding-xl);
+  padding: 25px var(--padding-xl);
   box-sizing: border-box;
   max-width: 100%;
   z-index: 1;
@@ -74,6 +74,7 @@
   display: flex;
   justify-content: center;
 }
+
 .scan-qr {
   width: 264px;
   position: relative;
@@ -82,13 +83,29 @@
   text-decoration-color: #422412;
 }
 .frame-4default {
-  width: 700px;
+  width: 500px;
   border-radius: var(--br-21xl);
   background-color: var(--color-gray-200);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   flex-direction: row;
   align-items: flex-start;
-  padding: var(--padding-117xl-5) var(--padding-xl);
+  padding: 25px var(--padding-xl);
+  box-sizing: border-box;
+  max-width: 100%;
+  z-index: 1;
+  text-align: center;
+  font-size: var(--font-size-45xl);
+  color: var(--white);
+  font-family: var(--font-inter);
+}
+.register {
+  width: 500px;
+  border-radius: var(--br-21xl);
+  background-color: var(--color-gray-200);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 25px var(--padding-xl);
   box-sizing: border-box;
   max-width: 100%;
   z-index: 1;
@@ -108,9 +125,9 @@
   height: 1896px;
   background-color: var(--color-blanchedalmond);
   align-items: center;
-  padding: var(--padding-330xl) var(--padding-xl) var(--padding-330xl) 21px;
+  padding: 100px 21px 100px 21px;
   box-sizing: border-box;
-  gap: 383px;
+  gap: 100px;
   max-width: 100%;
 }
 .landing-page {

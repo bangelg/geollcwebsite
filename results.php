@@ -35,7 +35,9 @@ $user_id = $_SESSION['user_id'];
       </button>
     </div>
     <div class="qrCode">
-        <img src="users/<?php $user_id ?>/recent/recent.png" alt="qrCode"/>
+      <?php
+        echo '<img src="users/' . $user_id . '/recent/recent.png" alt="qrCode"/>'
+        ?>
     </div>
     
     <script>

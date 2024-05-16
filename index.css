@@ -13,6 +13,24 @@
   object-fit: cover;
   z-index: 1;
 }
+.logout {
+  position: relative;
+  color: white;
+  font-size: 1rem;
+  font-family: var(--font-inter);
+  text-decoration: underline;
+  text-decoration-color: var(--color-tan);
+}
+.logBox {
+  width: 50px;
+  height: 20px;
+  border: 2px solid var(--color-blanchedalmond);
+  padding: 10px;
+  margin: 10px;
+  top: 3.5%;
+  left: 84.5%;
+  position: absolute;
+}
 
 .rectangle-group {
   align-self: stretch;
@@ -28,7 +46,7 @@
 }
 .rectangle-group h3 {
   top: 50%;
-  left: 60%;
+  left: 70%;
   position: relative;
   font-size: var(--font-size-5xl);
   color: var(--color-gray-200);
@@ -174,6 +192,24 @@
       top: 50%;
       left: 30%;
       font-size: 1rem;
+    }
+    .logout {
+      position: relative;
+      color: white;
+      font-size: 1rem;
+      font-family: var(--font-inter);
+      text-decoration: underline;
+      text-decoration-color: var(--color-tan);
+    }
+    .logBox {
+      width: 50px;
+      height: 20px;
+      border: 2px solid var(--color-blanchedalmond);
+      padding: 10px;
+      margin: 10px;
+      top: 2.75%;
+      left: 66%;
+      position: absolute;
     }
     .frame-inner {
       width: 40%;

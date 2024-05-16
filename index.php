@@ -5,6 +5,12 @@
 session_start();
 $user_id = $_SESSION['user_id'];  
 
+if(isset($_GET['logout'])) {
+  unset($user_id);
+  session_destroy();
+  header('location:login.php');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +44,11 @@ $user_id = $_SESSION['user_id'];
          
          if(mysqli_num_rows($select) > 0){
             echo"<h3> $user_id </h3>";
+        ?>
+            <div class="logBox">
+              <a href="index.php?logout=<?php echo $user_id; ?>" class="logout">logout</a>
+            </div>
+        <?php
           }else{
             echo "<h3> Not Logged in. </h3>";
          }

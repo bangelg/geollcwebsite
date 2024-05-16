@@ -35,6 +35,8 @@
                mysqli_query($conn, $insert);
                $Path = "/var/www/html/users/{$username}";
                mkdir($Path, 0755, false);
+               $Recent = "/var/www/html/users/{$username}/recent";
+               mkdir($recent, 0755, false);
                header('location:login.php');
             } 
          }

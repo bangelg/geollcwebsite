@@ -10,14 +10,12 @@ if(isset($_POST['submit'])){
    $pass = hash('sha256',$_POST['passwordInp']);
    $cpass = hash('sha256',$_POST['cpasswordInp']);
 
-   $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$username' AND passwrd = '$pass'") or die('query failed');
+   $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$username' AND passwrd = '$pass' AND passwrd = '$cpass'") or die('query failed');
 
-   if(mysqli_num_rows($result) > 0){
-        $row = mysqli_fetch_assoc($select);
-      $_SESSION['user_id'] = $row['id'];
+   if(mysqli_num_rows($select) > 0){
+      $row = mysqli_fetch_assoc($select);
+      $_SESSION['user_id'] = $row['username'];
       
-      $row = mysqli_fetch_array($result);
-
       header('location:../index.php');
      
    } elseif($pass != $cpass) {

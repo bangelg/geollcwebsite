@@ -50,10 +50,12 @@ if(isset($_GET['logout'])) {
                 </div>';
           
           }else{
-            echo"<h3> $user_id </h3>";
-            echo'<div class="logBox">
-                  <a href="index.php?logout=<?php echo $user_id; ?>" class="logout">logout</a>
-                </div>';
+            echo "<h3> Not Logged in. </h3>";
+            echo'<section class="login">
+                <a href="login.php">
+                  <b>Login</b>
+                </a>
+                </section>';
          }
         
         ?>

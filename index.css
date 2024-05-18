@@ -1,5 +1,4 @@
 .frame-item {
-  height: 10%;
   width: 20%;
   position: relative;
   background-color: var(--color-tan);
@@ -7,7 +6,6 @@
   max-width: 100%;
 }
 .frame-inner {
-  height: 20%;
   width: 15%;
   position: relative;
   object-fit: cover;
@@ -34,7 +32,7 @@
 
 .rectangle-group {
   align-self: stretch;
-  height: 10%;
+  height: 20%;
   background-color: var(--color-tan);
   display: flex;
   flex-direction: row;
@@ -45,7 +43,6 @@
   max-width: 100%;  
 }
 .rectangle-group h3 {
-  top: 50%;
   left: 70%;
   position: relative;
   font-size: var(--font-size-5xl);
@@ -53,8 +50,8 @@
   font-family: var(--font-inter);
 }
 .rectangle-div {
-  width: 1003px;
-  height: 1896px;
+  width: 100%;
+  height: 100%;
   position: relative;
   background-color: var(--color-blanchedalmond);
   display: none;
@@ -88,7 +85,7 @@
 .frame-3default,
 .frame-4default,
 .scan-qr,
-.register {
+.login {
   display: flex;
   justify-content: center;
 }
@@ -116,31 +113,34 @@
   color: var(--white);
   font-family: var(--font-inter);
 }
-.register {
-  width: 500px;
-  border-radius: var(--br-21xl);
-  background-color: var(--color-gray-200);
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 25px var(--padding-xl);
-  box-sizing: border-box;
-  max-width: 100%;
-  z-index: 1;
-  text-align: center;
-  font-size: var(--font-size-45xl);
-  color: var(--white);
+.login a {
+  position: relative;
+  color: white;
+  font-size: 1rem;
   font-family: var(--font-inter);
+  text-decoration: underline;
+  text-decoration-color: var(--color-tan);
+}
+.login {
+  width: 100px;
+  height: 20px;
+  border: 2px solid var(--color-blanchedalmond);
+  padding: 10px;
+  margin: 10px;
+  top: 9%;
+  left: 84.5%;
+  position: absolute;
 }
 .landing-page,
 .rectangle-container {
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 .rectangle-container {
   align-self: stretch;
-  height: 1896px;
+  
   background-color: var(--color-blanchedalmond);
   align-items: center;
   padding: 75px 21px 75px 21px;
@@ -188,8 +188,11 @@
     box-sizing: border-box;
   }
   @media only screen and (max-width: 450px) {
+    .rectangle-group {
+      height: 15%;
+    }
     .rectangle-group h3 {
-      top: 50%;
+      top: 6%;
       left: 30%;
       font-size: 1rem;
     }
@@ -211,9 +214,27 @@
       left: 66%;
       position: absolute;
     }
+    .login a {
+      position: relative;
+      color: white;
+      font-size: 1rem;
+      font-family: var(--font-inter);
+      text-decoration: underline;
+      text-decoration-color: var(--color-tan);
+    }
+    .login {
+      width: 80px;
+      height: 17px;
+      border: 2px solid var(--color-blanchedalmond);
+      padding: 10px;
+      margin: 10px;
+      top: 6.5%;
+      left: 66%;
+      position: absolute;
+    }
+    
     .frame-inner {
       width: 40%;
-      height: 90%;
       position: relative;
       object-fit: cover;
       z-index: 1;

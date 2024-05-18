@@ -3,7 +3,11 @@
 @include 'config.php';
 
 session_start();
-$user_id = $_SESSION['user_id'];  
+if (isset($_GET[$user_id])) {
+  $user_id = $_SESSION['user_id'];
+} else {
+  $user_id = "N/A";
+}  
 
 if(isset($_GET['logout'])) {
   unset($user_id);
@@ -42,7 +46,7 @@ if(isset($_GET['logout'])) {
         <?php 
          $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$user_id'") or die('query failed');
          
-         if(mysqli_num_rows($select) > 0){
+         if(mysqli_num_rows($select) > 0) {
             echo"<h3> $user_id </h3>";
         ?>
             <div class="logBox">
@@ -53,6 +57,11 @@ if(isset($_GET['logout'])) {
             echo "<h3> Not Logged in. </h3>";
          }
         ?>
+        <section class="login">
+          <a href="login.php">
+            <b>Login</b>
+          </a>
+        </section>
       </header>
       <main class="rectangle-container">
   
@@ -65,11 +74,6 @@ if(isset($_GET['logout'])) {
         <section class="frame-4default">
           <a href="scan.html">
             <b style = "color:white"class="scan-qr">Scan QR</b>
-          </a>
-        </section>
-        <section class="register">
-          <a href="register.php">
-            <b style = "color:white"class="scan-qr">Register</b>
           </a>
         </section>
       </main>

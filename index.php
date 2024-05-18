@@ -3,11 +3,9 @@
 @include 'config.php';
 
 session_start();
-if (isset($_GET[$user_id])) {
+if(isset($_SESSION['user_id'])) {
   $user_id = $_SESSION['user_id'];
-} else {
-  $user_id = "N/A";
-}  
+}
 
 if(isset($_GET['logout'])) {
   unset($user_id);
@@ -44,24 +42,22 @@ if(isset($_GET['logout'])) {
           src="./igtech-logo-transparent.png"
         />
         <?php 
-         $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$user_id'") or die('query failed');
-         
-         if(mysqli_num_rows($select) > 0) {
+        
+         if($user_id) {
             echo"<h3> $user_id </h3>";
-        ?>
-            <div class="logBox">
-              <a href="index.php?logout=<?php echo $user_id; ?>" class="logout">logout</a>
-            </div>
-        <?php
+            echo'<div class="logBox">
+                  <a href="index.php?logout=<?php echo $user_id; ?>" class="logout">logout</a>
+                </div>';
+          
           }else{
-            echo "<h3> Not Logged in. </h3>";
+            echo"<h3> $user_id </h3>";
+            echo'<div class="logBox">
+                  <a href="index.php?logout=<?php echo $user_id; ?>" class="logout">logout</a>
+                </div>';
          }
+        
         ?>
-        <section class="login">
-          <a href="login.php">
-            <b>Login</b>
-          </a>
-        </section>
+       
       </header>
       <main class="rectangle-container">
   

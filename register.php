@@ -51,6 +51,7 @@
 
   <link rel="stylesheet" href="./global.css" />
   <link rel="stylesheet" href="./login.css" />
+  <title>Register Page</title>
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap"
@@ -122,7 +123,7 @@
         </div>
         <div class="btn">
             <button id="submit" type="submit">Submit</button>
-        
+        </div>
           
     </div>
 </form>

@@ -60,6 +60,7 @@
     href="https://fonts.googleapis.com/css2?family=Lohit Devanagari:wght@400&display=swap"
   />
 </head>
+<body>
 <form action="" method = 'POST'>
     <div class="container">
         <h1 id="title">Register</h1>
@@ -104,7 +105,7 @@
           
             <label for="cpassword">Confirm Password: </label>
         </div>
-             <div class="input-tab">
+        <div class="input-tab">
             <input class="input-field"type="password" name="cpasswordInp" required placeholder="Confirm your password"><br><br>
         </div>
 
@@ -116,14 +117,14 @@
             <div class="input-field">
                 <div class="login-btn">         
                     <a href="login.php"> Login</a>
-            </div>
+                </div>
+             </div>
         </div>
-
         <div class="btn">
             <button id="submit" type="submit">Submit</button>
-        </div>
+        
           
     </div>
 </form>
-</footer>
+</body>
 </html>

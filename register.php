@@ -122,9 +122,8 @@
              </div>
         </div>
         <div class="btn">
-            <button id="submit" type="submit">Submit</button>
+            <input type="submit" class='sub'name="submit" value="Submit">
         </div>
-          
     </div>
 </form>
 </body>

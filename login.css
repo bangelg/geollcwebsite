@@ -114,14 +114,11 @@ input {
   font-size: 15px;
 }
 .btn {
-  width: 100%;
-  text-align: center;
-  margin: 1em auto;
-  top: 10%;
- 
+    text-align: center;
+  
 }
 
-button {
+.sub {
   background-color: #755745;
   border-radius: 4px;
   color: white;
@@ -130,6 +127,7 @@ button {
   font-family: inherit;
   padding: 10px 15px;
   border: 1px solid;
+  margin: 1em auto;
 }
 
 button:hover {

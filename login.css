@@ -116,8 +116,9 @@ input {
 .btn {
   width: 100%;
   text-align: center;
-  margin: 2em auto;
+  margin: 1em auto;
   top: 10%;
+ 
 }
 
 button {
@@ -135,15 +136,14 @@ button:hover {
   background-color: #bf6516;
 }
 .login-btn {
-  left: 46.5%;
-  top: 55.5%;
-  width: 50px;
-  height: 25px;
+  
   border: 1px solid var(--color-gray-200);
-  position: absolute;
+  width: 70px;
+  display: inline-block;
+
 }
-.login-btn a {
-  left: 10%;
+.input-tab a {
+  left: 15%;
   position: relative;
   color: var(--color-gray-200);
   text-decoration: underline;
@@ -167,7 +167,6 @@ button:hover {
   }
   .input-tab {
     width: 100%;
-    float: left;
     margin-left: -10px;
   }
   .input-field {
@@ -181,22 +180,7 @@ button:hover {
     align-content: center;
 
   }
-  .login-btn {
-    left: 62%;
-    top: 67.5%;
-    width: 50px;
-    height: 25px;
-    border: 1px solid var(--color-gray-200);
-    position: absolute;
-  }
-  .login-btn a {
-    left: 10%;
-    position: relative;
-    color: var(--color-gray-200);
-    text-decoration: underline;
-    text-decoration-color: var(--color-tan);
-    border: 2px var(--color-gray-200);
-  }
+  
   .container {
     width: 70%;
   }

@@ -49,8 +49,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-  <link rel="stylesheet" href="css/global.css" />
-  <link rel="stylesheet" href="css/login.css" />
+  <link rel="stylesheet" href="./global.css" />
+  <link rel="stylesheet" href="./login.css" />
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap"
@@ -63,6 +63,13 @@
 <form action="" method = 'POST'>
     <div class="container">
         <h1 id="title">Register</h1>
+        <?php
+                if(isset($error)){
+                    foreach($error as $error){
+                        echo '<span class="error-msg">'.$error.'</span>';
+                    };
+                };
+        ?>
         <div class="labels">
             <span class="icon">
                 <ion-icon name="mail"></ion-icon>
@@ -105,9 +112,13 @@
             <label for="login">Already have an Account? </label> 
  
         </div> 
-        <div class="login-btn">
-            <a href="login.php"> Login</a>
+        <div class="input-tab">
+            <div class="input-field">
+                <div class="login-btn">         
+                    <a href="login.php"> Login</a>
+            </div>
         </div>
+
         <div class="btn">
             <button id="submit" type="submit">Submit</button>
         </div>

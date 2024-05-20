@@ -36,7 +36,7 @@
                $Path = "/var/www/html/users/{$username}";
                mkdir($Path, 0755, false);
                $Recent = "/var/www/html/users/{$username}/recent";
-               mkdir($recent, 0755, false);
+               mkdir($Recent, 0755, false);
                header('location:login.php');
             } 
          }
@@ -45,64 +45,74 @@
 ?>
 
 <!DOCTYPE html>
-<html>
 <head>
-    <link rel="stylesheet" href="../css/global.css" />
-    <link rel="stylesheet" href="../css/login.css" />
-    <title>Register Page</title>
-</head>
-    <body>
-    <div class="wrapper">
-        <div class="form-wrapper">
-            <h1>Register Page</h1>
-            <form action="" method="post">
-                  <?php
-                  if(isset($error)){
-                     foreach($error as $error){
-                        echo '<span class="error-msg">'.$error.'</span>';
-                     };
-                  };
-                  ?>
-                <div class="input">
-                    <span class="icon">
-                        <ion-icon name="mail"></ion-icon>
-                    </span>
-                    <label for="email">Email: </label>
-                    <input type="email" name="emailInp" required placeholder="Enter a valid email"><br><br>
-                </div>
-                <div class="input">
-                    <span class="icon">
-                        <ion-icon name="mail"></ion-icon>
-                    </span>
-                    <label for="username">Username: </label>
-                    <input type="string" name="usernameInp" required placeholder="Enter your desired username"><br><br>
-                </div>
-                <div class="input">
-                    <span class="icon">
-                        <ion-icon name="lock-closed"></ion-icon>
-                    </span>
-                    <label for="password">Password: </label>
-                    <input type="password" name="passwordInp" required placeholder="Enter your password"><br><br>
-                    
-                </div>
-                <div class="input">
-                    <span class="icon">
-                        <ion-icon name="lock-closed"></ion-icon>
-                    </span>
-                  
-                    <label for="cpassword">Confirm Password: </label>
-                    <input type="password" name="cpasswordInp" required placeholder="Confirm your password"><br><br>
-                </div>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-                <div class="login-register">
-                    <p>
-                        Already Have An Account?
-                        <a href="login.php"> Login</a>
-                    </p>
-                </div>
-                <input type="submit" name="submit" value="Register">
-            </form>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/login.css" />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Lohit Devanagari:wght@400&display=swap"
+  />
+</head>
+<form action="" method = 'POST'>
+    <div class="container">
+        <h1 id="title">Register</h1>
+        <div class="labels">
+            <span class="icon">
+                <ion-icon name="mail"></ion-icon>
+            </span>
+            <label for="email">Email: </label>
         </div>
+        <div class="input-tab">
+            <input class="input-field"type="email" name="emailInp" required placeholder="Enter a valid email"><br><br>
+        </div>
+        <div class="labels">
+            <span class="icon">
+                <ion-icon name="mail"></ion-icon>
+            </span>
+            <label for="username">Username: </label>
+        </div> 
+        <div class="input-tab">
+            <input class="input-field"type="string" name="usernameInp" required placeholder="Enter your username"><br><br>
+        </div>
+       <div class="labels">
+            <span class="icon">
+                <ion-icon name="lock-closed"></ion-icon>
+            </span>
+            <label for="password">Password: </label>    
+       </div>
+        <div class="input-tab">
+            <input class="input-field"type="password" name="passwordInp" required placeholder="Enter your password"><br><br>    
+        </div>
+        <div class="labels">
+            <span class="icon">
+                <ion-icon name="lock-closed"></ion-icon>
+            </span>
+          
+            <label for="cpassword">Confirm Password: </label>
+        </div>
+             <div class="input-tab">
+            <input class="input-field"type="password" name="cpasswordInp" required placeholder="Confirm your password"><br><br>
+        </div>
+
+        <div class="labels">
+            <label for="login">Already have an Account? </label> 
+ 
+        </div> 
+        <div class="login-btn">
+            <a href="login.php"> Login</a>
+        </div>
+        <div class="btn">
+            <button id="submit" type="submit">Submit</button>
+        </div>
+          
     </div>
-    </body>
+</form>
+</footer>
 </html>

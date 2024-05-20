@@ -1,39 +1,204 @@
-head, body{
+@import url('https://fonts.googleapis.com/css?family=Abel');
+
+body, html {
+  color: #fff;
+  font-family: 'Abel', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+body {
+  font-size: 1.2em;
+  background-color: var(--color-blanchedalmond);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -ms-background-size: cover;
+  background-size: cover;
+}
+
+.text-box {
+  margin: 2em auto;
+  width: 50%;
+}
+
+h1 {
+  margin: 10px;
+  padding: 0;
+  font-size: 2.5em;
+  color: var(--color-gray-200);
+  text-align: center;
+  letter-spacing: 2px;
+  word-spacing: 5px;
+  line-height: 1em;
+  font-weight: bold;
+}
+
+p {
+  display: block;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 1.2em;
+}
+
+hr {
+  width: 70%;
+  margin: 10px auto;
+}
+
+.container {
+  background-color: var(--color-tan);
+  border-radius: 20px;
+  margin-top: 10px;
+  width: 50%;
+  padding: 2em;
+  margin: 2em auto;
+  
+}
+
+#survey-form {
+  margin: 0 auto;
+  width: 80%;
+  padding: 10px;
+}
+
+.labels {
+  display: inline-block;
+  text-align: right;
+  width: 40%;
+  vertical-align: top;
+  margin-top: 20px;
+}
+
+.input-tab {
+  display: inline-block;
+  text-align: left;
+  width: 50%;
+  margin-left: 10px;
+}
+.radio-button {
+  height: 30px;
+  width: 30px;
+}
+
+.input-field {
+  display: inline-block;
+  width: 100%;
+  padding: 5px;
+  margin: 18px 0 0 10px;
+  border: 1px solid var(--color-tan);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+::-webkit-input-placeholder {
+   font-style: italic;
+  font-weight: 300;
+}
+
+input {
+  margin: 7px;
+}
+
+#dropdown {
+  width: 100%;
+  padding: 5px;
+  margin: 20px 0 10px 10px;  
+  border: 1px solid #e67e22;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 15px;
+}
+.btn {
+  width: 100%;
+  text-align: center;
+  margin: 2em auto;
+  top: 10%;
+}
+
+button {
+  background-color: #755745;
+  border-radius: 4px;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+  font-family: inherit;
+  padding: 10px 15px;
+  border: 1px solid;
+}
+
+button:hover {
+  background-color: #bf6516;
+}
+.login-btn {
+  left: 46.5%;
+  top: 55.5%;
+  width: 50px;
+  height: 25px;
+  border: 1px solid var(--color-gray-200);
+  position: absolute;
+}
+.login-btn a {
+  left: 10%;
+  position: relative;
+  color: var(--color-gray-200);
+  text-decoration: underline;
+  text-decoration-color: var(--color-tan);
+  border: 2px var(--color-gray-200);
+}
+
+@media only screen and (max-width: 768px) {
+  body{
     background-color: var(--color-blanchedalmond);
+    background-size: cover;
 }
-.h1 {
-    position: relative;
-}
-.wrapper {
-    position: relative;
-    height: 50%;
-    width: 50%;
-    top: 20vh;
-    left: 10vh;
-    border: 2px solid var(--color-gray-200);
-    border-radius: 20px;
-    background-color: var(--color-tan);
-    
-    justify-content: center;
-    align-items: center;
-}
-.form-wrapper {
+  
+  h1 {
+    font-size: 2em;
+  }
+  
+  .labels {
     width: 100%;
-    padding: 40px;
-}
-.input {
-    position:relative;
+    text-align: left;
+  }
+  .input-tab {
     width: 100%;
-    height: 50px;
-    
-    margin: 10px 0;
-}
-.input-box label {
+    float: left;
+    margin-left: -10px;
+  }
+  .input-field {
+    width: 100%;
+  }
+  select {
+    width: 100%;
+  }
+  .btn {
+    width: 100%;
+    align-content: center;
+
+  }
+  .login-btn {
+    left: 62%;
+    top: 67.5%;
+    width: 50px;
+    height: 25px;
+    border: 1px solid var(--color-gray-200);
     position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 1em;
-    color: white;
-    font-weight: 500;
-    pointer-events: none;
+  }
+  .login-btn a {
+    left: 10%;
+    position: relative;
+    color: var(--color-gray-200);
+    text-decoration: underline;
+    text-decoration-color: var(--color-tan);
+    border: 2px var(--color-gray-200);
+  }
+  .container {
+    width: 70%;
+  }
+
 }

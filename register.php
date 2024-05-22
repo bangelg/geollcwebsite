@@ -5,7 +5,7 @@
         echo "Uncaught exception: " , $exception->getMessage();
         echo "<h1>PHP Info for troubleshooting</h1>";
         phpinfo();
-        }
+        }   
 
         set_exception_handler('exception_handler');
         
@@ -15,23 +15,27 @@
         if(isset($_POST['submit'])){
 
          $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
-         $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
+         $emailcheck = mysqli_real_escape_string($conn, $_POST['emailInp']);
          $pass = hash('sha256', $_POST['passwordInp']);
          $cpass = hash('sha256', $_POST['cpasswordInp']);
       
-         $select = " SELECT * FROM users WHERE email = '$email' && passwrd = '$pass' ";
+         $select = "SELECT * FROM users WHERE username = '$username'";
       
-         $result = mysqli_query($conn, $select);
-      
-         if(mysqli_num_rows($result) > 0){
-      
-            $error[] = 'user already exist!';
-      
-         }else{
+         $usercheck = mysqli_query($conn, $select) or die('Query Failed.');
+         
+         $select1 = "SELECT * FROM users WHERE email = '$emailcheck'";
+
+         $emailcheck = mysqli_query($conn, $select1) or die('Query Failed.');
+
+         if(mysqli_num_rows($emailcheck) > 0) {
+            $error[] = 'Email already exists. Choose a different one or reset your password.';
+         }elseif(mysqli_num_rows($usercheck) > 0){
+            $error[] = 'Username already exists. Choose a different one or reset your password.';
+         } else{
             if($pass != $cpass){
-               $error[] = 'password not matched!';
+               $error[] = 'Passwords not matched.';
             }else{
-               $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$email','$pass')";
+               $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$emailcheck','$pass')";
                mysqli_query($conn, $insert);
                $Path = "/var/www/html/users/{$username}";
                mkdir($Path, 0755, false);
@@ -64,14 +68,14 @@
 <body>
 <form action="" method = 'POST'>
     <div class="container">
-        <h1 id="title">Register</h1>
-        <?php
+            <?php
                 if(isset($error)){
                     foreach($error as $error){
                         echo '<span class="error-msg">'.$error.'</span>';
                     };
                 };
-        ?>
+            ?>
+        <h1 id="title">Register</h1>
         <div class="labels">
             <span class="icon">
                 <ion-icon name="mail"></ion-icon>

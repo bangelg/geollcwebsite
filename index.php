@@ -1,7 +1,5 @@
 <?php
 
-@include 'config.php';
-
 session_start();
 if(isset($_SESSION['user_id'])) {
   $user_id = $_SESSION['user_id'];
@@ -42,8 +40,7 @@ if(isset($_GET['logout'])) {
           src="./igtech-logo-transparent.png"
         />
         <?php 
-        
-         if($user_id) {
+         if(isset($_SESSION['user_id'])) {
             echo"<h3> $user_id </h3>";
             echo'<div class="logBox">
                   <a href="index.php?logout=<?php echo $user_id; ?>" class="logout">logout</a>
@@ -57,15 +54,12 @@ if(isset($_GET['logout'])) {
                 </a>
                 </section>';
          }
-        
         ?>
-       
       </header>
       <main class="rectangle-container">
-  
         <div class="rectangle-div"></div>
         <section class="frame-3default">
-          <a href="QRGen.html">
+          <a href="QRGen.php">
             <b style='color:white' class="create-qr">Create QR</b>
           </a>
         </section>

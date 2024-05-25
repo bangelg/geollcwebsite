@@ -8,21 +8,17 @@ if(isset($_POST['submit'])){
 
    $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
    $pass = hash('sha256',$_POST['passwordInp']);
-   $cpass = hash('sha256',$_POST['cpasswordInp']);
 
-   $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$username' AND passwrd = '$pass' AND passwrd = '$cpass'") or die('query failed');
+   $select = mysqli_query($conn, "SELECT * FROM `users` WHERE username = '$username' AND passwrd = '$pass'") or die('query failed');
 
    if(mysqli_num_rows($select) > 0){
       $row = mysqli_fetch_assoc($select);
       $_SESSION['user_id'] = $row['username'];
       
-      header('location:../index.php');
-     
-   } elseif($pass != $cpass) {
-        $error[] = 'password not matched!';
-   }
-    else{
-      $error[] = 'incorrect email or password!';
+      header('location:/index.php');
+      exit();
+   } else{
+      $error[] = 'incorrect username or password!';
    }
 
 };
@@ -49,17 +45,28 @@ if(isset($_POST['submit'])){
     
 </head>
 <body>
+<header class="rectangle-group">
+    <div class="frame-item"></div> 
+    <a href = "index.php" >
+        <img
+            class="frame-inner"
+            loading="lazy"
+            alt=""
+            src="./igtech-logo-transparent.png"
+        />
+    </a>
+</header>
 <form action="" method = 'POST'>
     <div class="container">
         <h1 id="title">Login</h1>
-        <?php
-                if(isset($error)){
-                    foreach($error as $error){
-                        echo '<span class="error-msg">'.$error.'</span>';
-                    };
-                };
-        ?>
         <div class="labels">
+        <?php
+        if (isset($error)) {
+            foreach ($error as $err) {
+                echo "<p style='color:red;'>$err</p>";
+            }
+        }
+        ?>
             <span class="icon">
                 <ion-icon name="mail"></ion-icon>
             </span>
@@ -77,16 +84,7 @@ if(isset($_POST['submit'])){
         <div class="input-tab">
             <input class="input-field"type="password" name="passwordInp" required placeholder="Enter your password"><br><br>    
         </div>
-        <div class="labels">
-            <span class="icon">
-                <ion-icon name="lock-closed"></ion-icon>
-            </span>
-          
-            <label for="cpassword">Confirm Password: </label>
-        </div>
-             <div class="input-tab">
-            <input class="input-field"type="password" name="cpasswordInp" required placeholder="Confirm your password"><br><br>
-        </div>
+       
 
         <div class="labels">
             <label for="login">Don't have an Account? </label> 

@@ -15,7 +15,7 @@
         if(isset($_POST['submit'])){
 
          $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
-         $emailcheck = mysqli_real_escape_string($conn, $_POST['emailInp']);
+         $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
          $pass = hash('sha256', $_POST['passwordInp']);
          $cpass = hash('sha256', $_POST['cpasswordInp']);
       
@@ -23,7 +23,7 @@
       
          $usercheck = mysqli_query($conn, $select) or die('Query Failed.');
          
-         $select1 = "SELECT * FROM users WHERE email = '$emailcheck'";
+         $select1 = "SELECT * FROM users WHERE email = '$email'";
 
          $emailcheck = mysqli_query($conn, $select1) or die('Query Failed.');
 
@@ -35,7 +35,7 @@
             if($pass != $cpass){
                $error[] = 'Passwords not matched.';
             }else{
-               $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$emailcheck','$pass')";
+               $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$email','$pass')";
                mysqli_query($conn, $insert);
                $Path = "/var/www/html/users/{$username}";
                mkdir($Path, 0755, false);
@@ -66,6 +66,17 @@
   />
 </head>
 <body>
+<header class="rectangle-group">
+    <div class="frame-item"></div> 
+    <a href = "index.php" >
+        <img
+            class="frame-inner"
+            loading="lazy"
+            alt=""
+            src="./igtech-logo-transparent.png"
+        />
+    </a>
+</header>
 <form action="" method = 'POST'>
     <div class="container">
             <?php

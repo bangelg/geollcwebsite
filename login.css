@@ -22,8 +22,33 @@ body {
   width: 50%;
 }
 
+.frame-item {
+  width: 20%;
+  position: relative;
+  background-color: var(--color-tan);
+  display: none;
+  max-width: 100%;
+}
+.frame-inner{
+  width: 70%;
+  position: relative;
+  object-fit: cover;
+  z-index: 1;
+}
+.rectangle-group {
+  align-self: stretch;
+  height: 20%;
+  background-color: var(--color-tan);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 25px 25px 25px;
+  box-sizing: border-box;
+  max-width: 100%;  
+}
 h1 {
-  margin: 10px;
+  margin: 30px;
   padding: 0;
   font-size: 2.5em;
   color: var(--color-gray-200);
@@ -153,6 +178,15 @@ button:hover {
     background-color: var(--color-blanchedalmond);
     background-size: cover;
 }
+  .rectangle-group {
+    height: 15%;
+  }
+  .frame-inner {
+    width: 50%;
+    position: relative;
+    object-fit: cover;
+    z-index: 1;
+  }
   
   h1 {
     font-size: 2em;

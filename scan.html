@@ -1,39 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Display Webcam</title>
-   <link rel="stylesheet" href="css/global.css" />
-   <link rel="stylesheet" href="css/scan.css" />
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./global.css">
+	<link rel="stylesheet" href="./scan.css">
+	<title>QR Code Scanner / Reader</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 <body>
-   <h1>Point Camera at QR Code. </h1>
-   <div id = "container">
-       <video autoplay = "true" id = "videoElement">
-
-
-       </video>
-   </div>
-
-
-   <script>
-       let video = document.querySelector("#videoElement");
-
-
-       if(navigator.mediaDevices.getUserMedia) {
-           navigator.mediaDevices.getUserMedia({video: true})
-           .then(function (stream){
-               video.srcObject = stream;
-           })
-           .catch(function(error){
-               console.log("Something went wrong!");
-           })
-       } else{
-           console.log("getUserMedia not supported!");
-       }
-   </script>
-
-
+	<div class="container">
+		<h1>Scan QR Codes</h1>
+		<div class="section">
+			<div id="my-qr-reader">
+			</div>
+		</div>
+	</div>
+	<script
+		src="https://unpkg.com/html5-qrcode">
+	</script>
+	<script src="scan.js"></script>
 </body>
+
 </html>

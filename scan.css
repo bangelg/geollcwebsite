@@ -1,20 +1,12 @@
-h1{
-    font-family:sans-serif;
-    color: #333;
-}ps
-
-
-body {
-    margin: 50px;
+body, head {
+    background-color: var(--color-tan);
 }
-#container {
-    margin: 0px auto;
-    width: 500px;
-    height: 375px;
-    border: 10px #333 solid;
+.container {
+    background-color: white;
+    text-align: center;
+   
 }
-#videoElement {
-    width: 500px;
-    height: 375px;
-    background-color: #666;
+.h1{
+    font-size: 1.5em;
+    font-family: var(--font-inter);
 }

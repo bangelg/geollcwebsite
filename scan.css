@@ -67,9 +67,18 @@ button {
     background-color: var(--color-gray-200);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     button {
         width: 100%;
         padding: 15px;
     }
+    .rectangle-group {
+        height: 15%;
+      }
+      .frame-inner {
+        width: 50%;
+        position: relative;
+        object-fit: cover;
+        z-index: 1;
+      }
 }

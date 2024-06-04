@@ -1,12 +1,75 @@
-body, head {
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--color-blanchedalmond);
+}
+
+.frame-item {
+    width: 20%;
+    position: relative;
     background-color: var(--color-tan);
-}
-.container {
-    background-color: white;
+    display: none;
+    max-width: 100%;
+  }
+  .frame-inner{
+    width: 70%;
+    position: relative;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .rectangle-group {
+    align-self: stretch;
+    height: 20%;
+    background-color: var(--color-tan);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 25px 25px 25px;
+    box-sizing: border-box;
+    max-width: 100%;  
+  }
+#scanner-container {
     text-align: center;
-   
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
 }
-.h1{
-    font-size: 1.5em;
-    font-family: var(--font-inter);
+
+#reader {
+    margin: 20px auto;
+    border: 2px solid #ccc;
+    width: 100%;
+    
+    position: relative;
+}
+
+#reader > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: var(--color-gray-200);
+}
+
+@media (max-width: 600px) {
+    button {
+        width: 100%;
+        padding: 15px;
+    }
 }

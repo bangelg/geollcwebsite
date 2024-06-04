@@ -64,7 +64,7 @@ if(isset($_GET['logout'])) {
           </a>
         </section>
         <section class="frame-4default">
-          <a href="scan.html">
+          <a href="scan.php">
             <b style = "color:white"class="scan-qr">Scan QR</b>
           </a>
         </section>

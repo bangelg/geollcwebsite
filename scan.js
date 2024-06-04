@@ -1,26 +1,28 @@
-// script.js file
+// script.js
+document.addEventListener('DOMContentLoaded', function() {
+    const html5QrCode = new Html5Qrcode("reader");
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+        // Handle on success condition with the decoded text or result.
+        window.location.href = decodedText, decodedResult;
+    };
 
-function domReady(fn) {
-	if (
-		document.readyState === "complete" ||
-		document.readyState === "interactive"
-	) {
-		setTimeout(fn, 1000);
-	} else {
-		document.addEventListener("DOMContentLoaded", fn);
-	}
-}
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
-domReady(function () {
+    document.getElementById('start-scan').addEventListener('click', () => {
+        html5QrCode.start(
+            { facingMode: "environment" },
+            config,
+            qrCodeSuccessCallback
+        ).catch(err => {
+            console.log(`Unable to start scanning, error: ${err}`);
+        });
+    });
 
-	// If found you qr code
-	function onScanSuccess(decodeText, decodeResult) {
-        window.location.href = decodeText,decodeResult;
-	}
-
-	let htmlscanner = new Html5QrcodeScanner(
-		"my-qr-reader",
-		{ fps: 10, qrbos: 250 }
-	);
-	htmlscanner.render(onScanSuccess);
+    document.getElementById('stop-scan').addEventListener('click', () => {
+        html5QrCode.stop().then(ignore => {
+            console.log('Scanning stopped.');
+        }).catch(err => {
+            console.log(`Unable to stop scanning, error: ${err}`);
+        });
+    });
 });

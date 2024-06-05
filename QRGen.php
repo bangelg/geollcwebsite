@@ -28,7 +28,7 @@ session_start();
 </head>
 
     <div class="container">
-      <form action="php/insert.php" method="POST" id="results">
+      <form action="insert.php" method="POST" id="results">
          <div class="labels">
           <label id="name-label" for="projectName"> Project Name</label></div>
         <div class="input-tab">

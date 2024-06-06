@@ -20,16 +20,14 @@
   .qrCode {
     position: absolute;
     width: 20%;
-    height: 15%;
-    top: 80%;
-    left: 45%;
+    height: 30%;
+    top: 65%;
+    left: 40%;
   }
   .qrCode img{
     position: relative;
-    width: 20%;
-    height: 15%;
-    top: 30%;
-    left: 45%;
+    width: 100%;
+    height: 100%;
   }
   
   .print-qr-sticker {
@@ -109,14 +107,14 @@
     }
     .qrCode{
         display: block !important;
-    }
-    .qrCode img {
-        display: block !important;
         width: 100%; /* Set the width of the QR code to fill the page */
         height: auto; /* Auto-adjust the height to maintain aspect ratio */
         position: static; /* Reset the position to static */
         margin: 0; /* Remove any margin */
         padding: 0; /* Remove any padding */
+    }
+    .qrCode img {
+        display: block !important;
     }
 }
 

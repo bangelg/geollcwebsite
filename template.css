@@ -1,0 +1,65 @@
+/* Reset default margins and paddings */
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: var(--color-blanchedalmond);
+}
+
+/* Banner styles */
+.banner {
+    background-color: var(--color-tan); /* Change this color as needed */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+/* Main content styles */
+main {
+    padding: 20px;
+}
+
+.soil-sample {
+    background-color: var(--color-blanchedalmond);
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.soil-sample h2 {
+    margin-bottom: 10px;
+}
+
+.soil-sample p {
+    margin-bottom: 10px;
+}
+
+.frame-item {
+    width: 20%;
+    position: relative;
+    background-color: var(--color-tan);
+    display: none;
+    max-width: 100%;
+  }
+  .frame-inner{
+    width: 70%;
+    position: relative;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .rectangle-group {
+    align-self: stretch;
+    height: 20%;
+    background-color: var(--color-tan);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 25px 25px 25px;
+    box-sizing: border-box;
+    max-width: 100%;  
+  }

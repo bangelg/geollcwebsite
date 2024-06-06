@@ -1,7 +1,9 @@
 <?php
 @include 'config.php';
 session_start();
-$user_id = $_SESSION['user_id'];  
+if(isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -10,8 +12,8 @@ $user_id = $_SESSION['user_id'];
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-    <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="css/results.css" />
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./results.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap"
@@ -25,7 +27,11 @@ $user_id = $_SESSION['user_id'];
     <div class="sample-saved">
       <section class="sample-saved-child"></section>
       <div class="your-new-sample">
-        Your new sample has been<br> saved successfully.
+        Your new sample has been
+      </div>
+      <br>
+      <div class="your-new-sample1">
+        saved successfully.
       </div>
       <button class="print-qr-sticker-wrapper" id="frameButton">
         <div class="print-qr-sticker">Print QR Sticker</div>
@@ -36,7 +42,7 @@ $user_id = $_SESSION['user_id'];
     </div>
     <div class="qrCode">
       <?php
-        echo '<img src="users/' . $user_id . '/recent/recent.png" alt="qrCode"/>'
+        echo '<img src="users/'. $user_id . '/recent/recent.png" alt="qrCode"/>'
         ?>
     </div>
     

@@ -49,7 +49,7 @@
         mkdir($directoryPath, 0755, false);
         
         // Get form data         
-        $templatePath = "/var/www/html/template.html"; // Path to your existing HTML template
+        $templatePath = "/var/www/html/template.php"; // Path to your existing HTML template
         $htmlContent = file_get_contents($templatePath); // Read the content of the template file
 
         // Replace placeholders in the template with dynamic data
@@ -64,13 +64,13 @@
         $htmlContent = str_replace("{Unique_ID}", $unique_id, $htmlContent);
 
         // Write the HTML content to a new file
-        $file = fopen("users/{$user_id}/{$unique_id}/{$unique_id}.html", "w");
+        $file = fopen("users/{$user_id}/{$unique_id}/{$unique_id}.php", "w");
         fwrite($file, $htmlContent);
         fclose($file);
 
         include '/var/www/lib/phpqrcode/qrlib.php';
         // URL to encode in QR code
-        $url = "http://inngeotech.com/users/{$user_id}/{$unique_id}/{$unique_id}.html";
+        $url = "http://inngeotech.com/users/{$user_id}/{$unique_id}/{$unique_id}.php";
 
         // Directory to save the generated QR code image
         $qrCodeDir = "users/{$user_id}/{$unique_id}/";

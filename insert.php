@@ -35,9 +35,16 @@
         $test_name = $_REQUEST['test_name'];
         $notes = $_REQUEST['notes'];
         $progress = $_REQUEST['progress'];
-        $stmt->execute();
+       
+
+        if ($stmt->execute() == TRUE) {
+            $unique_id = $conn->insert_id;
+            $_SESSION['unique_id'] = $unique_id;
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
         
-        $directoryPath = "/var/www/html/users/{$user_id}/{$boring_id}";
+       $directoryPath = "/var/www/html/users/{$user_id}/{$unique_id}";
         
         mkdir($directoryPath, 0755, false);
         
@@ -54,21 +61,22 @@
         $htmlContent = str_replace("{Test_Name}", $test_name, $htmlContent);
         $htmlContent = str_replace("{Notes}", $notes, $htmlContent);
         $htmlContent = str_replace("{Progress}", $progress, $htmlContent);
+        $htmlContent = str_replace("{Unique_ID}", $unique_id, $htmlContent);
 
         // Write the HTML content to a new file
-        $file = fopen("users/{$user_id}/{$boring_id}/{$boring_id}.html", "w");
+        $file = fopen("users/{$user_id}/{$unique_id}/{$unique_id}.html", "w");
         fwrite($file, $htmlContent);
         fclose($file);
 
         include '/var/www/lib/phpqrcode/qrlib.php';
         // URL to encode in QR code
-        $url = "http://inngeotech.com/users/{$user_id}/{$boring_id}/{$boring_id}.html";
+        $url = "http://inngeotech.com/users/{$user_id}/{$unique_id}/{$unique_id}.html";
 
         // Directory to save the generated QR code image
-        $qrCodeDir = "users/{$user_id}/{$boring_id}/";
+        $qrCodeDir = "users/{$user_id}/{$unique_id}/";
         
         // File name for the QR code image
-        $qrCodeFile =  $qrCodeDir.$boring_id.".png";
+        $qrCodeFile =  $qrCodeDir.$unique_id.".png";
 
         // File location for recent to refer to when printing
         $recent = "users/{$user_id}/recent/" . "recent.png";
@@ -77,7 +85,7 @@
         QRcode::png($url, $qrCodeFile);
 
         copy($qrCodeFile, $recent);
-    
+     
         
         $stmt->close();
         $conn->close();

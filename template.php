@@ -12,7 +12,7 @@ if(isset($_POST['edit'])) {
     $notes = $_POST['notes'];
     $progress = $_POST['progress'];
 
-
+    header("location:/update.php");
 }
 ?>
 

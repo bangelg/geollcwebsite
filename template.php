@@ -1,3 +1,21 @@
+<?php
+@include 'config.php';
+session_start();
+
+if(isset($_POST['edit'])) {
+    $project_name = $_POST['project_name'];
+    $boring_id = $POST['boring_id'];
+    $sample_number = $_POST['sample_number'];
+    $depth = $_POST['depth'];
+    $bag_tube_number = $_POST['bag_tube_number'];
+    $test_name = $_POST['test_name'];
+    $notes = $_POST['notes'];
+    $progress = $_POST['progress'];
+
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -32,7 +50,8 @@
         <p><strong>Notes:</strong> {Notes}</p>
         <p><strong>Progress:</strong> {Progress}</p>
         <p><strong>Unique ID:</strong> {Unique_ID}</p>
-        <a href="update.php?sample_id=<?php echo $sample['unique_id']; ?>" class="edit-button">Edit</a>
+
+        <button type="edit" name="edit" class="edit">Edit</button>
       </div>
     </main>
     </body>

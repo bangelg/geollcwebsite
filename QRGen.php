@@ -3,20 +3,6 @@ session_start();
 @include("config.php");
 @include("checkSession.php");
 
-if(isset($_POST['submit'])){
-
-  $boring_id = mysqli_real_escape_string($conn, $_POST['boring_id']);
-
-  $select = mysqli_query($conn, "SELECT * FROM `Samples` WHERE Boring_ID = '$boring_id'") or die('query failed');
-
-  if(mysqli_num_rows($select) > 0){
-    $error[] = 'Boring ID currently exists.'; 
-      
-  } else {
-    header('location:insert.php');
-    exit();
-  }
-};
 ?>
 
 ?>

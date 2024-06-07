@@ -93,6 +93,13 @@ body {
     .your-new-sample {
         font-size: var(--font-size-10xl);
     }
+    .qrCode {
+      width: 50%; /* Set the width of the QR code to fill the page */
+      height: 25%; /* Auto-adjust the height to maintain aspect ratio */
+      position: absolute;
+      top: 65%;
+      left: 25%;
+  }
 }
 @media print {
     body * {
@@ -100,14 +107,13 @@ body {
     }
     .qrCode {
         display: block !important;
-        width: 50%; /* Set the width of the QR code to fill the page */
-        height: 25%; /* Auto-adjust the height to maintain aspect ratio */
-        position: absolute; /* Reset the position to static */
-        top: 65%;
-        left: 25%;
+        width: 100%; /* Set the width of the QR code to fill the page */
+        height: auto; /* Auto-adjust the height to maintain aspect ratio */
+        position: static; /* Reset the position to static */
+        margin: 0; /* Remove any margin */
+        padding: 0; /* Remove any padding */
     }
     .qrCode img {
         display: block !important;
-
     }
 }

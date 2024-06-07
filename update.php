@@ -48,42 +48,57 @@ if(isset($_POST['update'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Sample</title>
     <link rel="stylesheet" href="./global.css">
+    <link rel="stylesheet" href="./template.css">
 </head>
 <body>
-    <div class="edit-sample-form">
+<header class="rectangle-group">
+        <div class="frame-item"></div> 
+        <a href = "https://www.inngeotech.com" >
+            <img
+                class="frame-inner"
+                loading="lazy"
+                alt=""
+                src="./igtech-logo-transparent.png"
+            />
+        </a>
+    </header>
+    <main>
+    <div class="soil-sample">
+
         <h2>Edit Sample</h2>
         <form action="" method="POST">
-          <label id="name-label" for="projectName"> Project Name</label></div>
+        <div class="labels">
+          <label id="name-label" for="projectName"> Project Name: </label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="projectName" name="project_name" placeholder="Enter the project name."
            value="<?php echo $sample['Project_Name']; ?>"required autofocus></div>
         <div class="labels">
-          <label id="number-label" for="boringId"> Boring ID</label></div>
+          <label id="number-label" for="boringId"> Boring ID: </label></div>
         <div class="input-tab">
           <input class="input-field" type="number" id="boringId" name="boring_id"placeholder="1500..." 
           value="<?php echo $sample['Boring_ID']; ?>"required></div>
         <div class="labels">
-          <label id="name-label" for="sampleNumber"> Sample Number</label></div>
+          <label id="name-label" for="sampleNumber"> Sample Number: </label></div>
         <div class="input-tab">              
           <input class="input-field" type="number" id="sampleNumber" name="sample_number" placeholder="Enter the sample number." 
           value="<?php echo $sample['Sample_Number']; ?>"required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="LDepth"> Depth</label></div>
+          <label id="name-label" for="LDepth"> Depth: </label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="LDepth" name="depth" placeholder="Enter the depth."
           value="<?php echo $sample['Depth']; ?>" required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="bag/tubeNumber"> Bag/Tube Number</label></div>
+          <label id="name-label" for="bag/tubeNumber"> Bag/Tube Number: </label></div>
         <div class="input-tab">
           <input class="input-field" type="number" id="bag/tubeNumber" name="bag_tube_number" placeholder="Enter the bag/tube number." 
           value="<?php echo $sample['Bag_Tube_Number']; ?>"required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="testName"> Test Name</label></div>
+          <label id="name-label" for="testName"> Test Name: </label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="testName" name="test_name" placeholder="Enter the test name." 
           value="<?php echo $sample['Test_Name']; ?>"required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="LNotes"> Notes </label></div>
+          <label id="name-label" for="LNotes"> Notes: </label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="LNotes" name="notes" placeholder="Enter any notes." 
           value="<?php echo $sample['Notes']; ?>"required autofocus></div>
@@ -99,7 +114,8 @@ if(isset($_POST['update'])) {
             <button type="submit" name="update">Update</button>
 
         </form>
-       
+    
     </div>
+    </main>
 </body>
 </html>

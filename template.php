@@ -2,7 +2,7 @@
 @include 'config.php';
 session_start();
 
-if(isset($_POST['edit'])) {
+if(isset($_POST['submit'])) {
     $project_name = $_POST['project_name'];
     $boring_id = $POST['boring_id'];
     $sample_number = $_POST['sample_number'];
@@ -11,8 +11,9 @@ if(isset($_POST['edit'])) {
     $test_name = $_POST['test_name'];
     $notes = $_POST['notes'];
     $progress = $_POST['progress'];
+    $unique_id = $_POST['$unique_id'];
 
-    header("location:/update.php");
+    header("location:update.php");
 }
 ?>
 
@@ -27,6 +28,11 @@ if(isset($_POST['edit'])) {
   </head>
 
   <body>
+  <script>
+        function editSample() {
+          window.location.href = "update.php";
+      }
+    </script>
     <header class="rectangle-group">
         <div class="frame-item"></div> 
         <a href = "https://www.inngeotech.com" >
@@ -51,9 +57,10 @@ if(isset($_POST['edit'])) {
         <p><strong>Progress:</strong> {Progress}</p>
         <p><strong>Unique ID:</strong> {Unique_ID}</p>
 
-        <button type="edit" name="edit" class="edit">Edit</button>
+        <button onclick ="editSample()"  name="edit" class="edit">Edit</button>
       </div>
     </main>
-    </body>
+    
+  </body>
 </div>
 </html>

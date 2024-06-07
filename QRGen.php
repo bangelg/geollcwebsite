@@ -9,11 +9,12 @@ if(isset($_POST['submit'])){
 
   $select = mysqli_query($conn, "SELECT * FROM `Samples` WHERE Boring_ID = '$boring_id'") or die('query failed');
 
-  if(mysqli_num_rows($select) == 0){
-      header('location:insert.php');
-      exit();
-  } else {
+  if(mysqli_num_rows($select) > 0){
     $error[] = 'Boring ID currently exists.'; 
+      
+  } else {
+    header('location:insert.php');
+    exit();
   }
 };
 ?>

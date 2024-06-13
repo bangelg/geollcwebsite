@@ -60,6 +60,19 @@
             <link rel='stylesheet' href='./template.css'>
         </head>
         <body>
+        <header class='rectangle-group'>
+        <div class='frame-item'></div> 
+            <a href = 'https://www.inngeotech.com' >
+                <img
+                    class='frame-inner'
+                    loading='lazy'
+                    alt=''
+                    src='./igtech-logo-transparent.png'
+                />
+            </a>
+        </header>
+        <main>
+        <div class='soil-sample'>
             <h2>Sample Information</h2>
             <p><strong>Project Name:</strong> $project_name</p>
             <p><strong>Boring ID:</strong> $boring_id</p>
@@ -69,7 +82,9 @@
             <p><strong>Test Name:</strong> $test_name</p>
             <p><strong>Notes:</strong> $notes</p>
             <p><strong>Progress:</strong> $progress</p>
-            <a href='update.php?unique_id=$unique_id' class='edit-button'>Edit</a>
+            <a href='/update.php?Unique_ID=$unique_id' class='edit-button'>Edit</a>
+        </div>
+        </main>
         </body>
         </html>
         ";

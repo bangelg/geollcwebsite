@@ -5,8 +5,8 @@ if(isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
   }
   
-if(isset($_GET['unique_id'])) {
-    $unique_id = $_GET['unique_id'];
+if(isset($_GET['Unique_ID'])) {
+    $unique_id = $_GET['Unique_ID'];
     $query = "SELECT * FROM samples WHERE Unique_ID = '$unique_id'";
     $result = mysqli_query($conn, $query);
     $sample = mysqli_fetch_assoc($result);
@@ -107,9 +107,9 @@ if(isset($_POST['update'])) {
         <div class="labels">
           <label>Progress?</label></div>
         <div class="input-tab">
-            <input type="radio" name="progress" value="Not Started" class="radio-button"value="<?php echo $sample['Progress']; ?>" required>Not started<br>
-            <input type="radio" name="progress" value="In Progress" class="radio-button" value="<?php echo $sample['Progress']; ?>"required>In Progress<br>
-            <input type="radio" name="progress" value="Completed" class="radio-button" value="<?php echo $sample['Progress']; ?>"required>Completed<br>
+            <input type="radio" name="progress" value="Not Started" class="radio-button" <?php echo ($sample['Progress'] == 'Not Started') ? 'checked' : ''; ?> required>Not Started<br>
+            <input type="radio" name="progress" value="In Progress" class="radio-button" <?php echo ($sample['Progress'] == 'In Progress') ? 'checked' : ''; ?> required>In Progress<br>
+            <input type="radio" name="progress" value="Completed" class="radio-button" <?php echo ($sample['Progress'] == 'Completed') ? 'checked' : ''; ?> required>Completed<br>
         </div>
             <button type="submit" name="update">Update</button>
 

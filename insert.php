@@ -67,7 +67,7 @@
                     class='frame-inner'
                     loading='lazy'
                     alt=''
-                    src='./igtech-logo-transparent.png'
+                    src='/igtech-logo-transparent.png'
                 />
             </a>
         </header>
@@ -82,7 +82,8 @@
             <p><strong>Test Name:</strong> $test_name</p>
             <p><strong>Notes:</strong> $notes</p>
             <p><strong>Progress:</strong> $progress</p>
-            <a href='/update.php?Unique_ID=$unique_id' class='edit-button'>Edit</a>
+            <p><strong>Unique ID:</strong> $unique_id</p>
+            <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
         </div>
         </main>
         </body>

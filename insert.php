@@ -40,6 +40,7 @@
         if ($stmt->execute() == TRUE) {
             $unique_id = $conn->insert_id;
             $_SESSION['unique_id'] = $unique_id;
+            $_SESSION['created_user'] = $user_id;
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }

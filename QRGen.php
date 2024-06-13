@@ -5,8 +5,6 @@ session_start();
 
 ?>
 
-?>
-
 <!DOCTYPE html>
 <html>
 <header>
@@ -31,7 +29,7 @@ session_start();
 </head>
 
     <div class="container">
-      <form action="" method="POST" id="results">
+      <form action="insert.php" method="POST" id="results">
          <div class="labels">
           <?php
           if (isset($error)) {
@@ -40,15 +38,18 @@ session_start();
               }
           }
           ?>
-        <br>
+       
           <label id="name-label" for="projectName"> Project Name</label></div>
         <div class="input-tab">
-          <br>
           <input class="input-field" type="text" id="projectName" name="project_name" placeholder="Enter the project name." required autofocus></div>
         <div class="labels">
           <label id="number-label" for="boringId"> Boring ID</label></div>
         <div class="input-tab">
           <input class="input-field" type="number" id="boringId" name="boring_id"placeholder="1500..." required></div>
+        <div class="labels">
+          <label id="name-label" for="LLocation"> Location</label></div>
+        <div class="input-tab">
+          <input class="input-field" type="text" id="LLocation" name="location"placeholder="..." required></div>
         <div class="labels">
           <label id="name-label" for="sampleNumber"> Sample Number</label></div>
         <div class="input-tab">              

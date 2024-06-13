@@ -4,8 +4,8 @@ session_start();
 if(isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
   }
-if(isset($_SESSION['created_user'])) {
-    $created_user = $_SESSION['created_user'];
+if(isset($_SESSION['user'])) {
+    $user = $_SESSION['user'];
   }
   
 if(isset($_GET['Unique_ID'])) {
@@ -18,6 +18,7 @@ if(isset($_GET['Unique_ID'])) {
 if(isset($_POST['update'])) {
     $project_name = $_POST['project_name'];
     $boring_id = $_POST['boring_id'];
+    $location = $_POST['location'];
     $sample_number = $_POST['sample_number'];
     $depth = $_POST['depth'];
     $bag_tube_number = $_POST['bag_tube_number'];
@@ -28,6 +29,7 @@ if(isset($_POST['update'])) {
     $update_query = "UPDATE Samples SET 
                      Project_Name='$project_name', 
                      Boring_ID='$boring_id', 
+                     S_Location='$location',
                      Sample_Number='$sample_number', 
                      Depth='$depth', 
                      Bag_Tube_Number='$bag_tube_number', 
@@ -37,7 +39,7 @@ if(isset($_POST['update'])) {
                      WHERE Unique_ID='$unique_id'";
     
     if(mysqli_query($conn, $update_query)) {
-        header("Location:/users/{$created_user}/{$unique_id}/{$unique_id}.html");
+        header("Location:/users/{$user}/{$unique_id}/{$unique_id}.html");
         exit();
     } else {
         echo "Error updating record: " . mysqli_error($conn);
@@ -81,6 +83,11 @@ if(isset($_POST['update'])) {
         <div class="input-tab">
           <input class="input-field" type="number" id="boringId" name="boring_id"placeholder="1500..." 
           value="<?php echo $sample['Boring_ID']; ?>"required></div>
+        <div class="labels">
+          <label id="name-label" for="LLocation"> Location: </label></div>
+        <div class="input-tab">              
+          <input class="input-field" type="text" id="LLocation" name="location" placeholder="..." 
+          value="<?php echo $sample['S_Locatiton']; ?>"required autofocus></div>
         <div class="labels">
           <label id="name-label" for="sampleNumber"> Sample Number: </label></div>
         <div class="input-tab">              

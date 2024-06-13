@@ -22,13 +22,15 @@
 
         // Taking all 8 values from the form data(input)
     
-        $stmt = $conn->prepare("INSERT INTO Samples (Project_Name, Boring_ID, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("siisisss",$project_name, $boring_id, $sample_number,
-        $depth, $bag_tube_number, $test_name, $notes, $progress);
+        $stmt = $conn->prepare("INSERT INTO Samples (Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, 
+        Test_Name, Notes, Progress, User)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("siississss",$project_name, $boring_id, $location, $sample_number,
+        $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
 
         $project_name = $_REQUEST['project_name'];
         $boring_id = $_REQUEST['boring_id'];
+        $location = $_REQUEST['location'];
         $sample_number = $_REQUEST['sample_number'];
         $depth = $_REQUEST['depth'];
         $bag_tube_number = $_REQUEST['bag_tube_number'];
@@ -40,7 +42,6 @@
         if ($stmt->execute() == TRUE) {
             $unique_id = $conn->insert_id;
             $_SESSION['unique_id'] = $unique_id;
-            $_SESSION['created_user'] = $user_id;
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
@@ -77,6 +78,7 @@
             <h2>Sample Information</h2>
             <p><strong>Project Name:</strong> $project_name</p>
             <p><strong>Boring ID:</strong> $boring_id</p>
+            <p><strong>Location:</strong> $location</p>
             <p><strong>Sample Number:</strong> $sample_number</p>
             <p><strong>Depth:</strong> $depth</p>
             <p><strong>Bag Tube/Number:</strong> $bag_tube_number</p>

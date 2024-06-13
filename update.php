@@ -4,17 +4,20 @@ session_start();
 if(isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
   }
+if(isset($_SESSION['created_user'])) {
+    $created_user = $_SESSION['created_user'];
+  }
   
 if(isset($_GET['Unique_ID'])) {
     $unique_id = $_GET['Unique_ID'];
-    $query = "SELECT * FROM samples WHERE Unique_ID = '$unique_id'";
+    $query = "SELECT * FROM Samples WHERE Unique_ID = '$unique_id'";
     $result = mysqli_query($conn, $query);
     $sample = mysqli_fetch_assoc($result);
 }
 
 if(isset($_POST['update'])) {
     $project_name = $_POST['project_name'];
-    $boring_id = $POST['boring_id'];
+    $boring_id = $_POST['boring_id'];
     $sample_number = $_POST['sample_number'];
     $depth = $_POST['depth'];
     $bag_tube_number = $_POST['bag_tube_number'];
@@ -34,7 +37,8 @@ if(isset($_POST['update'])) {
                      WHERE Unique_ID='$unique_id'";
     
     if(mysqli_query($conn, $update_query)) {
-        header("Location: /users/{$user_id}/{$unique_id}/{$unique_id}.html");
+        header("Location:/users/{$created_user}/{$unique_id}/{$unique_id}.html");
+        exit();
     } else {
         echo "Error updating record: " . mysqli_error($conn);
     }

@@ -4,15 +4,13 @@ session_start();
 if(isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
   }
-if(isset($_SESSION['user'])) {
-    $user = $_SESSION['user'];
-  }
   
 if(isset($_GET['Unique_ID'])) {
     $unique_id = $_GET['Unique_ID'];
     $query = "SELECT * FROM Samples WHERE Unique_ID = '$unique_id'";
     $result = mysqli_query($conn, $query);
     $sample = mysqli_fetch_assoc($result);
+    $created_user = $sample['User'];
 }
 
 if(isset($_POST['update'])) {
@@ -39,7 +37,7 @@ if(isset($_POST['update'])) {
                      WHERE Unique_ID='$unique_id'";
     
     if(mysqli_query($conn, $update_query)) {
-        header("Location:/users/{$user}/{$unique_id}/{$unique_id}.html");
+        header("Location:/users/{$created_user}/{$unique_id}/{$unique_id}.html");
         exit();
     } else {
         echo "Error updating record: " . mysqli_error($conn);
@@ -87,7 +85,7 @@ if(isset($_POST['update'])) {
           <label id="name-label" for="LLocation"> Location: </label></div>
         <div class="input-tab">              
           <input class="input-field" type="text" id="LLocation" name="location" placeholder="..." 
-          value="<?php echo $sample['S_Locatiton']; ?>"required autofocus></div>
+          value="<?php echo $sample['S_Location']; ?>"required autofocus></div>
         <div class="labels">
           <label id="name-label" for="sampleNumber"> Sample Number: </label></div>
         <div class="input-tab">              

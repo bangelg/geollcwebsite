@@ -37,6 +37,50 @@ if(isset($_POST['update'])) {
                      WHERE Unique_ID='$unique_id'";
     
     if(mysqli_query($conn, $update_query)) {
+        $sample_page = "/users/$created_user/$unique_id/$unique_id.html";
+        $sample_content = "
+        <!DOCTYPE html>
+        <html lang='en'>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Sample $unique_id</title>
+            <link rel='stylesheet' href='./global.css'>
+            <link rel='stylesheet' href='./template.css'>
+        </head>
+        <body>
+        <header class='rectangle-group'>
+        <div class='frame-item'></div> 
+            <a href = 'https://www.inngeotech.com' >
+                <img
+                    class='frame-inner'
+                    loading='lazy'
+                    alt=''
+                    src='/igtech-logo-transparent.png'
+                />
+            </a>
+        </header>
+        <main>
+        <div class='soil-sample'>
+            <h2>Sample Information</h2>
+            <p><strong>Project Name:</strong> $project_name</p>
+            <p><strong>Boring ID:</strong> $boring_id</p>
+            <p><strong>Location:</strong> $location</p>
+            <p><strong>Sample Number:</strong> $sample_number</p>
+            <p><strong>Depth:</strong> $depth</p>
+            <p><strong>Bag Tube/Number:</strong> $bag_tube_number</p>
+            <p><strong>Test Name:</strong> $test_name</p>
+            <p><strong>Notes:</strong> $notes</p>
+            <p><strong>Progress:</strong> $progress</p>
+            <p><strong>Unique ID:</strong> $unique_id</p>
+            <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
+        </div>
+        </main>
+        </body>
+        </html>
+        ";
+        file_put_contents($sample_page, $sample_content);
+
         header("Location:/users/{$created_user}/{$unique_id}/{$unique_id}.html");
         exit();
     } else {

@@ -37,7 +37,7 @@ if(isset($_POST['update'])) {
                      WHERE Unique_ID='$unique_id'";
     
     if(mysqli_query($conn, $update_query)) {
-        $sample_page = "/users/$created_user/$unique_id/$unique_id.html";
+        $sample_page = "/users/{$created_user}/{$unique_id}/{$unique_id}.html";
         $sample_content = "
         <!DOCTYPE html>
         <html lang='en'>
@@ -79,10 +79,13 @@ if(isset($_POST['update'])) {
         </body>
         </html>
         ";
-        file_put_contents($sample_page, $sample_content);
-
-        header("Location:/users/{$created_user}/{$unique_id}/{$unique_id}.html");
-        exit();
+        if (file_put_contents($sample_page, $sample_content) === false) {
+          echo "Error writing to file: {$sample_page}";
+      } else {
+          // Redirect to the updated HTML page
+          header("Location:/users/{$created_user}/{$unique_id}/{$unique_id}.html");
+          exit();
+      }
     } else {
         echo "Error updating record: " . mysqli_error($conn);
     }

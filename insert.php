@@ -125,21 +125,21 @@ if ($conn->connect_error) {
 
 
 function updateGoogleSheet($unique_id, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id) {
-   $url = 'https://script.google.com/macros/s/AKfycbzzE0RQRAa8GtEgiKKdUQ5EmuFbQPzjJrA-p2DX6iWI6yP-vQ7ir9mzOIr07ncGbDrQ/exec'; // Replace with your web app URL
+   $url = 'https://script.google.com/macros/s/AKfycbxwn2zJSky9NtxgXhtLgmn8YfZgrdCi5oMZBPABfyBLv-3egbRpUabr6HZFLSgk0SQj/exec'; // Replace with your web app URL
 
 
    $data = [
-       'Unique_Id' => $unique_id,
+       'Unique_ID' => $unique_id,
        'Project_Name' => $project_name,
-       'Boring_Id' => $boring_id,
-       'Location' => $location,
+       'Boring_ID' => $boring_id,
+       'S_Location' => $location,
        'Sample_Number' => $sample_number,
        'Depth' => $depth,
        'Bag_Tube_Number' => $bag_tube_number,
        'Test_Name' => $test_name,
        'Notes' => $notes,
        'Progress' => $progress,
-       'User_Id' => $user_id
+       'User_ID' => $user_id
    ];
 
 

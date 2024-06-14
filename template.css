@@ -20,6 +20,10 @@ body {
 .labels {
     font-family: Arial, sans-serif;
 }
+.radio-button {
+    height: 30px;
+    width: 30px;
+}
 
 /* Main content styles */
 main {

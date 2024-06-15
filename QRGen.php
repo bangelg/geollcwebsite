@@ -63,13 +63,13 @@ session_start();
         <div class="input-tab">
           <input class="input-field" type="text" id="testName" name="test_name" placeholder="Enter the test name." required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="LNotes"> Notes </label></div>
-        <div class="input-tab">
-          <input class="input-field" type="text" id="LNotes" name="notes" placeholder="Enter any notes." required autofocus></div>
-        <div class="labels">
           <label id="name-label" for="LLocation"> Storage location</label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="LLocation" name="location"placeholder="..." required></div>
+        <div class="labels">
+          <label id="name-label" for="LNotes"> Notes </label></div>
+        <div class="input-tab">
+          <input class="input-field" type="text" id="LNotes" name="notes" placeholder="Enter any notes." required autofocus></div>
         
         
         <div class="labels">

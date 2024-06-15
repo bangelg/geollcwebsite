@@ -74,8 +74,8 @@ if ($conn->connect_error) {
            <p><strong>Depth:</strong> $depth</p>
            <p><strong>Bag/Tube number:</strong> $bag_tube_number</p>
            <p><strong>Test Name:</strong> $test_name</p>
-           <p><strong>Notes:</strong> $notes</p>
            <p><strong>Storage location:</strong> $location</p>
+           <p><strong>Notes:</strong> $notes</p>
            <p><strong>Progress:</strong> $progress</p>
            <p><strong>Unique ID:</strong> $unique_id</p>
            <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>

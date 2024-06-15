@@ -39,7 +39,7 @@ session_start();
           }
           ?>
        
-          <label id="name-label" for="projectName"> Project Name</label></div>
+          <label id="name-label" for="projectName"> Project name</label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="projectName" name="project_name" placeholder="Enter the project name." required autofocus></div>
         <div class="labels">
@@ -47,11 +47,7 @@ session_start();
         <div class="input-tab">
           <input class="input-field" type="number" id="boringId" name="boring_id"placeholder="1500..." required></div>
         <div class="labels">
-          <label id="name-label" for="LLocation"> Location</label></div>
-        <div class="input-tab">
-          <input class="input-field" type="text" id="LLocation" name="location"placeholder="..." required></div>
-        <div class="labels">
-          <label id="name-label" for="sampleNumber"> Sample Number</label></div>
+          <label id="name-label" for="sampleNumber"> Sample number</label></div>
         <div class="input-tab">              
           <input class="input-field" type="number" id="sampleNumber" name="sample_number" placeholder="Enter the sample number." required autofocus></div>
         <div class="labels">
@@ -59,17 +55,21 @@ session_start();
         <div class="input-tab">
           <input class="input-field" type="text" id="LDepth" name="depth" placeholder="Enter the depth." required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="bag/tubeNumber"> Bag/Tube Number</label></div>
+          <label id="name-label" for="bag/tubeNumber"> Bag/Tube number</label></div>
         <div class="input-tab">
           <input class="input-field" type="number" id="bag/tubeNumber" name="bag_tube_number" placeholder="Enter the bag/tube number." required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="testName"> Test Name</label></div>
+          <label id="name-label" for="testName"> Test name</label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="testName" name="test_name" placeholder="Enter the test name." required autofocus></div>
         <div class="labels">
           <label id="name-label" for="LNotes"> Notes </label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="LNotes" name="notes" placeholder="Enter any notes." required autofocus></div>
+        <div class="labels">
+          <label id="name-label" for="LLocation"> Storage location</label></div>
+        <div class="input-tab">
+          <input class="input-field" type="text" id="LLocation" name="location"placeholder="..." required></div>
         
         
         <div class="labels">

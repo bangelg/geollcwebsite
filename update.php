@@ -63,14 +63,14 @@ if(isset($_POST['update'])) {
         <main>
         <div class='soil-sample'>
             <h2>Sample Information</h2>
-            <p><strong>Project Name:</strong> $project_name</p>
+            <p><strong>Project name:</strong> $project_name</p>
             <p><strong>Boring ID:</strong> $boring_id</p>
-            <p><strong>Location:</strong> $location</p>
-            <p><strong>Sample Number:</strong> $sample_number</p>
+            <p><strong>Sample number:</strong> $sample_number</p>
             <p><strong>Depth:</strong> $depth</p>
-            <p><strong>Bag Tube/Number:</strong> $bag_tube_number</p>
-            <p><strong>Test Name:</strong> $test_name</p>
+            <p><strong>Bag/Tube number:</strong> $bag_tube_number</p>
+            <p><strong>Test name:</strong> $test_name</p>
             <p><strong>Notes:</strong> $notes</p>
+            <p><strong>Storage location:</strong> $location</p>
             <p><strong>Progress:</strong> $progress</p>
             <p><strong>Unique ID:</strong> $unique_id</p>
             <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>

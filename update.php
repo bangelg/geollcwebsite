@@ -11,10 +11,10 @@ if(isset($_GET['Unique_ID'])) {
     $result = mysqli_query($conn, $query);
     $sample = mysqli_fetch_assoc($result);
     $created_user = $sample['User'];
+    $igl = $sample['IGL'];
 }
 
 if(isset($_POST['update'])) {
-    $igl = $_POST['igl'];
     $project_name = $_POST['project_name'];
     $boring_id = $_POST['boring_id'];
     $location = $_POST['location'];
@@ -26,7 +26,6 @@ if(isset($_POST['update'])) {
     $progress = $_POST['progress'];
 
     $update_query = "UPDATE Samples SET 
-                     IGL='$igl',
                      Project_Name='$project_name', 
                      Boring_ID='$boring_id', 
                      S_Location='$location',
@@ -122,7 +121,7 @@ if(isset($_POST['update'])) {
         <h2>Edit Sample</h2>
         <form action="" method="POST">
         <div class="labels">
-          <label id="name-label" for="projectName"> Project Name: </label></div>
+          <label id="name-label" for="projectName"> Project name: </label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="projectName" name="project_name" placeholder="Enter the project name."
            value="<?php echo $sample['Project_Name']; ?>"required autofocus></div>
@@ -132,12 +131,7 @@ if(isset($_POST['update'])) {
           <input class="input-field" type="text" id="boringId" name="boring_id"placeholder="1500..." 
           value="<?php echo $sample['Boring_ID']; ?>"required></div>
         <div class="labels">
-          <label id="name-label" for="LLocation"> Location: </label></div>
-        <div class="input-tab">              
-          <input class="input-field" type="text" id="LLocation" name="location" placeholder="..." 
-          value="<?php echo $sample['S_Location']; ?>"required autofocus></div>
-        <div class="labels">
-          <label id="name-label" for="sampleNumber"> Sample Number: </label></div>
+          <label id="name-label" for="sampleNumber"> Sample number: </label></div>
         <div class="input-tab">              
           <input class="input-field" type="text" id="sampleNumber" name="sample_number" placeholder="Enter the sample number." 
           value="<?php echo $sample['Sample_Number']; ?>"required autofocus></div>
@@ -147,22 +141,25 @@ if(isset($_POST['update'])) {
           <input class="input-field" type="text" id="LDepth" name="depth" placeholder="Enter the depth."
           value="<?php echo $sample['Depth']; ?>" required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="bag/tubeNumber"> Bag/Tube Number: </label></div>
+          <label id="name-label" for="bag/tubeNumber"> Bag/Tube number: </label></div>
         <div class="input-tab">
           <input class="input-field" type="number" id="bag/tubeNumber" name="bag_tube_number" placeholder="Enter the bag/tube number." 
           value="<?php echo $sample['Bag_Tube_Number']; ?>"required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="testName"> Test Name: </label></div>
+          <label id="name-label" for="testName"> Test name: </label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="testName" name="test_name" placeholder="Enter the test name." 
           value="<?php echo $sample['Test_Name']; ?>"required autofocus></div>
+        <div class="labels">
+          <label id="name-label" for="LLocation"> Storage location: </label></div>
+        <div class="input-tab">              
+          <input class="input-field" type="text" id="LLocation" name="location" placeholder="..." 
+          value="<?php echo $sample['S_Location']; ?>"required autofocus></div>
         <div class="labels">
           <label id="name-label" for="LNotes"> Notes: </label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="LNotes" name="notes" placeholder="Enter any notes." 
           value="<?php echo $sample['Notes']; ?>"required autofocus></div>
-        
-        
         <div class="labels">
           <label>Progress?</label></div>
         <div class="input-tab">

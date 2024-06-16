@@ -14,6 +14,7 @@ if(isset($_GET['Unique_ID'])) {
 }
 
 if(isset($_POST['update'])) {
+    $igl = $_POST['igl'];
     $project_name = $_POST['project_name'];
     $boring_id = $_POST['boring_id'];
     $location = $_POST['location'];
@@ -25,6 +26,7 @@ if(isset($_POST['update'])) {
     $progress = $_POST['progress'];
 
     $update_query = "UPDATE Samples SET 
+                     IGL='$igl',
                      Project_Name='$project_name', 
                      Boring_ID='$boring_id', 
                      S_Location='$location',
@@ -45,8 +47,8 @@ if(isset($_POST['update'])) {
             <meta charset='UTF-8'>
             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
             <title>Sample $unique_id</title>
-            <link rel='stylesheet' href='./global.css'>
-            <link rel='stylesheet' href='./template.css'>
+            <link rel='stylesheet' href='/css/global.css'>
+            <link rel='stylesheet' href='/css/template.css'>
         </head>
         <body>
         <header class='rectangle-group'>
@@ -63,6 +65,7 @@ if(isset($_POST['update'])) {
         <main>
         <div class='soil-sample'>
             <h2>Sample Information</h2>
+            <p><strong>IGL:</strong> $igl</p>
             <p><strong>Project name:</strong> $project_name</p>
             <p><strong>Boring ID:</strong> $boring_id</p>
             <p><strong>Sample number:</strong> $sample_number</p>

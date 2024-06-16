@@ -20,10 +20,10 @@ if ($conn->connect_error) {
    die('Connect Error: ' . $conn->connect_error);
 } else {
    // Prepare the insert statement
-   $stmt = $conn->prepare("INSERT INTO Samples (Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-   $stmt->bind_param("sisisissss", $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
+   $stmt = $conn->prepare("INSERT INTO Samples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+   $stmt->bind_param("issssssssss", $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
 
-
+   $igl = $_REQUEST['igl'];
    $project_name = $_REQUEST['project_name'];
    $boring_id = $_REQUEST['boring_id'];
    $location = $_REQUEST['location'];
@@ -50,8 +50,8 @@ if ($conn->connect_error) {
            <meta charset='UTF-8'>
            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
            <title>Sample $unique_id</title>
-           <link rel='stylesheet' href='./global.css'>
-           <link rel='stylesheet' href='./template.css'>
+           <link rel='stylesheet' href='/css/global.css'>
+           <link rel='stylesheet' href='/css/template.css'>
        </head>
        <body>
        <header class='rectangle-group'>
@@ -68,12 +68,13 @@ if ($conn->connect_error) {
        <main>
        <div class='soil-sample'>
            <h2>Sample Information</h2>
+           <p><strong>IGL:</strong> $igl</p>
            <p><strong>Project name:</strong> $project_name</p>
            <p><strong>Boring ID:</strong> $boring_id</p>
            <p><strong>Sample number:</strong> $sample_number</p>
            <p><strong>Depth:</strong> $depth</p>
            <p><strong>Bag/Tube number:</strong> $bag_tube_number</p>
-           <p><strong>Test Name:</strong> $test_name</p>
+           <p><strong>Test name:</strong> $test_name</p>
            <p><strong>Storage location:</strong> $location</p>
            <p><strong>Notes:</strong> $notes</p>
            <p><strong>Progress:</strong> $progress</p>
@@ -111,7 +112,7 @@ if ($conn->connect_error) {
 
        copy($qrCodeFile, $recent);
    
-       updateGoogleSheet($unique_id, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
+       updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
 
 
    } else {
@@ -124,12 +125,13 @@ if ($conn->connect_error) {
 }
 
 
-function updateGoogleSheet($unique_id, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id) {
-   $url = 'https://script.google.com/macros/s/AKfycbxwn2zJSky9NtxgXhtLgmn8YfZgrdCi5oMZBPABfyBLv-3egbRpUabr6HZFLSgk0SQj/exec'; // Replace with your web app URL
+function updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id) {
+   $url = 'https://script.google.com/macros/s/AKfycbxgNkf3vJNL_RuLjYNS722thHtXbWqulFaHEQLE4hp2S_bJs_-Caew-fKx5fIX9a6OX/exec'; // Replace with your web app URL
 
 
    $data = [
        'Unique_ID' => $unique_id,
+       'IGL' => $igl,
        'Project_Name' => $project_name,
        'Boring_ID' => $boring_id,
        'S_Location' => $location,

@@ -30,26 +30,22 @@ session_start();
 
     <div class="container">
       <form action="insert.php" method="POST" id="results">
+        <div class="labels">
+          <label id="number-label" for="IGL"> IGL</label></div>
+        <div class="input-tab">
+          <input class="input-field" type="text" id="IGL" name="igl"placeholder="1000" required maxlength="4" pattern="\d{4}"></div>
          <div class="labels">
-          <?php
-          if (isset($error)) {
-              foreach ($error as $err) {
-                  echo "<p style='color:red;'>$err</p>";
-              }
-          }
-          ?>
-       
           <label id="name-label" for="projectName"> Project name</label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="projectName" name="project_name" placeholder="Enter the project name." required autofocus></div>
         <div class="labels">
           <label id="number-label" for="boringId"> Boring ID</label></div>
         <div class="input-tab">
-          <input class="input-field" type="number" id="boringId" name="boring_id"placeholder="1500..." required></div>
+          <input class="input-field" type="text" id="boringId" name="boring_id"placeholder="1500..." required></div>
         <div class="labels">
           <label id="name-label" for="sampleNumber"> Sample number</label></div>
         <div class="input-tab">              
-          <input class="input-field" type="number" id="sampleNumber" name="sample_number" placeholder="Enter the sample number." required autofocus></div>
+          <input class="input-field" type="text" id="sampleNumber" name="sample_number" placeholder="Enter the sample number." required autofocus></div>
         <div class="labels">
           <label id="name-label" for="LDepth"> Depth</label></div>
         <div class="input-tab">

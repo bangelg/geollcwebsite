@@ -129,7 +129,7 @@ if(isset($_POST['update'])) {
         <div class="labels">
           <label id="number-label" for="boringId"> Boring ID: </label></div>
         <div class="input-tab">
-          <input class="input-field" type="number" id="boringId" name="boring_id"placeholder="1500..." 
+          <input class="input-field" type="text" id="boringId" name="boring_id"placeholder="1500..." 
           value="<?php echo $sample['Boring_ID']; ?>"required></div>
         <div class="labels">
           <label id="name-label" for="LLocation"> Location: </label></div>
@@ -139,7 +139,7 @@ if(isset($_POST['update'])) {
         <div class="labels">
           <label id="name-label" for="sampleNumber"> Sample Number: </label></div>
         <div class="input-tab">              
-          <input class="input-field" type="number" id="sampleNumber" name="sample_number" placeholder="Enter the sample number." 
+          <input class="input-field" type="text" id="sampleNumber" name="sample_number" placeholder="Enter the sample number." 
           value="<?php echo $sample['Sample_Number']; ?>"required autofocus></div>
         <div class="labels">
           <label id="name-label" for="LDepth"> Depth: </label></div>

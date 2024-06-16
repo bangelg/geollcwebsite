@@ -20,7 +20,7 @@ if ($conn->connect_error) {
    die('Connect Error: ' . $conn->connect_error);
 } else {
    // Prepare the insert statement
-   $stmt = $conn->prepare("INSERT INTO Samples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+   $stmt = $conn->prepare("INSERT INTO Samples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
    $stmt->bind_param("issssssssss", $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
 
    $igl = $_REQUEST['igl'];

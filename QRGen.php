@@ -33,7 +33,7 @@ session_start();
         <div class="labels">
           <label id="number-label" for="IGL"> IGL</label></div>
         <div class="input-tab">
-          <input class="input-field" type="text" id="IGL" name="igl"placeholder="1000" required maxlength="4" pattern="\d{4}"></div>
+          <input class="input-field" type="number" id="IGL" name="igl"placeholder="1000" required min="1000"max="9999"></div>
          <div class="labels">
           <label id="name-label" for="projectName"> Project name</label></div>
         <div class="input-tab">
@@ -81,5 +81,17 @@ session_start();
         </div>
       </form>
     </div>
+    <script>
+      const inputField = document.getElementById('IGL');
+
+       inputField.addEventListener('blur', function (e) {
+            const value = e.target.value;
+
+            // If the input is shorter than 4 digits, show a warning (or handle as needed)
+            if (value.length !== 4) {
+                alert('The number must be exactly 4 digits long.');
+            }
+        });
+    </script>
 </footer>
 </html>

@@ -85,7 +85,7 @@ if(isset($_POST['update'])) {
           echo "Error writing to file: {$sample_page}";
       } else {
           // Redirect to the updated HTML page
-          header("Location:/users/{$created_user}/{$unique_id}/{$unique_id}.html");
+          header("Location:users/{$created_user}/{$unique_id}/{$unique_id}.html");
           exit();
       }
     } else {
@@ -102,6 +102,17 @@ if(isset($_POST['update'])) {
     <title>Edit Sample</title>
     <link rel="stylesheet" href="./global.css">
     <link rel="stylesheet" href="./template.css">
+    <script>
+        function confirmDiscard(event) {
+            var discardCheckbox = document.getElementById('discard');
+            if (discardCheckbox.checked) {
+                var confirmation = confirm("Are you sure you want to discard this sample?");
+                if (!confirmation) {
+                    event.preventDefault(); // Prevent form submission if the user cancels
+                }
+            }
+        }
+    </script>
 </head>
 <body>
 <header class="rectangle-group">
@@ -167,8 +178,10 @@ if(isset($_POST['update'])) {
             <input type="radio" name="progress" value="In Progress" class="radio-button" <?php echo ($sample['Progress'] == 'In Progress') ? 'checked' : ''; ?> required>In Progress<br>
             <input type="radio" name="progress" value="Completed" class="radio-button" <?php echo ($sample['Progress'] == 'Completed') ? 'checked' : ''; ?> required>Completed<br>
         </div>
+        <div class="input-tab">
+            <input type="checkbox" id="discard" name="discard" class="radio-button"> Discard Sample
+        </div>
             <button type="submit" name="update">Update</button>
-
         </form>
     
     </div>

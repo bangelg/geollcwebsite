@@ -3,8 +3,8 @@
 session_start();
 if(isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
-  }
-  
+}
+
 if(isset($_GET['Unique_ID'])) {
     $unique_id = $_GET['Unique_ID'];
     $query = "SELECT * FROM Samples WHERE Unique_ID = '$unique_id'";
@@ -24,75 +24,105 @@ if(isset($_POST['update'])) {
     $test_name = $_POST['test_name'];
     $notes = $_POST['notes'];
     $progress = $_POST['progress'];
+    $discard = isset($_POST['discard']) ? $_POST['discard'] : '';
 
-    $update_query = "UPDATE Samples SET 
-                     Project_Name='$project_name', 
-                     Boring_ID='$boring_id', 
-                     S_Location='$location',
-                     Sample_Number='$sample_number', 
-                     Depth='$depth', 
-                     Bag_Tube_Number='$bag_tube_number', 
-                     Test_Name='$test_name',
-                     Notes='$notes',
-                     Progress='$progress'
-                     WHERE Unique_ID='$unique_id'";
-    
-    if(mysqli_query($conn, $update_query)) {
-        $sample_page = "/users/{$created_user}/{$unique_id}/{$unique_id}.html";
-        $sample_content = "
-        <!DOCTYPE html>
-        <html lang='en'>
-        <head>
-            <meta charset='UTF-8'>
-            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-            <title>Sample $unique_id</title>
-            <link rel='stylesheet' href='/css/global.css'>
-            <link rel='stylesheet' href='/css/template.css'>
-        </head>
-        <body>
-        <header class='rectangle-group'>
-        <div class='frame-item'></div> 
-            <a href = 'https://www.inngeotech.com' >
-                <img
-                    class='frame-inner'
-                    loading='lazy'
-                    alt=''
-                    src='/igtech-logo-transparent.png'
-                />
-            </a>
-        </header>
-        <main>
-        <div class='soil-sample'>
-            <h2>Sample Information</h2>
-            <p><strong>IGL:</strong> $igl</p>
-            <p><strong>Project name:</strong> $project_name</p>
-            <p><strong>Boring ID:</strong> $boring_id</p>
-            <p><strong>Sample number:</strong> $sample_number</p>
-            <p><strong>Depth:</strong> $depth</p>
-            <p><strong>Bag/Tube number:</strong> $bag_tube_number</p>
-            <p><strong>Test name:</strong> $test_name</p>
-            <p><strong>Storage location:</strong> $location</p>
-            <p><strong>Notes:</strong> $notes</p>
-            <p><strong>Progress:</strong> $progress</p>
-            <p><strong>Unique ID:</strong> $unique_id</p>
-            <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
-        </div>
-        </main>
-        </body>
-        </html>
-        ";
-        if (file_put_contents($sample_page, $sample_content) === false) {
-          echo "Error writing to file: {$sample_page}";
-      } else {
-          // Redirect to the updated HTML page
-          header("Location:users/{$created_user}/{$unique_id}/{$unique_id}.html");
-          exit();
-      }
+    if($discard) {
+        // Insert into Discarded table
+        $discard_query = "INSERT INTO Discarded (Unique_ID, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, IGL)
+                          VALUES ('$unique_id', '$project_name', '$boring_id', '$location', '$sample_number', '$depth', '$bag_tube_number', '$test_name', '$notes', '$progress', '$created_user', '$igl')";
+        if (!mysqli_query($conn, $discard_query)) {
+            echo "Error inserting record into Discarded table: " . mysqli_error($conn);
+            exit;
+        }
+
+        // Remove from Samples table
+        $remove_query = "DELETE FROM Samples WHERE Unique_ID='$unique_id'";
+        if (!mysqli_query($conn, $remove_query)) {
+            echo "Error deleting record from Samples table: " . mysqli_error($conn);
+            exit;
+        }
+
+        // Delete the sample page file
+        $sample_page = "users/{$created_user}/{$unique_id}/{$unique_id}.html";
+        if (file_exists($sample_page)) {
+            if (unlink($sample_page)) {
+                echo "Sample discarded and file deleted successfully!";
+            } else {
+                echo "Sample discarded but error deleting file: {$sample_page}";
+            }
+        } else {
+            echo "Sample discarded but file does not exist: {$sample_page}";
+        }
+        exit;
     } else {
-        echo "Error updating record: " . mysqli_error($conn);
+        // Update the sample
+        $update_query = "UPDATE Samples SET 
+                        Project_Name='$project_name', 
+                        Boring_ID='$boring_id', 
+                        S_Location='$location',
+                        Sample_Number='$sample_number', 
+                        Depth='$depth', 
+                        Bag_Tube_Number='$bag_tube_number', 
+                        Test_Name='$test_name',
+                        Notes='$notes',
+                        Progress='$progress'
+                        WHERE Unique_ID='$unique_id'";
+        
+        if(mysqli_query($conn, $update_query)) {
+            $sample_page = "users/{$created_user}/{$unique_id}/{$unique_id}.html";
+            $sample_content = "
+            <!DOCTYPE html>
+            <html lang='en'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Sample $unique_id</title>
+                <link rel='stylesheet' href='/css/global.css'>
+                <link rel='stylesheet' href='/css/template.css'>
+            </head>
+            <body>
+            <header class='rectangle-group'>
+            <div class='frame-item'></div> 
+                <a href='https://www.inngeotech.com'>
+                    <img class='frame-inner' 
+                    loading='lazy' 
+                    alt='' 
+                    src='/igtech-logo-transparent.png' 
+                    />
+                </a>
+            </header>
+            <main>
+            <div class='soil-sample'>
+                <h2>Sample Information</h2>
+                <p><strong>IGL:</strong> $igl</p>
+                <p><strong>Project name:</strong> $project_name</p>
+                <p><strong>Boring ID:</strong> $boring_id</p>
+                <p><strong>Sample number:</strong> $sample_number</p>
+                <p><strong>Depth:</strong> $depth</p>
+                <p><strong>Bag/Tube number:</strong> $bag_tube_number</p>
+                <p><strong>Test name:</strong> $test_name</p>
+                <p><strong>Storage location:</strong> $location</p>
+                <p><strong>Notes:</strong> $notes</p>
+                <p><strong>Progress:</strong> $progress</p>
+                <p><strong>Unique ID:</strong> $unique_id</p>
+                <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
+            </div>
+            </main>
+            </body>
+            </html>";
+            if (file_put_contents($sample_page, $sample_content) === false) {
+                echo "Error writing to file: {$sample_page}";
+            } else {
+                header("Location:users/{$created_user}/{$unique_id}/{$unique_id}.html");
+                exit();
+            }
+        } else {
+            echo "Error updating record: " . mysqli_error($conn);
+        }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -100,8 +130,8 @@ if(isset($_POST['update'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Sample</title>
-    <link rel="stylesheet" href="./global.css">
-    <link rel="stylesheet" href="./template.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/template.css">
     <script>
         function confirmDiscard(event) {
             var discardCheckbox = document.getElementById('discard');
@@ -122,7 +152,7 @@ if(isset($_POST['update'])) {
                 class="frame-inner"
                 loading="lazy"
                 alt=""
-                src="./igtech-logo-transparent.png"
+                src="/igtech-logo-transparent.png"
             />
         </a>
     </header>
@@ -130,7 +160,7 @@ if(isset($_POST['update'])) {
     <div class="soil-sample">
 
         <h2>Edit Sample</h2>
-        <form action="" method="POST">
+        <form action="" method="POST" onsubmit="confirmDiscard(event)">
         <div class="labels">
           <label id="name-label" for="projectName"> Project name: </label></div>
         <div class="input-tab">

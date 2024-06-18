@@ -1,5 +1,6 @@
 <?php
 @include 'config.php';
+date_default_timezone_set('America/Texas');
 session_start();
 
 if (isset($_SESSION['user_id'])) {
@@ -101,9 +102,11 @@ if (isset($_POST['update'])) {
                 <p><strong>Notes:</strong> $notes</p>
                 <p><strong>Progress:</strong> $progress</p>
                 <p><strong>Unique ID:</strong> $unique_id</p>
-                <p><strong>Discarded:</strong> " . ($discarded ? 'Yes' : 'No') . "</p>";
+                <p><strong>Discarded:</strong> " . ($discarded ? 'Yes' : 'No');
                 if ($discarded) {
-                    $sample_content .= "<p><strong>Discarded At:</strong> $discarded_at</p>";
+                    $sample_content .= " at $discarded_at CST </p>";
+                } else {
+                    $sample_content .= "</p>";
                 }
                 $sample_content .= "
                 <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>

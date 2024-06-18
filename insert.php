@@ -79,6 +79,7 @@ if ($conn->connect_error) {
            <p><strong>Notes:</strong> $notes</p>
            <p><strong>Progress:</strong> $progress</p>
            <p><strong>Unique ID:</strong> $unique_id</p>
+           <p><strong>Discarded:</strong> No </p>
            <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
        </div>
        </main>

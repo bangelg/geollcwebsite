@@ -44,16 +44,15 @@ if (isset($_POST['update'])) {
     if (mysqli_query($conn, $update_query)) {
         if ($discard) {
             // Insert into Discarded table with the current timestamp and store the timestamp
+            $discarded_at = date('Y-m-d H:i:s');
             $discard_query = "INSERT INTO Discarded (Unique_ID, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, IGL, Discarded)
-                              VALUES ('$unique_id', '$project_name', '$boring_id', '$location', '$sample_number', '$depth', '$bag_tube_number', '$test_name', '$notes', '$progress', '$created_user', '$igl', NOW())";
+                              VALUES ('$unique_id', '$project_name', '$boring_id', '$location', '$sample_number', '$depth', '$bag_tube_number', '$test_name', '$notes', '$progress', '$created_user', '$igl', '$discarded_at')";
             if (!mysqli_query($conn, $discard_query)) {
                 echo "Error inserting record into Discarded table: " . mysqli_error($conn);
                 exit;
             }
 
             // Store the current timestamp in a variable
-            $discarded_at = date('Y-m-d H:i:s');
-
             // Remove from Samples table
             $remove_query = "DELETE FROM Samples WHERE Unique_ID='$unique_id'";
             if (!mysqli_query($conn, $remove_query)) {
@@ -104,7 +103,7 @@ if (isset($_POST['update'])) {
                 <p><strong>Unique ID:</strong> $unique_id</p>
                 <p><strong>Discarded:</strong> " . ($discarded ? 'Yes' : 'No');
                 if ($discarded) {
-                    $sample_content .= " at $discarded_at CST </p>";
+                    $sample_content .= " at: $discarded_at CST </p>";
                 } else {
                     $sample_content .= "</p>";
                 }

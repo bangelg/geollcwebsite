@@ -1,11 +1,12 @@
 <?php
 @include 'config.php';
 session_start();
-if(isset($_SESSION['user_id'])) {
+
+if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 }
 
-if(isset($_GET['Unique_ID'])) {
+if (isset($_GET['Unique_ID'])) {
     $unique_id = $_GET['Unique_ID'];
     $query = "SELECT * FROM Samples WHERE Unique_ID = '$unique_id'";
     $result = mysqli_query($conn, $query);
@@ -14,7 +15,7 @@ if(isset($_GET['Unique_ID'])) {
     $igl = $sample['IGL'];
 }
 
-if(isset($_POST['update'])) {
+if (isset($_POST['update'])) {
     $project_name = $_POST['project_name'];
     $boring_id = $_POST['boring_id'];
     $location = $_POST['location'];
@@ -26,72 +27,67 @@ if(isset($_POST['update'])) {
     $progress = $_POST['progress'];
     $discard = isset($_POST['discard']) ? $_POST['discard'] : '';
 
-    if($discard) {
-        // Insert into Discarded table
-        $discard_query = "INSERT INTO Discarded (Unique_ID, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, IGL)
-                          VALUES ('$unique_id', '$project_name', '$boring_id', '$location', '$sample_number', '$depth', '$bag_tube_number', '$test_name', '$notes', '$progress', '$created_user', '$igl')";
-        if (!mysqli_query($conn, $discard_query)) {
-            echo "Error inserting record into Discarded table: " . mysqli_error($conn);
-            exit;
-        }
+    // Update the sample information
+    $update_query = "UPDATE Samples SET 
+                    Project_Name='$project_name', 
+                    Boring_ID='$boring_id', 
+                    S_Location='$location',
+                    Sample_Number='$sample_number', 
+                    Depth='$depth', 
+                    Bag_Tube_Number='$bag_tube_number', 
+                    Test_Name='$test_name',
+                    Notes='$notes',
+                    Progress='$progress'
+                    WHERE Unique_ID='$unique_id'";
 
-        // Remove from Samples table
-        $remove_query = "DELETE FROM Samples WHERE Unique_ID='$unique_id'";
-        if (!mysqli_query($conn, $remove_query)) {
-            echo "Error deleting record from Samples table: " . mysqli_error($conn);
-            exit;
-        }
-
-        // Delete the sample page file
-        $sample_page = "users/{$created_user}/{$unique_id}/{$unique_id}.html";
-        if (file_exists($sample_page)) {
-            if (unlink($sample_page)) {
-                echo "Sample discarded and file deleted successfully!";
-            } else {
-                echo "Sample discarded but error deleting file: {$sample_page}";
+    if (mysqli_query($conn, $update_query)) {
+        if ($discard) {
+            // Insert into Discarded table with the current timestamp and store the timestamp
+            $discard_query = "INSERT INTO Discarded (Unique_ID, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, IGL, Discarded)
+                              VALUES ('$unique_id', '$project_name', '$boring_id', '$location', '$sample_number', '$depth', '$bag_tube_number', '$test_name', '$notes', '$progress', '$created_user', '$igl', NOW())";
+            if (!mysqli_query($conn, $discard_query)) {
+                echo "Error inserting record into Discarded table: " . mysqli_error($conn);
+                exit;
             }
+
+            // Store the current timestamp in a variable
+            $discarded_at = date('Y-m-d H:i:s');
+
+            // Remove from Samples table
+            $remove_query = "DELETE FROM Samples WHERE Unique_ID='$unique_id'";
+            if (!mysqli_query($conn, $remove_query)) {
+                echo "Error deleting record from Samples table: " . mysqli_error($conn);
+                exit;
+            }
+
+            $discarded = true;
         } else {
-            echo "Sample discarded but file does not exist: {$sample_page}";
+            $discarded = false;
         }
-        exit;
-    } else {
-        // Update the sample
-        $update_query = "UPDATE Samples SET 
-                        Project_Name='$project_name', 
-                        Boring_ID='$boring_id', 
-                        S_Location='$location',
-                        Sample_Number='$sample_number', 
-                        Depth='$depth', 
-                        Bag_Tube_Number='$bag_tube_number', 
-                        Test_Name='$test_name',
-                        Notes='$notes',
-                        Progress='$progress'
-                        WHERE Unique_ID='$unique_id'";
-        
-        if(mysqli_query($conn, $update_query)) {
-            $sample_page = "users/{$created_user}/{$unique_id}/{$unique_id}.html";
-            $sample_content = "
-            <!DOCTYPE html>
-            <html lang='en'>
-            <head>
-                <meta charset='UTF-8'>
-                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                <title>Sample $unique_id</title>
-                <link rel='stylesheet' href='/css/global.css'>
-                <link rel='stylesheet' href='/css/template.css'>
-            </head>
-            <body>
-            <header class='rectangle-group'>
-            <div class='frame-item'></div> 
-                <a href='https://www.inngeotech.com'>
-                    <img class='frame-inner' 
-                    loading='lazy' 
-                    alt='' 
-                    src='/igtech-logo-transparent.png' 
-                    />
-                </a>
-            </header>
-            <main>
+
+        // Update or create the sample page
+        $sample_page = "users/{$created_user}/{$unique_id}/{$unique_id}.html";
+        $sample_content = "
+        <!DOCTYPE html>
+        <html lang='en'>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Sample $unique_id</title>
+            <link rel='stylesheet' href='/css/global.css'>
+            <link rel='stylesheet' href='/css/template.css'>
+        </head>
+        <body>
+        <header class='rectangle-group'>
+            <div class='frame-item'></div>
+            <a href='https://www.inngeotech.com'>
+                <img class='frame-inner'
+                     loading='lazy'
+                     alt=''
+                     src='/igtech-logo-transparent.png'/>
+            </a>
+        </header>
+        <main>
             <div class='soil-sample'>
                 <h2>Sample Information</h2>
                 <p><strong>IGL:</strong> $igl</p>
@@ -105,20 +101,26 @@ if(isset($_POST['update'])) {
                 <p><strong>Notes:</strong> $notes</p>
                 <p><strong>Progress:</strong> $progress</p>
                 <p><strong>Unique ID:</strong> $unique_id</p>
+                <p><strong>Discarded:</strong> " . ($discarded ? 'Yes' : 'No') . "</p>";
+                if ($discarded) {
+                    $sample_content .= "<p><strong>Discarded At:</strong> $discarded_at</p>";
+                }
+                $sample_content .= "
                 <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
             </div>
-            </main>
-            </body>
-            </html>";
-            if (file_put_contents($sample_page, $sample_content) === false) {
-                echo "Error writing to file: {$sample_page}";
-            } else {
-                header("Location:users/{$created_user}/{$unique_id}/{$unique_id}.html");
-                exit();
-            }
+        </main>
+        </body>
+        </html>";
+
+        if (file_put_contents($sample_page, $sample_content) === false) {
+            echo "Error writing to file: {$sample_page}";
         } else {
-            echo "Error updating record: " . mysqli_error($conn);
+            header("Location:users/{$created_user}/{$unique_id}/{$unique_id}.html");
+            exit();
         }
+    } else {
+        echo "Error updating record: " . mysqli_error($conn);
+        exit;
     }
 }
 ?>

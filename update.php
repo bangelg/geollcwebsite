@@ -1,6 +1,6 @@
 <?php
 @include 'config.php';
-date_default_timezone_set('America/Texas');
+date_default_timezone_set('America/Chicago');
 session_start();
 
 if (isset($_SESSION['user_id'])) {

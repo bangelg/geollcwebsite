@@ -1,169 +1,197 @@
 <?php
 function exception_handler($exception) {
-   echo "<h1>Failure</h1>";
-   echo "Uncaught exception: " , $exception->getMessage();
-   echo "<h1>PHP Info for troubleshooting</h1>";
-   phpinfo();
+    echo "<h1>Failure</h1>";
+    echo "Uncaught exception: " , $exception->getMessage();
+    echo "<h1>PHP Info for troubleshooting</h1>";
+    phpinfo();
 }
 
-
 set_exception_handler('exception_handler');
-
 
 // Establish the connection
 @include 'config.php';
 session_start();
 $user_id = $_SESSION['user_id'];
 
-
 if ($conn->connect_error) {
-   die('Connect Error: ' . $conn->connect_error);
+    die('Connect Error: ' . $conn->connect_error);
 } else {
-   // Prepare the insert statement
-   $stmt = $conn->prepare("INSERT INTO Samples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-   $stmt->bind_param("issssssssss", $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
+    // Determine if this boring ID is a subsidiary
+    $parent_boring_id = null;
+    $boring_id = $_REQUEST['boring_id'];
+    if (strpos($boring_id, '-') !== false) {
+        $parent_boring_id = explode('-', $boring_id)[0];
+    }
 
-   $igl = $_REQUEST['igl'];
-   $project_name = $_REQUEST['project_name'];
-   $boring_id = $_REQUEST['boring_id'];
-   $location = $_REQUEST['location'];
-   $sample_number = $_REQUEST['sample_number'];
-   $depth = $_REQUEST['depth'];
-   $bag_tube_number = $_REQUEST['bag_tube_number'];
-   $test_name = $_REQUEST['test_name'];
-   $notes = $_REQUEST['notes'];
-   $progress = $_REQUEST['progress'];
+    // Prepare the insert statement
+    $stmt = $conn->prepare("INSERT INTO Samples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("issssssssssi", $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
 
+    $igl = $_REQUEST['igl'];
+    $project_name = $_REQUEST['project_name'];
+    $location = $_REQUEST['location'];
+    $sample_number = $_REQUEST['sample_number'];
+    $depth = $_REQUEST['depth'];
+    $bag_tube_number = $_REQUEST['bag_tube_number'];
+    $test_name = $_REQUEST['test_name'];
+    $notes = $_REQUEST['notes'];
+    $progress = $_REQUEST['progress'];
 
-   if ($stmt->execute() == TRUE) {
-       $unique_id = $conn->insert_id;
-       $_SESSION['unique_id'] = $unique_id;
-       $directoryPath = "/var/www/html/users/{$user_id}/{$unique_id}";
-      
-       mkdir($directoryPath, 0755, false);
-      
-       $sample_page = "users/$user_id/$unique_id/$unique_id.html";
-       $sample_content = "
-       <!DOCTYPE html>
-       <html lang='en'>
-       <head>
-           <meta charset='UTF-8'>
-           <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-           <title>Sample $unique_id</title>
-           <link rel='stylesheet' href='/css/global.css'>
-           <link rel='stylesheet' href='/css/template.css'>
-       </head>
-       <body>
-       <header class='rectangle-group'>
-       <div class='frame-item'></div>
-           <a href = 'https://www.inngeotech.com' >
-               <img
-                   class='frame-inner'
-                   loading='lazy'
-                   alt=''
-                   src='/igtech-logo-transparent.png'
-               />
-           </a>
-       </header>
-       <main>
-       <div class='soil-sample'>
-           <h2>Sample Information</h2>
-           <p><strong>IGL:</strong> $igl</p>
-           <p><strong>Project name:</strong> $project_name</p>
-           <p><strong>Boring ID:</strong> $boring_id</p>
-           <p><strong>Sample number:</strong> $sample_number</p>
-           <p><strong>Depth:</strong> $depth</p>
-           <p><strong>Bag/Tube number:</strong> $bag_tube_number</p>
-           <p><strong>Test name:</strong> $test_name</p>
-           <p><strong>Storage location:</strong> $location</p>
-           <p><strong>Notes:</strong> $notes</p>
-           <p><strong>Progress:</strong> $progress</p>
-           <p><strong>Unique ID:</strong> $unique_id</p>
-           <p><strong>Discarded:</strong> No </p>
-           <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
-       </div>
-       </main>
-       </body>
-       </html>
-       ";
+    if ($stmt->execute() == TRUE) {
+        $unique_id = $conn->insert_id;
+        $_SESSION['unique_id'] = $unique_id;
+        $directoryPath = "/var/www/html/users/{$user_id}/{$unique_id}";
+        mkdir($directoryPath, 0755, true);
 
+        $parent_link = '';
+        $children_section = '<div id="children-section" style="display: none;"><h3>Children:</h3><!-- CHILD LINKS --></div>';
+        
+        if ($parent_boring_id) {
+            // Fetch the parent sample to get the file path
+            $query = "SELECT Unique_ID FROM Samples WHERE Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
+            $result = mysqli_query($conn, $query);
+            if ($parent_sample = mysqli_fetch_assoc($result)) {
+                $parent_unique_id = $parent_sample['Unique_ID'];
+                $parent_user = $parent_sample['User'];
+                $parent_link = "<p><strong>Parent:</strong> <a href='/users/$parent_user/$parent_unique_id/$parent_unique_id.html'>$parent_boring_id</a></p>";
+                
+                // Update parent HTML file with link to this child
+                updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_id);
+            }
+        }
+        
+        $sample_page = "users/$user_id/$unique_id/$unique_id.html";
+        $sample_content = "
+        <!DOCTYPE html>
+        <html lang='en'>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Sample $unique_id</title>
+            <link rel='stylesheet' href='/css/global.css'>
+            <link rel='stylesheet' href='/css/template.css'>
+        </head>
+        <body>
+        <header class='rectangle-group'>
+        <div class='frame-item'></div>
+            <a href='https://www.inngeotech.com'>
+                <img
+                    class='frame-inner'
+                    loading='lazy'
+                    alt=''
+                    src='/igtech-logo-transparent.png'
+                />
+            </a>
+        </header>
+        <main>
+        <div class='soil-sample'>
+            <h2>Sample Information</h2>
+            <p><strong>IGL:</strong> $igl</p>
+            <p><strong>Project name:</strong> $project_name</p>
+            <p><strong>Boring ID:</strong> $boring_id</p>
+            <p><strong>Sample number:</strong> $sample_number</p>
+            <p><strong>Depth:</strong> $depth</p>
+            <p><strong>Bag/Tube number:</strong> $bag_tube_number</p>
+            <p><strong>Test name:</strong> $test_name</p>
+            <p><strong>Storage location:</strong> $location</p>
+            <p><strong>Notes:</strong> $notes</p>
+            <p><strong>Progress:</strong> $progress</p>
+            <p><strong>Unique ID:</strong> $unique_id</p>
+            <p><strong>Discarded:</strong> No</p>
+            $parent_link
+            $children_section
+            <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
+        </div>
+        </main>
+        </body>
+        </html>
+        ";
 
-       file_put_contents($sample_page, $sample_content);
+        file_put_contents($sample_page, $sample_content);
 
+        include '/var/www/lib/phpqrcode/qrlib.php';
+        // URL to encode in QR code
+        $url = "http://inngeotech.com/users/{$user_id}/{$unique_id}/{$unique_id}.html";
 
-       include '/var/www/lib/phpqrcode/qrlib.php';
-       // URL to encode in QR code
-       $url = "http://inngeotech.com/users/{$user_id}/{$unique_id}/{$unique_id}.html";
+        // Directory to save the generated QR code image
+        $qrCodeDir = "users/{$user_id}/{$unique_id}/";
 
+        // File name for the QR code image
+        $qrCodeFile =  $qrCodeDir.$unique_id.".png";
 
-       // Directory to save the generated QR code image
-       $qrCodeDir = "users/{$user_id}/{$unique_id}/";
-      
-       // File name for the QR code image
-       $qrCodeFile =  $qrCodeDir.$unique_id.".png";
+        // File location for recent to refer to when printing
+        $recent = "users/{$user_id}/recent/" . "recent.png";
 
+        // Generate QR code
+        QRcode::png($url, $qrCodeFile);
 
-       // File location for recent to refer to when printing
-       $recent = "users/{$user_id}/recent/" . "recent.png";
+        copy($qrCodeFile, $recent);
 
+        updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
 
-       // Generate QR code
-       QRcode::png($url, $qrCodeFile);
+    } else {
+        echo "Error: " . $stmt->error;
+    }
 
-
-       copy($qrCodeFile, $recent);
-   
-       updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
-
-
-   } else {
-       echo "Error: " . $stmt->error;
-   }
-  
-   $stmt->close();
-   $conn->close();
-   header("Location: results.php");
+    $stmt->close();
+    $conn->close();
+    header("Location: results.php");
 }
 
+function updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_id) {
+    $parent_file_path = "/var/www/html/users/{$parent_user}/{$parent_unique_id}/{$parent_unique_id}.html";
+    $child_link = "<p><a href='/users/{$_SESSION['user_id']}/$unique_id/$unique_id.html'>$boring_id</a></p>";
+
+    // Update the parent HTML file
+    if (file_exists($parent_file_path)) {
+        $parent_html = file_get_contents($parent_file_path);
+        if (strpos($parent_html, '<!-- CHILD LINKS -->') !== false) {
+            // Add the child link before the closing comment
+            $parent_html = str_replace('<!-- CHILD LINKS -->', $child_link . '<!-- CHILD LINKS -->', $parent_html);
+            // Ensure the section is visible
+            $parent_html = str_replace('id="children-section" style="display: none;"', 'id="children-section"', $parent_html);
+        } else {
+            // Add a new section for child links
+            $parent_html = str_replace('</main>', "<div id='children-section'><h3>Children:</h3>$child_link<!-- CHILD LINKS --></div></main>", $parent_html);
+        }
+        file_put_contents($parent_file_path, $parent_html);
+    }
+}
 
 function updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id) {
-   $url = 'https://script.google.com/macros/s/AKfycbxgNkf3vJNL_RuLjYNS722thHtXbWqulFaHEQLE4hp2S_bJs_-Caew-fKx5fIX9a6OX/exec'; // Replace with your web app URL
+    $url = 'https://script.google.com/macros/s/AKfycbxgNkf3vJNL_RuLjYNS722thHtXbWqulFaHEQLE4hp2S_bJs_-Caew-fKx5fIX9a6OX/exec'; // Replace with your web app URL
 
+    $data = [
+        'Unique_ID' => $unique_id,
+        'IGL' => $igl,
+        'Project_Name' => $project_name,
+        'Boring_ID' => $boring_id,
+        'S_Location' => $location,
+        'Sample_Number' => $sample_number,
+        'Depth' => $depth,
+        'Bag_Tube_Number' => $bag_tube_number,
+        'Test_Name' => $test_name,
+        'Notes' => $notes,
+        'Progress' => $progress,
+        'User_ID' => $user_id
+    ];
 
-   $data = [
-       'Unique_ID' => $unique_id,
-       'IGL' => $igl,
-       'Project_Name' => $project_name,
-       'Boring_ID' => $boring_id,
-       'S_Location' => $location,
-       'Sample_Number' => $sample_number,
-       'Depth' => $depth,
-       'Bag_Tube_Number' => $bag_tube_number,
-       'Test_Name' => $test_name,
-       'Notes' => $notes,
-       'Progress' => $progress,
-       'User_ID' => $user_id
-   ];
+    $options = [
+        'http' => [
+            'header' => "Content-Type: application/json\r\n",
+            'method' => 'POST',
+            'content' => json_encode($data)
+        ]
+    ];
 
+    $context = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
 
-   $options = [
-       'http' => [
-           'header' => "Content-Type: application/json\r\n",
-           'method' => 'POST',
-           'content' => json_encode($data)
-       ]
-   ];
+    if ($result === FALSE) {
+        /* Handle error */
+        error_log("Error sending data to Google Sheets");
+    }
 
-
-   $context = stream_context_create($options);
-   $result = file_get_contents($url, false, $context);
-  
-   if ($result === FALSE) {
-       /* Handle error */
-       error_log("Error sending data to Google Sheets");
-   }
-
-
-   return $result;
+    return $result;
 }
 ?>

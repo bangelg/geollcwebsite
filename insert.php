@@ -48,7 +48,7 @@ if ($conn->connect_error) {
         
         if ($parent_boring_id) {
             // Fetch the parent sample to get the file path
-            $query = "SELECT Unique_ID FROM Samples WHERE Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
+            $query = "SELECT * FROM Samples WHERE Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
             $result = mysqli_query($conn, $query);
             if ($parent_sample = mysqli_fetch_assoc($result)) {
                 $parent_unique_id = $parent_sample['Unique_ID'];

@@ -24,8 +24,8 @@ if ($conn->connect_error) {
     }
 
     // Prepare the insert statement
-    $stmt = $conn->prepare("INSERT INTO Samples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("issssssssss", $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
+    $stmt = $conn->prepare("INSERT INTO Samples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, Parent_Boring_ID) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("issssssssssi", $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id, $parent_boring_id);
 
     $igl = $_REQUEST['igl'];
     $project_name = $_REQUEST['project_name'];
@@ -44,7 +44,7 @@ if ($conn->connect_error) {
         mkdir($directoryPath, 0755, true);
 
         $parent_link = '';
-        $children_section = '<div id="children-section" style="display: none;"><h3>Children:</h3><!-- CHILD LINKS --></div>';
+        $children_section = '<div id="children-section" style="display: none;"><strong>Children:</strong><!-- CHILD LINKS --></div>';
         
         if ($parent_boring_id) {
             // Fetch the parent sample to get the file path
@@ -152,7 +152,7 @@ function updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_i
             $parent_html = str_replace('id="children-section" style="display: none;"', 'id="children-section"', $parent_html);
         } else {
             // Add a new section for child links
-            $parent_html = str_replace('</main>', "<div id='children-section'><h3>Children:</h3>$child_link<!-- CHILD LINKS --></div></main>", $parent_html);
+            $parent_html = str_replace('</main>', "<div id='children-section'><strong>Children:</strong>$child_link<!-- CHILD LINKS --></div></main>", $parent_html);
         }
         file_put_contents($parent_file_path, $parent_html);
     }

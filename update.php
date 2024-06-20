@@ -17,12 +17,8 @@ if (isset($_GET['Unique_ID'])) {
 }
 
 if (isset($_POST['update'])) {
-    $project_name = $_POST['project_name'];
-    $boring_id = $_POST['boring_id'];
     $location = $_POST['location'];
-    $sample_number = $_POST['sample_number'];
     $depth = $_POST['depth'];
-    $bag_tube_number = $_POST['bag_tube_number'];
     $test_name = $_POST['test_name'];
     $notes = $_POST['notes'];
     $progress = $_POST['progress'];
@@ -30,12 +26,8 @@ if (isset($_POST['update'])) {
 
     // Update the sample information
     $update_query = "UPDATE Samples SET 
-                    Project_Name='$project_name', 
-                    Boring_ID='$boring_id', 
                     S_Location='$location',
-                    Sample_Number='$sample_number', 
                     Depth='$depth', 
-                    Bag_Tube_Number='$bag_tube_number', 
                     Test_Name='$test_name',
                     Notes='$notes',
                     Progress='$progress'
@@ -46,13 +38,12 @@ if (isset($_POST['update'])) {
             // Insert into Discarded table with the current timestamp and store the timestamp
             $discarded_at = date('Y-m-d H:i:s') . ' CST';
             $discard_query = "INSERT INTO Discarded (Unique_ID, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, IGL, Discarded)
-                              VALUES ('$unique_id', '$project_name', '$boring_id', '$location', '$sample_number', '$depth', '$bag_tube_number', '$test_name', '$notes', '$progress', '$created_user', '$igl', '$discarded_at')";
+                              VALUES ('$unique_id', '{$sample['Project_Name']}', '{$sample['Boring_ID']}', '$location', '{$sample['Sample_Number']}', '$depth', '{$sample['Bag_Tube_Number']}', '$test_name', '$notes', '$progress', '$created_user', '$igl', '$discarded_at')";
             if (!mysqli_query($conn, $discard_query)) {
                 echo "Error inserting record into Discarded table: " . mysqli_error($conn);
                 exit;
             }
 
-            // Store the current timestamp in a variable
             // Remove from Samples table
             $remove_query = "DELETE FROM Samples WHERE Unique_ID='$unique_id'";
             if (!mysqli_query($conn, $remove_query)) {
@@ -66,6 +57,11 @@ if (isset($_POST['update'])) {
         }
 
         // Update or create the sample page
+        $parent_link = '';
+        $children_section = '<div id="children-section" style="display: none;"><strong>Children:</strong><!-- CHILD LINKS --></div>';
+
+        $children_html = getChildrenHTML($unique_id, $created_user);
+
         $sample_page = "users/{$created_user}/{$unique_id}/{$unique_id}.html";
         $sample_content = "
         <!DOCTYPE html>
@@ -91,11 +87,11 @@ if (isset($_POST['update'])) {
             <div class='soil-sample'>
                 <h2>Sample Information</h2>
                 <p><strong>IGL:</strong> $igl</p>
-                <p><strong>Project name:</strong> $project_name</p>
-                <p><strong>Boring ID:</strong> $boring_id</p>
-                <p><strong>Sample number:</strong> $sample_number</p>
+                <p><strong>Project name:</strong> {$sample['Project_Name']}</p>
+                <p><strong>Boring ID:</strong> {$sample['Boring_ID']}</p>
+                <p><strong>Sample number:</strong> {$sample['Sample_Number']}</p>
                 <p><strong>Depth:</strong> $depth</p>
-                <p><strong>Bag/Tube number:</strong> $bag_tube_number</p>
+                <p><strong>Bag/Tube number:</strong> {$sample['Bag_Tube_Number']}</p>
                 <p><strong>Test name:</strong> $test_name</p>
                 <p><strong>Storage location:</strong> $location</p>
                 <p><strong>Notes:</strong> $notes</p>
@@ -108,6 +104,9 @@ if (isset($_POST['update'])) {
                     $sample_content .= "</p>";
                 }
                 $sample_content .= "
+                $parent_link
+                $children_section
+                $children_html
                 <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
             </div>
         </main>
@@ -117,7 +116,7 @@ if (isset($_POST['update'])) {
         if (file_put_contents($sample_page, $sample_content) === false) {
             echo "Error writing to file: {$sample_page}";
         } else {
-            header("Location:users/{$created_user}/{$unique_id}/{$unique_id}.html");
+            header("Location: users/{$created_user}/{$unique_id}/{$unique_id}.html");
             exit();
         }
     } else {
@@ -125,8 +124,23 @@ if (isset($_POST['update'])) {
         exit;
     }
 }
-?>
 
+function getChildrenHTML($unique_id, $user_id) {
+    global $conn;
+    $children_html = '';
+    $query = "SELECT Boring_ID, Unique_ID FROM Samples WHERE Parent_Boring_ID = '$unique_id'";
+    $result = mysqli_query($conn, $query);
+    while ($child_sample = mysqli_fetch_assoc($result)) {
+        $child_boring_id = $child_sample['Boring_ID'];
+        $child_unique_id = $child_sample['Unique_ID'];
+        $children_html .= "<p><a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
+    }
+    if ($children_html) {
+        $children_html = str_replace('<!-- CHILD LINKS -->', $children_html, '<div id="children-section"><strong>Children:</strong><!-- CHILD LINKS --></div>');
+    }
+    return $children_html;
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -151,7 +165,7 @@ if (isset($_POST['update'])) {
 <body>
 <header class="rectangle-group">
         <div class="frame-item"></div> 
-        <a href = "https://www.inngeotech.com" >
+        <a href="https://www.inngeotech.com">
             <img
                 class="frame-inner"
                 loading="lazy"
@@ -162,49 +176,44 @@ if (isset($_POST['update'])) {
     </header>
     <main>
     <div class="soil-sample">
-
         <h2>Edit Sample</h2>
         <form action="" method="POST" onsubmit="confirmDiscard(event)">
         <div class="labels">
-          <label id="name-label" for="projectName"> Project name: </label></div>
+          <label>Project name:</label></div>
         <div class="input-tab">
-          <input class="input-field" type="text" id="projectName" name="project_name" placeholder="Enter the project name."
-           value="<?php echo $sample['Project_Name']; ?>"required autofocus></div>
+          <p class="static-field"><?php echo $sample['Project_Name']; ?></p></div>
         <div class="labels">
-          <label id="number-label" for="boringId"> Boring ID: </label></div>
+          <label>Boring ID:</label></div>
         <div class="input-tab">
-          <input class="input-field" type="text" id="boringId" name="boring_id"placeholder="1500..." 
-          value="<?php echo $sample['Boring_ID']; ?>"required></div>
+          <p class="static-field"><?php echo $sample['Boring_ID']; ?></p></div>
         <div class="labels">
-          <label id="name-label" for="sampleNumber"> Sample number: </label></div>
-        <div class="input-tab">              
-          <input class="input-field" type="text" id="sampleNumber" name="sample_number" placeholder="Enter the sample number." 
-          value="<?php echo $sample['Sample_Number']; ?>"required autofocus></div>
-        <div class="labels">
-          <label id="name-label" for="LDepth"> Depth: </label></div>
+          <label>Sample number:</label></div>
         <div class="input-tab">
-          <input class="input-field" type="text" id="LDepth" name="depth" placeholder="Enter the depth."
+          <p class="static-field"><?php echo $sample['Sample_Number']; ?></p></div>
+        <div class="labels">
+          <label>Bag/Tube number:</label></div>
+        <div class="input-tab">
+          <p class="static-field"><?php echo $sample['Bag_Tube_Number']; ?></p></div>
+        <div class="labels">
+          <label for="LDepth">Depth:</label></div>
+        <div class="input-tab">
+          <input class="input-field" type="text" id="LDepth" name="depth" placeholder="Enter the depth." 
           value="<?php echo $sample['Depth']; ?>" required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="bag/tubeNumber"> Bag/Tube number: </label></div>
-        <div class="input-tab">
-          <input class="input-field" type="number" id="bag/tubeNumber" name="bag_tube_number" placeholder="Enter the bag/tube number." 
-          value="<?php echo $sample['Bag_Tube_Number']; ?>"required autofocus></div>
-        <div class="labels">
-          <label id="name-label" for="testName"> Test name: </label></div>
+          <label for="testName">Test name:</label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="testName" name="test_name" placeholder="Enter the test name." 
-          value="<?php echo $sample['Test_Name']; ?>"required autofocus></div>
+          value="<?php echo $sample['Test_Name']; ?>" required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="LLocation"> Storage location: </label></div>
-        <div class="input-tab">              
-          <input class="input-field" type="text" id="LLocation" name="location" placeholder="..." 
-          value="<?php echo $sample['S_Location']; ?>"required autofocus></div>
+          <label for="LLocation">Storage location:</label></div>
+        <div class="input-tab">
+          <input class="input-field" type="text" id="LLocation" name="location" placeholder="Enter the storage location." 
+          value="<?php echo $sample['S_Location']; ?>" required autofocus></div>
         <div class="labels">
-          <label id="name-label" for="LNotes"> Notes: </label></div>
+          <label for="LNotes">Notes:</label></div>
         <div class="input-tab">
           <input class="input-field" type="text" id="LNotes" name="notes" placeholder="Enter any notes." 
-          value="<?php echo $sample['Notes']; ?>"required autofocus></div>
+          value="<?php echo $sample['Notes']; ?>" required autofocus></div>
         <div class="labels">
           <label>Progress?</label></div>
         <div class="input-tab">

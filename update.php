@@ -14,7 +14,9 @@ if (isset($_GET['Unique_ID'])) {
     $sample = mysqli_fetch_assoc($result);
     $created_user = $sample['User'];
     $igl = $sample['IGL'];
-    $old_boring_id = $sample['Boring_ID'];
+    if (isset($sample['Parent_Boring_ID'])) {
+      $parent_boring_id = $sample['Unique_ID'];
+    }
 } 
 
 if (isset($_POST['update'])) {
@@ -58,8 +60,8 @@ if (isset($_POST['update'])) {
         }
 
         // Update or create the sample page
-        $parent_link = getParentLinkHTML($sample['Boring_ID'], $created_user);
-        $children_html = getChildrenHTML($unique_id, $created_user);
+        $parent_link = getParentLinkHTML($sample['Boring_ID'], $created_user, $igl);
+        $children_html = getChildrenHTML($unique_id, $created_user, $parent_boring_id, $igl);
 
         $sample_page = "users/{$created_user}/{$unique_id}/{$unique_id}.html";
         $sample_content = "
@@ -123,11 +125,11 @@ if (isset($_POST['update'])) {
     }
 }
 
-function getParentLinkHTML($boring_id, $user_id) {
+function getParentLinkHTML($boring_id, $user_id, $igl) {
     global $conn;
     $parent_boring_id = substr($boring_id, 0, strrpos($boring_id, '-'));
     $parent_html = '';
-    $query = "SELECT * FROM Samples WHERE Boring_ID = '$parent_boring_id'";
+    $query = "SELECT * FROM Samples WHERE Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
     $result = mysqli_query($conn, $query);
     if (mysqli_num_rows($result) > 0) {
         $parent_sample = mysqli_fetch_assoc($result);
@@ -137,10 +139,10 @@ function getParentLinkHTML($boring_id, $user_id) {
     return $parent_html;
 }
 
-function getChildrenHTML($unique_id, $user_id) {
+function getChildrenHTML($unique_id, $user_id, $parent_boring_id, $igl) {
     global $conn;
     $children_html = '';
-    $query = "SELECT Boring_ID, Unique_ID FROM Samples WHERE Unique_ID = '$unique_id'";
+    $query = "SELECT * FROM Samples WHERE Parent_Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
     $result = mysqli_query($conn, $query);
     while ($child_sample = mysqli_fetch_assoc($result)) {
         $child_boring_id = $child_sample['Boring_ID'];

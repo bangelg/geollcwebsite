@@ -14,7 +14,8 @@ if (isset($_GET['Unique_ID'])) {
     $sample = mysqli_fetch_assoc($result);
     $created_user = $sample['User'];
     $igl = $sample['IGL'];
-}
+    $old_boring_id = $sample['Boring_ID'];
+} 
 
 if (isset($_POST['update'])) {
     $location = $_POST['location'];
@@ -57,9 +58,7 @@ if (isset($_POST['update'])) {
         }
 
         // Update or create the sample page
-        $parent_link = '';
-        $children_section = '<div id="children-section" style="display: none;"><strong>Children:</strong><!-- CHILD LINKS --></div>';
-
+        $parent_link = getParentLinkHTML($sample['Boring_ID'], $created_user);
         $children_html = getChildrenHTML($unique_id, $created_user);
 
         $sample_page = "users/{$created_user}/{$unique_id}/{$unique_id}.html";
@@ -105,7 +104,6 @@ if (isset($_POST['update'])) {
                 }
                 $sample_content .= "
                 $parent_link
-                $children_section
                 $children_html
                 <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
             </div>
@@ -121,22 +119,35 @@ if (isset($_POST['update'])) {
         }
     } else {
         echo "Error updating record: " . mysqli_error($conn);
-        exit;
+        exit();
     }
+}
+
+function getParentLinkHTML($boring_id, $user_id) {
+    global $conn;
+    $parent_boring_id = substr($boring_id, 0, strrpos($boring_id, '-'));
+    $parent_html = '';
+    $query = "SELECT * FROM Samples WHERE Boring_ID = '$parent_boring_id'";
+    $result = mysqli_query($conn, $query);
+    if (mysqli_num_rows($result) > 0) {
+        $parent_sample = mysqli_fetch_assoc($result);
+        $parent_unique_id = $parent_sample['Unique_ID'];
+        $parent_html .= "<p><strong>Parent:</strong> <a href='/users/$user_id/$parent_unique_id/$parent_unique_id.html'>$parent_boring_id</a></p>";
+    }
+    return $parent_html;
 }
 
 function getChildrenHTML($unique_id, $user_id) {
     global $conn;
     $children_html = '';
-    $query = "SELECT * FROM Samples WHERE Unique_ID = '$unique_id'";
+    $query = "SELECT Boring_ID, Unique_ID FROM Samples WHERE Unique_ID = '$unique_id'";
     $result = mysqli_query($conn, $query);
     while ($child_sample = mysqli_fetch_assoc($result)) {
         $child_boring_id = $child_sample['Boring_ID'];
         $child_unique_id = $child_sample['Unique_ID'];
-        $children_html .= "<p><a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
-    }
-    if ($children_html) {
-        $children_html = str_replace('<!-- CHILD LINKS -->', $children_html, '<div id="children-section"><strong>Children:</strong><!-- CHILD LINKS --></div>');
+        if ($child_unique_id != $unique_id) {
+            $children_html .= "<p><strong>Children:</strong> <a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
+        }
     }
     return $children_html;
 }
@@ -197,7 +208,7 @@ function getChildrenHTML($unique_id, $user_id) {
         <div class="labels">
           <label for="LDepth">Depth:</label></div>
         <div class="input-tab">
-          <input class="input-field" type="text" id="LDepth" name="depth" placeholder="Enter the depth." 
+          <input class="input-field" type="text" id="LDepth" name="depth" placeholder="Enter the depth."
           value="<?php echo $sample['Depth']; ?>" required autofocus></div>
         <div class="labels">
           <label for="testName">Test name:</label></div>

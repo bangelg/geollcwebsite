@@ -128,7 +128,7 @@ if (isset($_POST['update'])) {
 function getChildrenHTML($unique_id, $user_id) {
     global $conn;
     $children_html = '';
-    $query = "SELECT Boring_ID, Unique_ID FROM Samples WHERE Parent_Boring_ID = '$unique_id'";
+    $query = "SELECT * FROM Samples WHERE Unique_ID = '$unique_id'";
     $result = mysqli_query($conn, $query);
     while ($child_sample = mysqli_fetch_assoc($result)) {
         $child_boring_id = $child_sample['Boring_ID'];

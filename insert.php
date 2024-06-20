@@ -25,7 +25,7 @@ if ($conn->connect_error) {
 
     // Prepare the insert statement
     $stmt = $conn->prepare("INSERT INTO Samples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("issssssssssi", $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
+    $stmt->bind_param("issssssssss", $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
 
     $igl = $_REQUEST['igl'];
     $project_name = $_REQUEST['project_name'];
@@ -56,7 +56,7 @@ if ($conn->connect_error) {
                 $parent_link = "<p><strong>Parent:</strong> <a href='/users/$parent_user/$parent_unique_id/$parent_unique_id.html'>$parent_boring_id</a></p>";
                 
                 // Update parent HTML file with link to this child
-                updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_id);
+                updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_id, $user_id);
             }
         }
         
@@ -138,9 +138,9 @@ if ($conn->connect_error) {
     header("Location: results.php");
 }
 
-function updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_id) {
+function updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_id, $user_id) {
     $parent_file_path = "/var/www/html/users/{$parent_user}/{$parent_unique_id}/{$parent_unique_id}.html";
-    $child_link = "<p><a href='/users/{$_SESSION['user_id']}/$unique_id/$unique_id.html'>$boring_id</a></p>";
+    $child_link = "<p><a href='/users/{$user_id}/$unique_id/$unique_id.html'>$boring_id</a></p>";
 
     // Update the parent HTML file
     if (file_exists($parent_file_path)) {

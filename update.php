@@ -140,19 +140,23 @@ function getParentLinkHTML($boring_id, $user_id, $igl) {
 }
 
 function getChildrenHTML($unique_id, $user_id, $boring_id, $igl) {
-    global $conn;
-    $children_html = '';
-    $query = "SELECT * FROM Samples WHERE Parent_Boring_ID = '$boring_id' AND IGL = '$igl'";
-    $result = mysqli_query($conn, $query);
-    while ($child_sample = mysqli_fetch_assoc($result)) {
-        $child_boring_id = $child_sample['Boring_ID'];
-        $child_unique_id = $child_sample['Unique_ID'];
-        if ($child_unique_id != $unique_id) {
-            $children_html .= "<p><strong>Children:</strong> <a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
-        }
-    }
-    return $children_html;
+  global $conn;
+  $children_html = '';
+  $query = "SELECT * FROM Samples WHERE Parent_Boring_ID = '$boring_id' AND IGL = '$igl'";
+  $result = mysqli_query($conn, $query);
+  
+  if (mysqli_num_rows($result) > 0) {
+      while ($child_sample = mysqli_fetch_assoc($result)) {
+          $child_boring_id = $child_sample['Boring_ID'];
+          $child_unique_id = $child_sample['Unique_ID'];
+          if ($child_unique_id != $unique_id) {
+              $children_html .= "<p><strong>Children:</strong> <a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
+          }
+      }
+  } 
+  return $children_html;
 }
+
 ?>
 
 <!DOCTYPE html>

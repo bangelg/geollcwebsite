@@ -244,6 +244,10 @@ function getChildrenHTML($unique_id, $user_id, $boring_id, $igl) {
         <h2>Edit Sample</h2>
         <form action="" method="POST" onsubmit="confirmDiscard(event)">
         <div class="labels">
+          <label>IGL:</label></div>
+        <div class="input-tab">
+          <p class="static-field"><?php echo $sample['IGL']; ?></p></div>
+        <div class="labels">
           <label>Project name:</label></div>
         <div class="input-tab">
           <p class="static-field"><?php echo $sample['Project_Name']; ?></p></div>

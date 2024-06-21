@@ -15,9 +15,9 @@ if (isset($_GET['Unique_ID'])) {
     $created_user = $sample['User'];
     $igl = $sample['IGL'];
     if (isset($sample['Parent_Boring_ID'])) {
-      $parent_boring_id = $sample['Unique_ID'];
+        $parent_boring_id = $sample['Parent_Boring_ID'];
     }
-} 
+}
 
 if (isset($_POST['update'])) {
     $location = $_POST['location'];
@@ -59,9 +59,12 @@ if (isset($_POST['update'])) {
             $discarded = false;
         }
 
+        // Send updated data to Google Sheets
+        updateGoogleSheet($unique_id, $igl, $sample['Project_Name'], $sample['Boring_ID'], $location, $sample['Sample_Number'], $depth, $sample['Bag_Tube_Number'], $test_name, $notes, $progress, $created_user);
+
         // Update or create the sample page
         $parent_link = getParentLinkHTML($sample['Boring_ID'], $created_user, $igl);
-        $children_html = getChildrenHTML($unique_id, $created_user, $sample['Boring_ID'], $igl);
+        $children_html = getChildrenHTML($unique_id, $created_user, $parent_boring_id, $igl);
 
         $sample_page = "users/{$created_user}/{$unique_id}/{$unique_id}.html";
         $sample_content = "
@@ -125,6 +128,43 @@ if (isset($_POST['update'])) {
     }
 }
 
+function updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id) {
+    $url = 'https://script.google.com/macros/s/AKfycbz6VTiHm-xq5hUPivZJTmz0ExKpFFNTOYYagk1wqV3iK2s2H2uebh9uNZ1AbtWEBL7A/exec'; // Replace with your web app URL
+
+    $data = [
+        'Unique_ID' => $unique_id,
+        'IGL' => $igl,
+        'Project_Name' => $project_name,
+        'Boring_ID' => $boring_id,
+        'S_Location' => $location,
+        'Sample_Number' => $sample_number,
+        'Depth' => $depth,
+        'Bag_Tube_Number' => $bag_tube_number,
+        'Test_Name' => $test_name,
+        'Notes' => $notes,
+        'Progress' => $progress,
+        'User_ID' => $user_id,
+        'Action' => 'update' // Add an action parameter to specify the update operation
+    ];
+
+    $options = [
+        'http' => [
+            'header' => "Content-Type: application/json\r\n",
+            'method' => 'POST',
+            'content' => json_encode($data)
+        ]
+    ];
+
+    $context = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+
+    if ($result === FALSE) {
+        error_log("Error sending data to Google Sheets");
+    }
+
+    return $result;
+}
+
 function getParentLinkHTML($boring_id, $user_id, $igl) {
     global $conn;
     $parent_boring_id = substr($boring_id, 0, strrpos($boring_id, '-'));
@@ -139,25 +179,22 @@ function getParentLinkHTML($boring_id, $user_id, $igl) {
     return $parent_html;
 }
 
-function getChildrenHTML($unique_id, $user_id, $boring_id, $igl) {
-  global $conn;
-  $children_html = '';
-  $query = "SELECT * FROM Samples WHERE Parent_Boring_ID = '$boring_id' AND IGL = '$igl'";
-  $result = mysqli_query($conn, $query);
-  
-  if (mysqli_num_rows($result) > 0) {
-      while ($child_sample = mysqli_fetch_assoc($result)) {
-          $child_boring_id = $child_sample['Boring_ID'];
-          $child_unique_id = $child_sample['Unique_ID'];
-          if ($child_unique_id != $unique_id) {
-              $children_html .= "<p><strong>Children:</strong> <a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
-          }
-      }
-  } 
-  return $children_html;
+function getChildrenHTML($unique_id, $user_id, $parent_boring_id, $igl) {
+    global $conn;
+    $children_html = '';
+    $query = "SELECT * FROM Samples WHERE Parent_Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
+    $result = mysqli_query($conn, $query);
+    while ($child_sample = mysqli_fetch_assoc($result)) {
+        $child_boring_id = $child_sample['Boring_ID'];
+        $child_unique_id = $child_sample['Unique_ID'];
+        if ($child_unique_id != $unique_id) {
+            $children_html .= "<p><strong>Children:</strong> <a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
+        }
+    }
+    return $children_html;
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

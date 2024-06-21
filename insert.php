@@ -24,7 +24,7 @@ if ($conn->connect_error) {
     }
 
     // Prepare the insert statement
-    $stmt = $conn->prepare("INSERT INTO Samples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, Parent_Boring_ID) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO Samples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, Parent_Boring_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("issssssssssi", $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id, $parent_boring_id);
 
     $igl = $_REQUEST['igl'];
@@ -44,8 +44,8 @@ if ($conn->connect_error) {
         mkdir($directoryPath, 0755, true);
 
         $parent_link = '';
-        $children_section = '<div id="children-section" style="display: none;"><strong>Children:</strong><!-- CHILD LINKS --></div>';
-        
+        $children_html = '';
+
         if ($parent_boring_id) {
             // Fetch the parent sample to get the file path
             $query = "SELECT * FROM Samples WHERE Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
@@ -73,14 +73,9 @@ if ($conn->connect_error) {
         </head>
         <body>
         <header class='rectangle-group'>
-        <div class='frame-item'></div>
+            <div class='frame-item'></div>
             <a href='https://www.inngeotech.com'>
-                <img
-                    class='frame-inner'
-                    loading='lazy'
-                    alt=''
-                    src='/igtech-logo-transparent.png'
-                />
+                <img class='frame-inner' loading='lazy' alt='' src='/igtech-logo-transparent.png'/>
             </a>
         </header>
         <main>
@@ -99,7 +94,9 @@ if ($conn->connect_error) {
             <p><strong>Unique ID:</strong> $unique_id</p>
             <p><strong>Discarded:</strong> No</p>
             $parent_link
-            $children_section
+            <div id='children-links'>
+                $children_html
+            </div>
             <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
         </div>
         </main>
@@ -120,7 +117,7 @@ if ($conn->connect_error) {
         $qrCodeFile =  $qrCodeDir.$unique_id.".png";
 
         // File location for recent to refer to when printing
-        $recent = "users/{$user_id}/recent/" . "recent.png";
+        $recent = "users/{$user_id}/recent/recent.png";
 
         // Generate QR code
         QRcode::png($url, $qrCodeFile);
@@ -149,10 +146,10 @@ function updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_i
             // Add the child link before the closing comment
             $parent_html = str_replace('<!-- CHILD LINKS -->', $child_link . '<!-- CHILD LINKS -->', $parent_html);
             // Ensure the section is visible
-            $parent_html = str_replace('id="children-section" style="display: none;"', 'id="children-section"', $parent_html);
+            $parent_html = str_replace('id="children-links" style="display: none;"', 'id="children-links"', $parent_html);
         } else {
             // Add a new section for child links
-            $parent_html = str_replace('</main>', "<div id='children-section'><strong>Children:</strong>$child_link<!-- CHILD LINKS --></div></main>", $parent_html);
+            $parent_html = str_replace('</div>', "<div id='children-links'><strong>Children:</strong>$child_link<!-- CHILD LINKS --></div></div>", $parent_html);
         }
         file_put_contents($parent_file_path, $parent_html);
     }
@@ -178,20 +175,17 @@ function updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $locatio
 
     $options = [
         'http' => [
-            'header' => "Content-Type: application/json\r\n",
-            'method' => 'POST',
-            'content' => json_encode($data)
-        ]
+            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method'  => 'POST',
+            'content' => http_build_query($data),
+        ],
     ];
 
-    $context = stream_context_create($options);
+    $context  = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
-
     if ($result === FALSE) {
-        /* Handle error */
-        error_log("Error sending data to Google Sheets");
+        die('Error sending data to Google Sheets');
     }
-
     return $result;
 }
 ?>

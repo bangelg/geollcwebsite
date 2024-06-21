@@ -44,7 +44,6 @@ if ($conn->connect_error) {
         mkdir($directoryPath, 0755, true);
 
         $parent_link = '';
-        $children_html = '';
 
         if ($parent_boring_id) {
             // Fetch the parent sample to get the file path
@@ -94,7 +93,7 @@ if ($conn->connect_error) {
             <p><strong>Unique ID:</strong> $unique_id</p>
             <p><strong>Discarded:</strong> No</p>
             $parent_link
-            $children_html
+            <-- Fresh -->
             <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
         </div>
         </main>
@@ -149,7 +148,7 @@ function updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_i
             $parent_html = str_replace('id="children-links" style="display: none;"', 'id="children-links"', $parent_html);
         } else {
             // Add a new section for child links
-            $parent_html = str_replace('</div>', "<div id='children-links'><strong>Children:</strong>$child_link<!-- CHILD LINKS --></div></div>", $parent_html);
+            $parent_html = str_replace('<-- Fresh -->', "<div id='children-links'><strong>Children:</strong>$child_link<!-- CHILD LINKS --></div></div>", $parent_html);
         }
     file_put_contents($parent_file_path, $parent_html);
     }

@@ -153,9 +153,8 @@ function updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_i
     file_put_contents($parent_file_path, $parent_html);
     }
 }
-
 function updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id) {
-    $url = 'https://script.google.com/macros/s/AKfycbxgNkf3vJNL_RuLjYNS722thHtXbWqulFaHEQLE4hp2S_bJs_-Caew-fKx5fIX9a6OX/exec'; // Replace with your web app URL
+    $url = 'https://script.google.com/macros/s/AKfycbyEuS2AxH_Zte_9-I5xsxi4Th8qbS0OjpWndf5jXBdBUdCMfULfEE09lO4RJ-Q_Go0v/exec'; // Replace with your web app URL
 
     $data = [
         'Unique_ID' => $unique_id,
@@ -169,22 +168,26 @@ function updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $locatio
         'Test_Name' => $test_name,
         'Notes' => $notes,
         'Progress' => $progress,
-        'User_ID' => $user_id
+        'User_ID' => $user_id,
+        'Action' => 'insert' // Set action to insert
     ];
 
     $options = [
         'http' => [
-            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-            'method'  => 'POST',
-            'content' => http_build_query($data),
-        ],
+            'header' => "Content-Type: application/json\r\n",
+            'method' => 'POST',
+            'content' => json_encode($data)
+        ]
     ];
 
-    $context  = stream_context_create($options);
+    $context = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
+
     if ($result === FALSE) {
-        die('Error sending data to Google Sheets');
+        error_log("Error sending data to Google Sheets");
     }
+
     return $result;
 }
+
 ?>

@@ -129,7 +129,7 @@ if (isset($_POST['update'])) {
 }
 
 function updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id) {
-    $url = 'https://script.google.com/macros/s/AKfycbz6VTiHm-xq5hUPivZJTmz0ExKpFFNTOYYagk1wqV3iK2s2H2uebh9uNZ1AbtWEBL7A/exec'; // Replace with your web app URL
+    $url = 'https://script.google.com/macros/s/AKfycbyEuS2AxH_Zte_9-I5xsxi4Th8qbS0OjpWndf5jXBdBUdCMfULfEE09lO4RJ-Q_Go0v/exec'; // Replace with your web app URL
 
     $data = [
         'Unique_ID' => $unique_id,

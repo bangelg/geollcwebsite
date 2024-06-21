@@ -148,10 +148,10 @@ function updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_i
                 // Add the child link before the closing comment
                 $parent_html = str_replace('<!-- CHILD LINKS -->', $child_link . '<!-- CHILD LINKS -->', $parent_html);
                 // Ensure the section is visible
-                $parent_html = str_replace('id="children" style="display: none;"', 'id="children"', $parent_html);
             } else {
                 // Add a new section for child links
                 $parent_html = str_replace('<p>hidden</p>', "<strong>Children:</strong>$child_link<!-- CHILD LINKS -->", $parent_html);
+                $parent_html = str_replace("id='children'style='display: none;'", 'id="children"', $parent_html);
             }
             file_put_contents($parent_file_path, $parent_html);
         }

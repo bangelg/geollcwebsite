@@ -94,9 +94,7 @@ if ($conn->connect_error) {
             <p><strong>Unique ID:</strong> $unique_id</p>
             <p><strong>Discarded:</strong> No</p>
             $parent_link
-            <div id='children-links'>
-                $children_html
-            </div>
+            $children_html
             <a href='/update.php?Unique_ID=$unique_id' class='edit'>Edit</a>
         </div>
         </main>
@@ -140,22 +138,20 @@ function updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_i
     $child_link = "<p><a href='/users/{$user_id}/$unique_id/$unique_id.html'>$boring_id</a></p>";
 
     // Update the parent HTML file
-    if (file_exists($parent_file_path)) {
-        $parent_html = file_get_contents($parent_file_path);
+    $parent_html = file_get_contents($parent_file_path);
 
-        // Check if the child link already exists to prevent duplication
-        if (strpos($parent_html, $child_link) === false) {
-            if (strpos($parent_html, '<!-- CHILD LINKS -->') !== false) {
-                // Add the child link before the closing comment
-                $parent_html = str_replace('<!-- CHILD LINKS -->', $child_link . '<!-- CHILD LINKS -->', $parent_html);
-                // Ensure the section is visible
-                $parent_html = str_replace('id="children-links" style="display: none;"', 'id="children-links"', $parent_html);
-            } else {
-                // Add a new section for child links
-                $parent_html = str_replace('</div>', "<div id='children-links'><strong>Children:</strong>$child_link<!-- CHILD LINKS --></div></div>", $parent_html);
-            }
-            file_put_contents($parent_file_path, $parent_html);
+    // Check if the child link already exists to prevent duplication
+    if (strpos($parent_html, $child_link) === false) {
+        if (strpos($parent_html, '<!-- CHILD LINKS -->') !== false) {
+            // Add the child link before the closing comment
+            $parent_html = str_replace('<!-- CHILD LINKS -->', $child_link . '<!-- CHILD LINKS -->', $parent_html);
+            // Ensure the section is visible
+            $parent_html = str_replace('id="children-links" style="display: none;"', 'id="children-links"', $parent_html);
+        } else {
+            // Add a new section for child links
+            $parent_html = str_replace('</div>', "<div id='children-links'><strong>Children:</strong>$child_link<!-- CHILD LINKS --></div></div>", $parent_html);
         }
+    file_put_contents($parent_file_path, $parent_html);
     }
 }
 

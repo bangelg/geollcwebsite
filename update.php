@@ -64,7 +64,7 @@ if (isset($_POST['update'])) {
 
         // Update or create the sample page
         $parent_link = getParentLinkHTML($sample['Boring_ID'], $created_user, $igl);
-        $children_html = getChildrenHTML($unique_id, $created_user, $parent_boring_id, $igl);
+        $children_html = getChildrenHTML($unique_id, $created_user, $sample['Boring_ID'], $igl);
 
         $sample_page = "users/{$created_user}/{$unique_id}/{$unique_id}.html";
         $sample_content = "
@@ -179,20 +179,31 @@ function getParentLinkHTML($boring_id, $user_id, $igl) {
     return $parent_html;
 }
 
-function getChildrenHTML($unique_id, $user_id, $parent_boring_id, $igl) {
-    global $conn;
-    $children_html = '';
-    $query = "SELECT * FROM Samples WHERE Parent_Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
-    $result = mysqli_query($conn, $query);
-    while ($child_sample = mysqli_fetch_assoc($result)) {
-        $child_boring_id = $child_sample['Boring_ID'];
-        $child_unique_id = $child_sample['Unique_ID'];
-        if ($child_unique_id != $unique_id) {
-            $children_html .= "<p><strong>Children:</strong> <a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
-        }
-    }
-    return $children_html;
+function getChildrenHTML($unique_id, $user_id, $boring_id, $igl) {
+  global $conn;
+  $children_html = '';
+  $query = "SELECT * FROM Samples WHERE Parent_Boring_ID = '$boring_id' AND IGL = '$igl'";
+  $result = mysqli_query($conn, $query);
+  
+  $firstIteration = true;
+  
+  while ($child_sample = mysqli_fetch_assoc($result)) {
+      $child_boring_id = $child_sample['Boring_ID'];
+      $child_unique_id = $child_sample['Unique_ID'];
+      
+      if ($child_unique_id != $unique_id) {
+          if ($firstIteration) {
+              $children_html .= "<p><strong>Children:</strong> <a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
+              $firstIteration = false; // Set flag to false after the first iteration
+          } else {
+              $children_html .= "<p><a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
+          }
+      }
+  }
+  
+  return $children_html;
 }
+
 ?>
 
 

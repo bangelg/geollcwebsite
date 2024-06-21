@@ -13,7 +13,7 @@ if(isset($_POST['submit'])) {
     $progress = $_POST['progress'];
     $unique_id = $_POST['$unique_id'];
 
-    header("location:update.php");
+    header("location:/update.php");
 }
 ?>
 
@@ -30,7 +30,7 @@ if(isset($_POST['submit'])) {
   <body>
   <script>
         function editSample() {
-          window.location.href = "update.php";
+          window.location.href = "//update.php";
       }
     </script>
     <header class="rectangle-group">

@@ -4,6 +4,7 @@ session_start();
 if(isset($_SESSION['user_id'])) {
   $user_id = $_SESSION['user_id'];
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +28,7 @@ if(isset($_SESSION['user_id'])) {
     <div class="sample-saved">
       <section class="sample-saved-child"></section>
       <div class="your-new-sample">
-        Your new sample has been
+        Your new sample has been  
       </div>
       <br>
       <div class="your-new-sample1">

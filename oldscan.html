@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Sample</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.0.7/html5-qrcode.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="reader" style="width: 300px;"></div>
+    <div id="result"></div>
+
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            // Handle the scanned sample ID
+            fetchSampleData(decodedText);
+        }
+
+        var html5QrCode = new Html5Qrcode("reader");
+        html5QrCode.start(
+            { facingMode: "environment" }, // Camera facing mode
+            {
+                fps: 10,    // Frames per second
+                qrbox: 250  // QR code scanning box width
+            },
+            onScanSuccess
+        );
+
+        function fetchSampleData(sampleId) {
+            fetch(`fetch_sample.php?sample_id=${sampleId}`)
+                .then(response => response.json())
+                .then(data => {
+                    displaySampleData(data);
+                });
+        }
+
+        function displaySampleData(data) {
+            let resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <form id="edit-sample-form">
+                    <input type="hidden" name="sample_id" value="${data.id}">
+                    <label for="location">Location:</label>
+                    <input type="text" name="location" value="${data.location}">
+                    <label for="date_collected">Date Collected:</label>
+                    <input type="date" name="date_collected" value="${data.date_collected}">
+                    <label for="ph_level">pH Level:</label>
+                    <input type="text" name="ph_level" value="${data.ph_level}">
+                    <label for="nitrogen_content">Nitrogen Content:</label>
+                    <input type="text" name="nitrogen_content" value="${data.nitrogen_content}">
+                    <label for="phosphorus_content">Phosphorus Content:</label>
+                    <input type="text" name="phosphorus_content" value="${data.phosphorus_content}">
+                    <label for="potassium_content">Potassium Content:</label>
+                    <input type="text" name="potassium_content" value="${data.potassium_content}">
+                    <button type="submit">Update Sample</button>
+                </form>
+            `;
+
+            document.getElementById('edit-sample-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                updateSampleData(new FormData(this));
+            });
+        }
+
+        function updateSampleData(formData) {
+            fetch('update_sample.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+            });
+        }
+    </script>
+</body>
+</html>

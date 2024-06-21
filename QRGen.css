@@ -50,6 +50,11 @@ hr {
   width: 70%;
   margin: 10px auto;
 }
+.error {
+  position: absolute;
+  top: 20%;
+  left: 30%;
+}
 
 .container {
   background-color: var(--color-tan);

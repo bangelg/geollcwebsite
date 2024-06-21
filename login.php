@@ -14,7 +14,6 @@ if(isset($_POST['submit'])){
    if(mysqli_num_rows($select) > 0){
       $row = mysqli_fetch_assoc($select);
       $_SESSION['user_id'] = $row['username'];
-      
       header('location:/index.php');
       exit();
    } else{
@@ -67,18 +66,12 @@ if(isset($_POST['submit'])){
             }
         }
         ?>
-            <span class="icon">
-                <ion-icon name="mail"></ion-icon>
-            </span>
             <label for="username">Username: </label>
         </div> 
         <div class="input-tab">
             <input class="input-field"type="string" name="usernameInp" required placeholder="Enter your username"><br><br>
         </div>
        <div class="labels">
-            <span class="icon">
-                <ion-icon name="lock-closed"></ion-icon>
-            </span>
             <label for="password">Password: </label>    
        </div>
         <div class="input-tab">

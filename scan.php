@@ -12,7 +12,6 @@ session_start();
     <title>QR Code Scanner</title>
 	<link rel="stylesheet" href="./global.css">
 	<link rel="stylesheet" href="./scan.css">
-    
 </head>
 <body>
     <header class="rectangle-group">
@@ -33,9 +32,7 @@ session_start();
         <button id="stop-scan">Stop Scan</button>
     </div>
 
-	<script
-		src="https://unpkg.com/html5-qrcode">
-	</script>
+	<script src="https://unpkg.com/html5-qrcode"></script>
     <script src="scan.js"></script>
 </body>
 </html>

@@ -193,7 +193,7 @@ function getChildrenHTML($unique_id, $user_id, $boring_id, $igl) {
       
       if ($child_unique_id != $unique_id) {
           if ($firstIteration) {
-              $children_html .= "<p><strong>Children:</strong> <a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
+              $children_html .= "<strong>Children:</strong> <p><a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";
               $firstIteration = false; // Set flag to false after the first iteration
           } else {
               $children_html .= "<p><a href='/users/$user_id/$child_unique_id/$child_unique_id.html'>$child_boring_id</a></p>";

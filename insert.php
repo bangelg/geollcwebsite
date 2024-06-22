@@ -119,11 +119,12 @@ if ($conn->connect_error) {
         $recent = "users/{$user_id}/recent/recent.png";
 
         // Generate QR code
-        QRcode::png($url, $qrCodeFile);
+        $img = QRcode::png($url, $qrCodeFile);
 
         copy($qrCodeFile, $recent);
 
-        updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id);
+
+        updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id, $img);
 
     } else {
         echo "Error: " . $stmt->error;
@@ -157,8 +158,8 @@ function updateParentHTML($parent_user, $parent_unique_id, $boring_id, $unique_i
         }
     }
 }
-function updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id) {
-    $url = 'https://script.google.com/macros/s/AKfycbyEuS2AxH_Zte_9-I5xsxi4Th8qbS0OjpWndf5jXBdBUdCMfULfEE09lO4RJ-Q_Go0v/exec'; // Replace with your web app URL
+function updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id, $img) {
+    $url = 'https://script.google.com/macros/s/AKfycbwAz1zzjSWeGqy1e2e9B-xoLv02taYUDt3wAM2viIwzOGljEVaIaQpKwG0VvybS6ZQ/exec'; // Replace with your web app URL
 
     $data = [
         'Unique_ID' => $unique_id,
@@ -173,6 +174,7 @@ function updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $locatio
         'Notes' => $notes,
         'Progress' => $progress,
         'User_ID' => $user_id,
+        'QRCode' => $img,
         'Action' => 'insert' // Set action to insert
     ];
 

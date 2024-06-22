@@ -1,52 +1,89 @@
 <?php
     @include 'config.php';
+    /**
+    * Use this code snippet in your app.
+    *
+    * If you need more information about configurations or implementing the sample code, visit the AWS docs:
+    * https://aws.amazon.com/developer/language/php/
+    */
+
+    require 'vendor/autoload.php';
+
+    use Aws\SecretsManager\SecretsManagerClient;
+    use Aws\Exception\AwsException;
+
+    /**
+        * This code expects that you have AWS credentials set up per:
+        * https://<<{{DocsDomain}}>>/sdk-for-php/v3/developer-guide/guide_credentials.html
+        */
+
+    // Create a Secrets Manager Client
+    $client = new SecretsManagerClient([
+        'profile' => 'default',
+        'version' => '2017-10-17',
+        'region' => 'us-west-1',
+    ]);
+
+    $secret_name = 'prod/adminPass';
+
+    try {
+        $result = $client->getSecretValue([
+            'SecretId' => $secret_name,
+        ]);
+    } catch (AwsException $e) {
+        // For a list of exceptions thrown, see
+        // https://<<{{DocsDomain}}>>/secretsmanager/latest/apireference/API_GetSecretValue.html
+        throw $e;
+    }
+
+    // Decrypts secret using the associated KMS key.
+    $secret = $result['password'];
+
     function exception_handler($exception) {
         echo "<h1>Failure</h1>";
         echo "Uncaught exception: " , $exception->getMessage();
         echo "<h1>PHP Info for troubleshooting</h1>";
         phpinfo();
-        }   
-        set_exception_handler('exception_handler');
         
+    }   
+        set_exception_handler('exception_handler');
+
     if ($conn->connect_error) {
         die('Connect Error: ' . $conn->connect_error);
     } else {
         if(isset($_POST['submit'])){
 
-         $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
-         $emailcheck = mysqli_real_escape_string($conn, $_POST['emailInp']);
-         $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
-         $pass = hash('sha256', $_POST['passwordInp']);
-         $cpass = hash('sha256', $_POST['cpasswordInp']);
+            $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
+            $email = mysqli_real_escape_string($conn, $_POST['emailInp']);
+            $pass = hash('sha256', $_POST['passwordInp']);
+            $cpass = hash('sha256', $_POST['cpasswordInp']);
+            $admin_pass = hash('sha256', $_POST['admin_passwordInp']);
+            $admin_password_hash = hash('sha256', $secret);
 
-         $select = "SELECT * FROM users WHERE username = '$username'";
+            if ($admin_pass !== $admin_password_hash) {
+                $error[] = 'Invalid admin password.';
+            } else {
+                $select = "SELECT * FROM users WHERE username = '$username'";
 
-         $usercheck = mysqli_query($conn, $select) or die('Query Failed.');
+                $usercheck = mysqli_query($conn, $select) or die('Query Failed.');
 
-         $select1 = "SELECT * FROM users WHERE email = '$emailcheck'";
-         $select1 = "SELECT * FROM users WHERE email = '$email'";
-
-         $emailcheck = mysqli_query($conn, $select1) or die('Query Failed.');
-
-         if(mysqli_num_rows($emailcheck) > 0) {
-            $error[] = 'Email already exists. Choose a different one or reset your password.';
-         }elseif(mysqli_num_rows($usercheck) > 0){
-            $error[] = 'Username already exists. Choose a different one or reset your password.';
-         } else{
-            if($pass != $cpass){
-               $error[] = 'Passwords not matched.';
-            }else{
-               $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$emailcheck','$pass')";
-               $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$email','$pass')";
-               mysqli_query($conn, $insert);
-               $Path = "/var/www/html/users/{$username}";
-               mkdir($Path, 0755, false);
-               $Recent = "/var/www/html/users/{$username}/recent";
-               mkdir($Recent, 0755, false);
-               header('location:login.php');
-            } 
-         }
-      }
+                if (mysqli_num_rows($usercheck) > 0) {
+                    $error[] = 'Username already exists. Choose a different one or reset your password.';
+                } else {
+                    if ($pass != $cpass) {
+                        $error[] = 'Passwords not matched.';
+                    } else {
+                        $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$email','$pass')";
+                        mysqli_query($conn, $insert);
+                        $Path = "/var/www/html/users/{$username}";
+                        mkdir($Path, 0755, false);
+                        $Recent = "/var/www/html/users/{$username}/recent";
+                        mkdir($Recent, 0755, false);
+                        header('location:login.php');
+                    }
+                }
+            }
+        }
     }
 ?>
 

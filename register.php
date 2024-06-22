@@ -19,7 +19,6 @@
 
     // Create a Secrets Manager Client
     $client = new SecretsManagerClient([
-        'profile' => 'default',
         'version' => '2017-10-17',
         'region' => 'us-west-1',
     ]);
@@ -142,7 +141,7 @@
             <label for="username">Username: </label>
         </div> 
         <div class="input-tab">
-            <input class="input-field"type="string" name="usernameInp" required placeholder="Enter your username"><br><br>
+            <input class="input-field"type="string" name="usernameInp" required placeholder="Enter your username."><br><br>
         </div>
        <div class="labels">
             <span class="icon">
@@ -151,7 +150,7 @@
             <label for="password">Password: </label>    
        </div>
         <div class="input-tab">
-            <input class="input-field"type="password" name="passwordInp" required placeholder="Enter your password"><br><br>    
+            <input class="input-field"type="password" name="passwordInp" required placeholder="Enter your password."><br><br>    
         </div>
         <div class="labels">
             <span class="icon">
@@ -161,7 +160,17 @@
             <label for="cpassword">Confirm Password: </label>
         </div>
         <div class="input-tab">
-            <input class="input-field"type="password" name="cpasswordInp" required placeholder="Confirm your password"><br><br>
+            <input class="input-field"type="password" name="cpasswordInp" required placeholder="Confirm your password."><br><br>
+        </div>
+        <div class="labels">
+            <span class="icon">
+                <ion-icon name="lock-closed"></ion-icon>
+            </span>
+          
+            <label for="cpassword">Admin Password: </label>
+        </div>
+        <div class="input-tab">
+            <input class="input-field"type="password" name="admin_passwordInp" required placeholder="Confirm the admin password."><br><br>
         </div>
 
         <div class="labels">

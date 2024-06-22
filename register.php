@@ -56,7 +56,7 @@
     if ($conn->connect_error) {
         die('Connect Error: ' . $conn->connect_error);
     } else {
-        if(isset($_POST['submit'])){
+        if(isset($_POST['submit']) && isset($_POST['admin_passwordInp'])){
 
             $username = mysqli_real_escape_string($conn, $_POST['usernameInp']);
             $email = mysqli_real_escape_string($conn, $_POST['emailInp']);

@@ -29,6 +29,12 @@
         $result = $client->getSecretValue([
             'SecretId' => $secret_name,
         ]);
+        
+        if (isset($result['password'])) {
+            $secret = $result['password'];
+            $secretData = json_decode($secret, true);
+            $adminPassword = $secretData['password'];
+        }
     } catch (AwsException $e) {
         // For a list of exceptions thrown, see
         // https://<<{{DocsDomain}}>>/secretsmanager/latest/apireference/API_GetSecretValue.html
@@ -37,11 +43,7 @@
 
     // Decrypts secret using the associated KMS key.
 
-    if (isset($result['password'])) {
-        $secret = $result['password'];
-        $secretData = json_decode($secret, true);
-        $adminPassword = $secretData['password'];
-    }
+
     function exception_handler($exception) {
         echo "<h1>Failure</h1>";
         echo "Uncaught exception: " , $exception->getMessage();
@@ -61,7 +63,7 @@
             $pass = hash('sha256', $_POST['passwordInp']);
             $cpass = hash('sha256', $_POST['cpasswordInp']);
             $admin_pass = hash('sha256', $_POST['admin_passwordInp']);
-            $admin_password_hash = hash('sha256', $admin_Password);
+            $admin_password_hash = hash('sha256', $adminPasswo  rd);
 
             if ($admin_pass !== $admin_password_hash) {
                 $error[] = 'Invalid admin password.';

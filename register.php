@@ -23,15 +23,15 @@
         'region' => 'us-west-1',
     ]);
 
-    $secret_name = 'prod/adminPass';
+    $secret_name = 'password';
 
     try {
         $result = $client->getSecretValue([
             'SecretId' => $secret_name,
         ]);
-        
-        if (isset($result['password'])) {
-            $secret = $result['password'];
+
+        if (isset($result['SecretString'])) {
+            $secret = $result['SecretString'];
             $secretData = json_decode($secret, true);
             $adminPassword = $secretData['password'];
         }
@@ -63,7 +63,7 @@
             $pass = hash('sha256', $_POST['passwordInp']);
             $cpass = hash('sha256', $_POST['cpasswordInp']);
             $admin_pass = hash('sha256', $_POST['admin_passwordInp']);
-            $admin_password_hash = hash('sha256', $adminPasswo  rd);
+            $admin_password_hash = hash('sha256', $adminPassword);
 
             if ($admin_pass !== $admin_password_hash) {
                 $error[] = 'Invalid admin password.';

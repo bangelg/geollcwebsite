@@ -36,8 +36,12 @@
     }
 
     // Decrypts secret using the associated KMS key.
-    $secret = $result['password'];
 
+    if (isset($result['password'])) {
+        $secret = $result['password'];
+        $secretData = json_decode($secret, true);
+        $adminPassword = $secretData['password'];
+    }
     function exception_handler($exception) {
         echo "<h1>Failure</h1>";
         echo "Uncaught exception: " , $exception->getMessage();
@@ -57,7 +61,7 @@
             $pass = hash('sha256', $_POST['passwordInp']);
             $cpass = hash('sha256', $_POST['cpasswordInp']);
             $admin_pass = hash('sha256', $_POST['admin_passwordInp']);
-            $admin_password_hash = hash('sha256', $secret);
+            $admin_password_hash = hash('sha256', $admin_Password);
 
             if ($admin_pass !== $admin_password_hash) {
                 $error[] = 'Invalid admin password.';

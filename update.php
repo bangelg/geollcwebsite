@@ -9,7 +9,7 @@ if (isset($_SESSION['user_id'])) {
 
 if (isset($_GET['Unique_ID'])) {
     $unique_id = $_GET['Unique_ID'];
-    $query = "SELECT * FROM Samples WHERE Unique_ID = '$unique_id'";
+    $query = "SELECT * FROM DevSamples WHERE Unique_ID = '$unique_id'";
     $result = mysqli_query($conn, $query);
     $sample = mysqli_fetch_assoc($result);
     $created_user = $sample['User'];
@@ -28,7 +28,7 @@ if (isset($_POST['update'])) {
     $discard = isset($_POST['discard']) ? $_POST['discard'] : '';
 
     // Update the sample information
-    $update_query = "UPDATE Samples SET 
+    $update_query = "UPDATE DevSamples SET 
                     S_Location='$location',
                     Depth='$depth', 
                     Test_Name='$test_name',
@@ -40,7 +40,7 @@ if (isset($_POST['update'])) {
         if ($discard) {
             // Insert into Discarded table with the current timestamp and store the timestamp
             $discarded_at = date('Y-m-d H:i:s') . ' CST';
-            $discard_query = "INSERT INTO Discarded (Unique_ID, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, IGL, Discarded)
+            $discard_query = "INSERT INTO DevDiscarded (Unique_ID, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, IGL, Discarded)
                               VALUES ('$unique_id', '{$sample['Project_Name']}', '{$sample['Boring_ID']}', '$location', '{$sample['Sample_Number']}', '$depth', '{$sample['Bag_Tube_Number']}', '$test_name', '$notes', '$progress', '$created_user', '$igl', '$discarded_at')";
             if (!mysqli_query($conn, $discard_query)) {
                 echo "Error inserting record into Discarded table: " . mysqli_error($conn);
@@ -48,7 +48,7 @@ if (isset($_POST['update'])) {
             }
 
             // Remove from Samples table
-            $remove_query = "DELETE FROM Samples WHERE Unique_ID='$unique_id'";
+            $remove_query = "DELETE FROM DevSamples WHERE Unique_ID='$unique_id'";
             if (!mysqli_query($conn, $remove_query)) {
                 echo "Error deleting record from Samples table: " . mysqli_error($conn);
                 exit;
@@ -129,7 +129,7 @@ if (isset($_POST['update'])) {
 }
 
 function updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id) {
-    $url = 'https://script.google.com/macros/s/AKfycbyEuS2AxH_Zte_9-I5xsxi4Th8qbS0OjpWndf5jXBdBUdCMfULfEE09lO4RJ-Q_Go0v/exec'; // Replace with your web app URL
+    $url = 'https://script.google.com/macros/s/AKfycbwAz1zzjSWeGqy1e2e9B-xoLv02taYUDt3wAM2viIwzOGljEVaIaQpKwG0VvybS6ZQ/exec'; // Replace with your web app URL
 
     $data = [
         'Unique_ID' => $unique_id,
@@ -169,7 +169,7 @@ function getParentLinkHTML($boring_id, $user_id, $igl) {
     global $conn;
     $parent_boring_id = substr($boring_id, 0, strrpos($boring_id, '-'));
     $parent_html = '';
-    $query = "SELECT * FROM Samples WHERE Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
+    $query = "SELECT * FROM DevSamples WHERE Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
     $result = mysqli_query($conn, $query);
     if (mysqli_num_rows($result) > 0) {
         $parent_sample = mysqli_fetch_assoc($result);
@@ -182,7 +182,7 @@ function getParentLinkHTML($boring_id, $user_id, $igl) {
 function getChildrenHTML($unique_id, $user_id, $boring_id, $igl) {
   global $conn;
   $children_html = '';
-  $query = "SELECT * FROM Samples WHERE Parent_Boring_ID = '$boring_id' AND IGL = '$igl'";
+  $query = "SELECT * FROM DevSamples WHERE Parent_Boring_ID = '$boring_id' AND IGL = '$igl'";
   $result = mysqli_query($conn, $query);
   
   $firstIteration = true;

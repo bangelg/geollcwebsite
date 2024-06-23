@@ -23,7 +23,7 @@
         'region' => 'us-west-1',
     ]);
 
-    $secret_name = 'password';
+    $secret_name = 'prod/adminPass';
 
     try {
         $result = $client->getSecretValue([
@@ -68,7 +68,7 @@
             if ($admin_pass !== $admin_password_hash) {
                 $error[] = 'Invalid admin password.';
             } else {
-                $select = "SELECT * FROM users WHERE username = '$username'";
+                $select = "SELECT * FROM DevUsers WHERE username = '$username'";
 
                 $usercheck = mysqli_query($conn, $select) or die('Query Failed.');
 
@@ -78,7 +78,7 @@
                     if ($pass != $cpass) {
                         $error[] = 'Passwords not matched.';
                     } else {
-                        $insert = "INSERT INTO users (username, email, passwrd) VALUES('$username','$email','$pass')";
+                        $insert = "INSERT INTO ProdUsers (username, email, passwrd) VALUES('$username','$email','$pass')";
                         mysqli_query($conn, $insert);
                         $Path = "/var/www/html/users/{$username}";
                         mkdir($Path, 0755, false);
@@ -117,7 +117,7 @@
             class="frame-inner"
             loading="lazy"
             alt=""
-            src="./igtech-logo-transparent.png"
+            src="/igtech-logo-transparent.png"
         />
     </a>
 </header>

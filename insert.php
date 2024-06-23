@@ -24,7 +24,7 @@ if ($conn->connect_error) {
     }
 
     // Prepare the insert statement
-    $stmt = $conn->prepare("INSERT INTO Samples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, Parent_Boring_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO DevSamples (IGL, Project_Name, Boring_ID, S_Location, Sample_Number, Depth, Bag_Tube_Number, Test_Name, Notes, Progress, User, Parent_Boring_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("issssssssssi", $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id, $parent_boring_id);
 
     $igl = $_REQUEST['igl'];
@@ -47,7 +47,7 @@ if ($conn->connect_error) {
 
         if ($parent_boring_id) {
             // Fetch the parent sample to get the file path
-            $query = "SELECT * FROM Samples WHERE Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
+            $query = "SELECT * FROM DevSamples WHERE Boring_ID = '$parent_boring_id' AND IGL = '$igl'";
             $result = mysqli_query($conn, $query);
             if ($parent_sample = mysqli_fetch_assoc($result)) {
                 $parent_unique_id = $parent_sample['Unique_ID'];
@@ -119,12 +119,11 @@ if ($conn->connect_error) {
         $recent = "users/{$user_id}/recent/recent.png";
 
         // Generate QR code
-        $img = QRcode::png($url, $qrCodeFile);
+        QRcode::png($url, $qrCodeFile);
 
         copy($qrCodeFile, $recent);
 
-
-        updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id, $img);
+        updateGoogleSheet($unique_id, $igl, $project_name, $boring_id, $location, $sample_number, $depth, $bag_tube_number, $test_name, $notes, $progress, $user_id, $qrCodeFile);
 
     } else {
         echo "Error: " . $stmt->error;
